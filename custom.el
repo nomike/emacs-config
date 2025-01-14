@@ -390,7 +390,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;(latex +cdlatex +latexmk +lsp)
                                         ;(latex +lsp)
 
-(add-to-list 'load-path "~/.emacs.d/wakib-keys/")
 (require 'wakib-keys)
 (wakib-keys 1)
 
