@@ -1,11 +1,3 @@
-[submodule "wakib-keys"]
-	path = wakib-keys
-	url = https://github.com/darkstego/wakib-keys.git
-	branch = master
-[submodule "bar-cursor"]
-	path = bar-cursor
-	url = https://github.com/ajsquared/bar-cursor.git
-	branch = master
 [submodule "combobulate"]
 	path = combobulate
 	url = https://github.com/mickeynp/combobulate.git
@@ -37,10 +29,6 @@
 	path = iscroll
 	url = https://github.com/casouri/iscroll.git
 	branch = master
-[submodule "treemacs-nerd-icons"]
-	path = treemacs-nerd-icons
-	url = https://github.com/rainstormstudio/treemacs-nerd-icons.git
-	branch = main
 [submodule "org-notify"]
 	path = org-notify
 	url = https://github.com/p-m/org-notify
