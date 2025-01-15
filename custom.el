@@ -235,6 +235,15 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (keymap-set global-map "C-M-s" #'org-node-series-dispatch)
 
+;; Those conflict with move to previous word, move to next word, respectively.
+;; They have alternative bindings anyway--so kill these here.
+(eval-after-load "paredit"
+  '(progn
+     (define-key paredit-mode-map (kbd "C-<left>") 'paredit-backward) ; alternative: C-} ; new alternative: M-b
+     (define-key paredit-mode-map (kbd "C-<right>") 'paredit-forward) ; alternative: C-) ; new alternative: M-f
+     (define-key paredit-mode-map (kbd "C-<up>") 'paredit-backward-up)
+     (define-key paredit-mode-map (kbd "C-<down>") 'paredit-backward-down)))
+
 ;;; ======================
 
 (require 'pulsar)
@@ -464,17 +473,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; Make the indentation look nicer
 (add-hook 'org-mode-hook 'org-indent-mode)
 
-;; Remap the change priority keys to use the UP or DOWN key
-(define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
-(define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
 
 ;; Shortcuts for storing links, viewing the agenda, and starting a capture
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cc" 'org-capture)
 
-;; When you want to change the level of an org item, use SMR
-(define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
 
 ;; Hide the markers so you just see bold text as BOLD-TEXT and not *BOLD-TEXT*
 (setq org-hide-emphasis-markers t)
@@ -968,7 +972,6 @@ argument is given. Choose a file name based on any document
                                         ;(global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
-(keymap-set org-mode-map "C-s M-i" #'org-node-insert-link)
 (add-hook 'org-mode-hook #'org-node-backlink-mode)
 (setq org-node-creation-fn #'org-capture)
 (setq org-node-alter-candidates t)
@@ -1367,7 +1370,20 @@ argument is given. Choose a file name based on any document
   (add-to-list 'ispell-skip-region-alist '("=" "="))
   (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
 (add-hook 'org-mode-hook #'endless/org-ispell)
+
+(with-eval-after-load 'org
+  '(progn
+    (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
+    (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
+    (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
+    (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
+    (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
+    ;; When you want to change the level of an org item, use SMR
+    (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
+
 (defun unset-line-move-visual ()
+  (define-key org-mode-map [remap move-beginning-of-line] nil)
+  (define-key org-mode-map [remap move-end-of-line] nil)
   (setq line-move-visual nil))
 
 (add-hook 'org-mode-hook #'unset-line-move-visual)
