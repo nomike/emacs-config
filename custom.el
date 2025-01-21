@@ -1416,6 +1416,26 @@ argument is given. Choose a file name based on any document
                                         ;     (add-to-list 'mmm-mode-ext-classes-alist
                                         ;                  '(rpm-spec-mode "\\.spec\\'" rpm-sh))
 
+(require 'ox-publish)
+(setq org-publish-project-alist
+      '(("friendly-machines.com"
+         :base-directory "~/doc/org-roam/"
+         :publishing-directory "~/friendly-machines.com/www/mirror/public/blog/"
+         :base-extension "org"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :html-doctype "html5"
+         :with-toc nil
+         :section-numbers nil
+         :html-head "<link rel=\"stylesheet\" href=\"/css/org.css\" type=\"text/css\"/>"
+         :html-preamble nil
+         :html-postamble nil
+         :exclude ".*-private.org\\|.*-confidential.org\\|.*-internal.org"
+         :select-tags ("public"))))
+
+(setq org-src-fontify-natively t)
+(setq org-confirm-babel-evaluate nil)
+
 (when (daemonp)
                                         ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
                                         ;(define-key global-map [delete-frame] 'handle-delete-frame)
