@@ -1440,6 +1440,16 @@ argument is given. Choose a file name based on any document
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
+(defun other-window-mru ()
+  "Select the most recently used window on this frame."
+  (interactive)
+  (when-let ((mru-window
+              (get-mru-window
+               nil nil 'not-this-one-dummy)))
+    (select-window mru-window)))
+
+(keymap-global-set "M-o" 'other-window-mru)
+
 (when (daemonp)
                                         ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
                                         ;(define-key global-map [delete-frame] 'handle-delete-frame)
