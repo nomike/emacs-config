@@ -1407,3 +1407,19 @@ argument is given. Choose a file name based on any document
   (setq line-move-visual nil))
 
 (add-hook 'org-mode-hook #'unset-line-move-visual)
+(when (daemonp)
+                                        ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
+                                        ;(define-key global-map [delete-frame] 'handle-delete-frame)
+  (define-key special-event-map [delete-frame]
+              (lambda (event)
+                (interactive "e")
+                (let ((frame (posn-window (event-start event))))
+                  (select-frame frame)
+                  ;; (save-some-buffers) returns t on "q", nil if there's nothing to save. So that's not useful :P
+                  ;; But if I press Esc, it quits and doesn't continue. Good, I guess.
+                  (save-some-buffers)
+                  (dolist (win (window-list frame))
+                    (with-selected-window win
+                      ;; You could (kill-buffer-if-not-modified x) but it's annoying
+                      (kill-buffer (current-buffer))))
+                  (delete-frame frame)))))
