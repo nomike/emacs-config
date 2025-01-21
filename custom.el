@@ -1432,3 +1432,10 @@ argument is given. Choose a file name based on any document
                       ;; You could (kill-buffer-if-not-modified x) but it's annoying
                       (kill-buffer (current-buffer))))
                   (delete-frame frame)))))
+
+;; Align the current prompt with the BOTTOM of the window.
+;; That way the area before that prompt (which is the previous response) is maximized.
+                                        ;(setq eshell-show-maximum-output t)
+
+                                        ; better maybe: Add eshell-smart to eshell-modules-list
+                                        ; that assumes that you keep editing existing commands because you got them wrong. I really don't. (add-to-list 'eshell-modules-list 'eshell-smart)
