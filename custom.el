@@ -1473,3 +1473,11 @@ argument is given. Choose a file name based on any document
 
                                         ; better maybe: Add eshell-smart to eshell-modules-list
                                         ; that assumes that you keep editing existing commands because you got them wrong. I really don't. (add-to-list 'eshell-modules-list 'eshell-smart)
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer
+        (delq (current-buffer)
+              (remove-if-not 'buffer-file-name (buffer-list)))))
+
