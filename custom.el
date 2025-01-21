@@ -1407,6 +1407,15 @@ argument is given. Choose a file name based on any document
   (setq line-move-visual nil))
 
 (add-hook 'org-mode-hook #'unset-line-move-visual)
+
+(require 'mmm-auto)
+(setq mmm-global-mode 'maybe)
+(mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
+                                        ; (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'html-js) ; maybe automatic?
+                                        ;just modify mmm-mode-ext-classes-alist directly
+                                        ;     (add-to-list 'mmm-mode-ext-classes-alist
+                                        ;                  '(rpm-spec-mode "\\.spec\\'" rpm-sh))
+
 (when (daemonp)
                                         ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
                                         ;(define-key global-map [delete-frame] 'handle-delete-frame)
