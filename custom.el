@@ -27,6 +27,25 @@
 
 (put 'eshell/e 'eshell-no-numeric-conversions t)
 
+(defun eshell/nd (args)
+  "Create a directory (and its parents) if they don't exist.
+Warn if the directory already exists."
+  (eshell-eval-using-options
+   "nd" args
+   '((?v "verbose" nil verbose-flag "verbose output")
+     (?h "help" nil nil "show this usage information"))
+   (let ((dir (car args)))
+     (progn
+       (if (file-exists-p dir)
+           (message "Directory already exists: %s" dir)
+         (progn
+           (make-directory dir t)
+           (if verbose-flag
+               (message "Created directory: %s" dir))))
+       (eshell/cd dir)))))
+
+(put 'eshell/nd 'eshell-no-numeric-conversions t)
+
 ;;; Keybindings
 
 (global-unset-key (kbd "<f10>"))
