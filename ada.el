@@ -15,6 +15,7 @@
   (setq-local parse-sexp-ignore-comments nil)
   (setq-local blink-matching-paren-dont-ignore-comments t)
   (setq-local case-fold-search t)
+  ; FIXME comment-start "--"
   (setq-local comment-start "{")
   (setq-local comment-start-skip "(\\*+ *\\|{ *")
   (setq-local comment-end "}")
