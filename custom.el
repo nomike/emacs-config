@@ -1436,6 +1436,10 @@ argument is given. Choose a file name based on any document
 (setq org-src-fontify-natively t)
 (setq org-confirm-babel-evaluate nil)
 
+;; Disambiguate /home/user/project1/main.cpp and /home/user/project2/main.cpp
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
 (when (daemonp)
                                         ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
                                         ;(define-key global-map [delete-frame] 'handle-delete-frame)
