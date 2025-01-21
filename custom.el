@@ -491,6 +491,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 ;; Make the indentation look nicer
 (add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'org-sticky-header-mode)
 
 
 ;; Shortcuts for storing links, viewing the agenda, and starting a capture
