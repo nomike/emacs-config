@@ -1481,3 +1481,6 @@ argument is given. Choose a file name based on any document
         (delq (current-buffer)
               (remove-if-not 'buffer-file-name (buffer-list)))))
 
+;; Stop asking "Autosave file on local temporary directory, do you want to continue? (yes or no)" for files on remote hosts owned by root
+(setq auto-save-file-name-transforms nil)
+                                        ; (setq tramp-auto-save-directory "~/emacs/tramp-autosave")
