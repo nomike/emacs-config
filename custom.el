@@ -1343,10 +1343,10 @@ argument is given. Choose a file name based on any document
 ;; elpy or something.
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 (add-hook 'python-mode-hook 'flycheck-mode)
-;(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
+                                        ;(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 
 (eval-after-load 'company
-    '(push 'company-robe company-backends))
+  '(push 'company-robe company-backends))
 
 (require 'vlf-setup) ; very large files
 
@@ -1375,13 +1375,13 @@ argument is given. Choose a file name based on any document
 (add-hook 'org-mode-hook #'fix-org-indent-form-feed)
 
 ;; Doesn't work. Sigh.
-;(defun fix-org-indent-form-feed ()
-;  (setq-local org-heading-regexp "^\\(\f?\\*+\\)\\(?: +\\(.*?\\)\\)?[ 	]*$"))
-;(add-hook 'org-mode-hook #'fix-org-indent-form-feed)
+                                        ;(defun fix-org-indent-form-feed ()
+                                        ;  (setq-local org-heading-regexp "^\\(\f?\\*+\\)\\(?: +\\(.*?\\)\\)?[ 	]*$"))
+                                        ;(add-hook 'org-mode-hook #'fix-org-indent-form-feed)
 
 ;; Skip flyspell on code blocks
 
-; See https://endlessparentheses.com/ispell-and-org-mode.html
+                                        ; See https://endlessparentheses.com/ispell-and-org-mode.html
 (defun endless/org-ispell ()
   "Configure `ispell-skip-region-alist' for `org-mode'."
   (make-local-variable 'ispell-skip-region-alist)
@@ -1393,13 +1393,13 @@ argument is given. Choose a file name based on any document
 
 (with-eval-after-load 'org
   '(progn
-    (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
-    (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
-    (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
-    (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
-    (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
-    ;; When you want to change the level of an org item, use SMR
-    (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
+     (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
+     (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
+     (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
+     (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
+     (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
+     ;; When you want to change the level of an org item, use SMR
+     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
 
 (defun unset-line-move-visual ()
   (define-key org-mode-map [remap move-beginning-of-line] nil)
