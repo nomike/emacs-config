@@ -1463,8 +1463,8 @@ argument is given. Choose a file name based on any document
                   (save-some-buffers)
                   (dolist (win (window-list frame))
                     (with-selected-window win
-                      ;; You could (kill-buffer-if-not-modified x) but it's annoying
-                      (kill-buffer (current-buffer))))
+                      ;; You could (kill-buffer x) instead--but it would have a potential TOCTOU.
+                      (kill-buffer-if-not-modified (current-buffer))))
                   (delete-frame frame)))))
 
 ;; Align the current prompt with the BOTTOM of the window.
