@@ -14,17 +14,16 @@
                                         ;(setq exec-path (append exec-path '("/sw/bin")))
 
 (defun eshell/e (&rest args)
-  "Open a file in Emacs, similar to the 'find-file' function."
+  "Open one or more files in Emacs, similar to the 'find-file' function."
   (eshell-eval-using-options
    "e" args
    '((?f "file" nil nil "file")
      (?h "help" nil nil "help"))
    (if (and (not args) (not eshell-current-argument))
-       (error "Usage: e FILE")
-     (let ((file (if args (car args) eshell-current-argument)))
+       (error "Usage: e FILE [FILE2 ...]")
+     (dolist (file (or args (list eshell-current-argument)))
        (with-current-buffer (find-file-noselect file)
          (switch-to-buffer (current-buffer)))))))
-
 (put 'eshell/e 'eshell-no-numeric-conversions t)
 
 (defun eshell/nd (args)
