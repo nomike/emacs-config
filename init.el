@@ -227,7 +227,7 @@
  '(org-replace-disputed-keys t)
  '(org-support-shift-select t)
  '(package-selected-packages
-   '(dired-launch lv concurrent org-mime back-button counsel-projectile counsel-tramp magit-popup edit-indirect eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico counsel pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel paredit inheritenv buffer-env ob-async discover-my-major))
+   '(dired-launch lv concurrent org-mime back-button counsel-projectile counsel-tramp magit-popup eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico counsel pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel paredit inheritenv buffer-env ob-async discover-my-major))
  '(smtpmail-smtp-server "w0062d1b.kasserver.com" t)
  '(smtpmail-smtp-service 25 t))
 (custom-set-faces
@@ -399,7 +399,7 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
+                                        ;(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))  ; moved to custom.el
 
 (add-to-list 'auto-mode-alist '("\\.jl" . julia-snail-mode))
 (add-to-list 'auto-mode-alist '("\\.rs" . rustic-mode))

@@ -1339,8 +1339,10 @@ argument is given. Choose a file name based on any document
 (add-hook 'python-mode-hook 'flycheck-mode)
                                         ;(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 
-(eval-after-load 'company
-  '(push 'company-robe company-backends))
+(require 'company-lsp)
+(with-eval-after-load 'company
+  (push 'company-robe company-backends)
+  (push 'company-lsp company-backends))
 
 (require 'vlf-setup) ; very large files
 
@@ -1401,6 +1403,19 @@ argument is given. Choose a file name based on any document
   (setq line-move-visual nil))
 
 (add-hook 'org-mode-hook #'unset-line-move-visual)
+
+                                        ;(with-eval-after-load 'web-mode ...)
+(require 'lsp-mode)
+(require 'lsp-volar)
+(require 'lsp-vetur)
+                                        ;(add-hook 'web-mode-hook #'lsp-vue-mmm-enable) ; missing.
+
+(require 'web-mode)
+(define-derived-mode genehack-vue-mode web-mode "ghVue"
+  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
+                                        ;(add-hook 'genehack-vue-mode-hook #'eglot-ensure)
+(add-hook 'genehack-vue-mode-hook #'lsp)
 
 (require 'mmm-auto)
 (setq mmm-global-mode 'maybe)
