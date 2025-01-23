@@ -268,7 +268,7 @@
                      (java-mode . java-ts-mode)
                      (javascript-mode . js-ts-mode)
                      (js-json-mode . json-ts-mode)
-                     ; FIXME (python-mode . python-ts-mode)
+                                        ; FIXME (python-mode . python-ts-mode)
                                         ;(rust-mode . rust-ts-mode)
                      (typescript-mode . tsx-ts-mode) ; or typescript-ts-mode
 					;(js-mode . js-ts-mode)
