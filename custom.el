@@ -382,12 +382,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 (add-to-list 'load-path "~/.emacs.d/ssass-mode/")
 (load "ssass-mode.el")
 
-(add-to-list 'load-path "~/.emacs.d/vue-html-mode/")
-(load "vue-html-mode.el")
-
-(add-to-list 'load-path "~/.emacs.d/vue-mode/")
-(load "vue-mode.el")
-
                                         ;(add-to-list 'load-path "~/src/dap-mode/")
 ;;(load "dap-mode.el")
                                         ;(require 'dap-cpptools)
