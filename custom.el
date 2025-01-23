@@ -5,6 +5,11 @@
 (require 'eshell)
 (require 'em-unix)
 
+;; You've GOT to be kidding me: "If initial-buffer-choice is non-nil, then if you specify any files on the command line, Emacs still visits them, but does not display them initially."
+                                        ;(setq initial-buffer-choice
+                                        ;      (lambda ()
+                                        ;        (eshell t)))
+
 ;; The ~/.config/autostart/emacs.desktop (emacs --daemon) for some reason doesn't have the environment variables set in ~/.bash_profile .
 ;; I use gdm autologin.  That uses /run/current-system/profile/share/wayland-sessions/sway.desktop and that calls sway WITHOUT a shell.
 ;; Sway config has: exec --no-startup-id bash --login -c 'exec dex --autostart --environment i3'
@@ -367,8 +372,9 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; super-g
 (global-set-key (kbd "s-g") 'guix)
 
-(add-hook 'shell-mode-hook 'guix-prettify-mode)
-(add-hook 'dired-mode-hook 'guix-prettify-mode)
+                                        ; Doesn't work.
+                                        ;(add-hook 'shell-mode-hook 'guix-prettify-mode)
+                                        ;(add-hook 'dired-mode-hook 'guix-prettify-mode)
 
 (add-to-list 'load-path "~/.emacs.d/combobulate/")
 (load "combobulate.el")
