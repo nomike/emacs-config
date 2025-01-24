@@ -437,11 +437,15 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
             (push '("&&" . "∧") prettify-symbols-alist)
             (push '("||" . "∨") prettify-symbols-alist)
             (push '("!" . "¬") prettify-symbols-alist)
-            (push '("void" . "⊥") prettify-symbols-alist)))
+            (push '("!=" . "≠") prettify-symbols-alist)
+            (push '("void" . "⊥") prettify-symbols-alist)
+            (push '("->" . "→") prettify-symbols-alist)
+                                        ;(push '("for" . "∀") prettify-symbols-alist)
+            (push '("*" . "·") prettify-symbols-alist)))
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
-            "Prettify C"
+            "Prettify C++"
             (push '("<=" . ?≤) prettify-symbols-alist)
             (push '(">=" . ?≥) prettify-symbols-alist)
             (push '("==" . "==") prettify-symbols-alist)
@@ -450,11 +454,9 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
             (push '("||" . "∨") prettify-symbols-alist)
             (push '("!" . "¬") prettify-symbols-alist)
             (push '("void" . "⊥") prettify-symbols-alist)
-
-            ;; C++
             (push '("->" . "→") prettify-symbols-alist)
                                         ;(push '("for" . "∀") prettify-symbols-alist)
-            (push '("*" "·") prettify-symbols-alist)))
+            (push '("*" . "·") prettify-symbols-alist)))
 
 (add-hook 'opascal-mode-hook
           (lambda ()
