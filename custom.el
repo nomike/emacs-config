@@ -1501,3 +1501,11 @@ argument is given. Choose a file name based on any document
 ;; This will just put the autosave files on that same host instead of localhost.
 (setq auto-save-file-name-transforms nil)
                                         ; (setq tramp-auto-save-directory "~/emacs/tramp-autosave")
+
+;; This is an lsp-ui workaround for <https://github.com/emacs-lsp/lsp-ui/issues/607>.
+(let ((areas '("mode-line" "left-margin" "left-fringe" "right-fringe" "header-line" "vertical-scroll-bar" "tool-bar" "menu-bar"))
+      loc)
+  (while areas
+    (setq loc (pop areas))
+    (global-set-key
+     (kbd (concat "<" loc "> <mouse-movement>")) #'ignore)))
