@@ -709,24 +709,31 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;;; Org mode
 
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "PLANNING(p)" "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)"  "|" "DONE(d!)" "OBE(o@!)" "WONT-DO(w@/!)" )
-        ))
+      '((sequence "TODO(t)" "PLANNING(p)" "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)"  "|" "DONE(d!)" "OBE(o@!)" "WONT-DO(w@/!)" )))
+
+(setq my-org-header (concat "#+DATE: %<%Y-%m-%d>
+#+AUTHOR: " user-full-name "
+#+FILETAGS: :internal:
+
+%?"))
 
 (setq org-capture-templates
-      '(
-        ("i" "Capture into ID node"
-         plain (function org-node-capture-target) nil
+      `(("i" "Capture into ID node"
+         plain (function org-node-capture-target)
+         ,my-org-header
          :empty-lines-after 1)
 
         ("j" "Jump to ID node"
-         plain (function org-node-capture-target) nil
+         plain (function org-node-capture-target)
+         ,my-org-header
          :jump-to-captured t
          :immediate-finish t)
 
         ;; Sometimes handy after `org-node-insert-link' to
         ;; make a stub you plan to fill in later
         ("q" "Make quick stub ID node"
-         plain (function org-node-capture-target) nil
+         plain (function org-node-capture-target)
+         ,my-org-header
          :immediate-finish t)
 
         ("w" "Work Log Entry"
@@ -751,9 +758,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          :tree-type week
          :clock-in t
          :clock-resume t
-         :empty-lines 0)
-
-        ))
+         :empty-lines 0)))
 
 ;; Tags
 (setq org-tag-alist '(
@@ -801,15 +806,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 ;; Tag colors
 (setq org-tag-faces
-      '(
-        ("planning"  . (:foreground "mediumPurple1" :weight bold))
-        ("backend"   . (:foreground "royalblue1"    :weight bold))
-        ("frontend"  . (:foreground "forest green"  :weight bold))
-        ("QA"        . (:foreground "sienna"        :weight bold))
-        ("meeting"   . (:foreground "yellow1"       :weight bold))
-        ("CRITICAL"  . (:foreground "red1"          :weight bold))
-        )
-      )
+      '(("planning" . (:foreground "mediumPurple1" :weight bold))
+        ("backend" . (:foreground "royalblue1" :weight bold))
+        ("frontend" . (:foreground "forest green" :weight bold))
+        ("QA" . (:foreground "sienna" :weight bold))
+        ("meeting" . (:foreground "yellow1" :weight bold))
+        ("CRITICAL" . (:foreground "red1" :weight bold))))
 
 ;; Agenda View "d"
 (defun air-org-skip-subtree-if-priority (priority)
