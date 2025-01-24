@@ -1524,3 +1524,41 @@ argument is given. Choose a file name based on any document
     (setq loc (pop areas))
     (global-set-key
      (kbd (concat "<" loc "> <mouse-movement>")) #'ignore)))
+
+;; Make the tab tooltip show the buffer file name.
+(defun tab-line-tab-name-format-default (tab tabs)
+  "Default function to use as `tab-line-tab-name-format-function', which see."
+  (let* ((buffer-p (bufferp tab))
+         (selected-p (if buffer-p
+                         (eq tab (window-buffer))
+                       (cdr (assq 'selected tab))))
+         (name (if buffer-p
+                   (funcall tab-line-tab-name-function tab tabs)
+                 (cdr (assq 'name tab))))
+         (face (if selected-p
+                   (if (mode-line-window-selected-p)
+                       'tab-line-tab-current
+                     'tab-line-tab)
+                 'tab-line-tab-inactive)))
+    (dolist (fn tab-line-tab-face-functions)
+      (setf face (funcall fn tab tabs face buffer-p selected-p)))
+    (apply 'propertize
+           (concat (propertize (string-replace "%" "%%" name) ;; (bug#57848)
+                               'keymap tab-line-tab-map
+                               'help-echo (let ((buffer (if buffer-p tab (cdr (assq 'buffer tab)))))
+                                            (if selected-p
+                                                (buffer-file-name buffer)
+                                              (buffer-file-name buffer)))
+                               ;; Don't turn mouse-1 into mouse-2 (bug#49247)
+                               'follow-link 'ignore)
+                   (or (and (or buffer-p (assq 'buffer tab) (assq 'close tab))
+                            tab-line-close-button-show
+                            (not (eq tab-line-close-button-show
+                                     (if selected-p 'non-selected 'selected)))
+                            tab-line-close-button)
+                       ""))
+           `(
+             tab ,tab
+             ,@(if selected-p '(selected t))
+             face ,face
+             mouse-face tab-line-highlight))))
