@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-;; Custom "e" command in eshell
-
 (require 'eshell)
 (require 'em-unix)
 
@@ -18,6 +16,7 @@
                                         ;(setenv "PATH" (concat (getenv "PATH") ":/sw/bin"))
                                         ;(setq exec-path (append exec-path '("/sw/bin")))
 
+;; Custom "e" command in eshell
 (defun eshell/e (&rest args)
   "Open one or more files in Emacs, similar to the 'find-file' function."
   (eshell-eval-using-options
