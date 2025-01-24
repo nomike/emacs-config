@@ -432,7 +432,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
             "Prettify C"
             (push '("<=" . ?≤) prettify-symbols-alist)
             (push '(">=" . ?≥) prettify-symbols-alist)
-            (push '("==" . "==") prettify-symbols-alist)
+            (push '("==" . "⩵") prettify-symbols-alist) ; or ≟
             (push '("=" . "≝") prettify-symbols-alist) ; or ≔
             (push '("&&" . "∧") prettify-symbols-alist)
             (push '("||" . "∨") prettify-symbols-alist)
@@ -448,7 +448,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
             "Prettify C++"
             (push '("<=" . ?≤) prettify-symbols-alist)
             (push '(">=" . ?≥) prettify-symbols-alist)
-            (push '("==" . "==") prettify-symbols-alist)
+            (push '("==" . "⩵") prettify-symbols-alist)
             (push '("=" . "≝") prettify-symbols-alist) ; or ≔
             (push '("&&" . "∧") prettify-symbols-alist)
             (push '("||" . "∨") prettify-symbols-alist)
@@ -465,6 +465,19 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
             (push '("end" . ?}) prettify-symbols-alist)
             (push '(":=" . "≝") prettify-symbols-alist) ; or ≔
             ))
+
+(add-hook 'rust-mode-hook
+          (lambda ()
+            "Prettify Rust more"
+            (push '("==" . "⩵") prettify-symbols-alist) ; or ≟
+            (push '("=" . "≝") prettify-symbols-alist) ; or ≔
+            (push '("&&" . "∧") prettify-symbols-alist)
+            (push '("||" . "∨") prettify-symbols-alist)
+            (push '("!" . "¬") prettify-symbols-alist)
+            (push '("!=" . "≠") prettify-symbols-alist)
+                                        ;(push '("->" . "→") prettify-symbols-alist)
+                                        ;(push '("for" . "∀") prettify-symbols-alist)
+            (push '("*" . "·") prettify-symbols-alist)))
 
 (require 'python-django)
 
