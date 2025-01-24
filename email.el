@@ -38,7 +38,7 @@
                         (mu4e-message-contact-field-matches
                          msg '(:from :to :cc :bcc) "dannym@scratchpost.org")))
         :vars '((user-mail-address . "dannym@scratchpost.org")
-                (user-full-name . "Danny Milosavljevic")
+                                        ; from passwd (user-full-name . "Danny Milosavljevic")
                 (mu4e-sent-folder . "/scratchpost.org/sent")
                 (mu4e-drafts-folder . "/scratchpost.org/drafts")
                 (mu4e-trash-folder . "/scratchpost.org/trash")
@@ -88,13 +88,13 @@
                         (mu4e-message-contact-field-matches
                          msg '(:from :to :cc :bcc) "dannym@friendly-machines.com")))
         :vars '((user-mail-address . "dannym@friendly-machines.com")
-                (user-full-name . "Danny Milosavljevic")
+                                        ; from passwd (user-full-name . "Danny Milosavljevic")
                 (mu4e-sent-messages-behavior . sent)
                 (send-mail-function . 'smtpmail-send-it)
                 (smtpmail-smtp-server . "mail.friendly-machines.com")
                 (smtpmail-stream-type . 'starttls)
                 (smtpmail-smtp-service . 587)
-                ;(smtpmail-auth-credentials . (expand-file-name "~/.authinfo.gpg"))
+                                        ;(smtpmail-auth-credentials . (expand-file-name "~/.authinfo.gpg"))
                 (mu4e-sent-folder . "/friendly-machines.com/sent")
                 (mu4e-drafts-folder . "/friendly-machines.com/drafts")
                 (mu4e-trash-folder . "/friendly-machines.com/trash")
@@ -142,4 +142,3 @@
         ("date:today..now" "Today's messages" ?t)
         ("date:7d..now" "Last 7 days" ?w)
         ("mime:image/*" "Messages with images" ?p)))
-
