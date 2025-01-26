@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(spacious-padding-mode 1)
+
 (require 'eshell)
 (require 'em-unix)
 
