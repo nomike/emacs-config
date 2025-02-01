@@ -29,7 +29,3 @@
 	path = iscroll
 	url = https://github.com/casouri/iscroll.git
 	branch = master
-[submodule "org-notify"]
-	path = org-notify
-	url = https://github.com/p-m/org-notify
-	branch = master
