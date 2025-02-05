@@ -35,4 +35,12 @@
   ;;                (popup-menu menu-bar-help-menu))
   ;;               'help
   ;;               :help "Pop up the Help menu"))
-)
+
+  (define-key-after (default-value 'tool-bar-map) [separator-4] menu-bar-separator)
+  ;;; org
+  (let ((tool-bar-map (default-value 'tool-bar-map)))
+    (tool-bar-add-item "ezimage/tag-plus" (lambda () (interactive) (org-capture)) 'org-capture :help "Capture Org node...")
+    (tool-bar-add-item "jump-to" (lambda () (interactive) (org-node-find)) 'org-node-find :help "Find Org node...")
+    (tool-bar-add-item "connect" (lambda () (interactive) (org-store-link)) 'org-store-link :help "Store Org link")
+    (tool-bar-add-item "mpc/play" (lambda () (interactive) (org-agenda)) 'org-agenda :help "Show Org agenda")
+))
