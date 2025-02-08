@@ -74,9 +74,7 @@
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-agenda")
                        #'org-agenda
                        'org-agenda :label ""
-                       :help "Show Org agenda"
-                       :vert-only t)
-)
+                       :help "Show Org agenda"))
   (define-key-after (default-value 'tool-bar-map) [separator-5] menu-bar-separator)
 
 )
