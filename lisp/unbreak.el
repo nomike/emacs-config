@@ -67,6 +67,20 @@ If MENUS is not provided, the function searches through all menus in the menu ba
       (substring haystack (+ 1 (length needle)))
     haystack))
 
+(defun lookup-function (keymap func)
+  "Given a function symbol, finds the keybinding for it."
+  (let ((all-bindings (where-is-internal (if (symbolp func)
+                                             func
+                                           (cl-first func))
+                                         keymap))
+        keys key-bindings)
+    (dolist (binding all-bindings)
+      (when (and (vectorp binding)
+                 (integerp (aref binding 0)))
+        (push binding key-bindings)))
+    (push (mapconcat #'key-description key-bindings " or ") keys)
+    (car keys)))
+    
 ;; total result: Missing menus for Xref, Lsp, Project, Bookmark, Kmacro, Rustic, Vc, Describe, Tab, Find, Set, Magit, Org, Flycheck, Hi-lock
 (defun unbreak ()
   "Create toolbar items for groups of Emacs commands."
@@ -233,6 +247,10 @@ If MENUS is not provided, the function searches through all menus in the menu ba
 
 	 (when (= (length commands) 1)
 					; See <https://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Images.html>
+
+      (let* ((command-symbol (car commands))
+             (keybinding (lookup-function (current-global-map) command-symbol))
+             (keybinding (if keybinding (concat " (" keybinding ")") keybinding)))
 	   (tool-bar-add-item
             "index"
             (lambda ()
@@ -240,12 +258,12 @@ If MENUS is not provided, the function searches through all menus in the menu ba
               (call-interactively (car commands)))
             (car commands)
 					;nil
-            :label (capitalize (replace-regexp-in-string "-" " " (symbol-name (car commands))))
+            :label (concat (capitalize (replace-regexp-in-string "-" " " (symbol-name (car commands)))) keybinding)
             :help (documentation (car commands))
 					;:enable (lambda () t)
 
             )
-           )))
+           ))))
      groups)))
 
 					;(unbreak)
