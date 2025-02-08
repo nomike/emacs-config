@@ -45,14 +45,15 @@
   
   ;;; org
   (let ((tool-bar-map (default-value 'tool-bar-map)))
+    ; Subsumed by org-node-find for my workflow!
+    ;(tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-capture")
+    ;                   (lambda () (interactive) (org-capture))
+    ;                   'org-capture :label ""
+    ;                   :help "Capture Org node...")
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-capture")
-                       (lambda () (interactive) (org-capture))
-                       'org-capture :label ""
-                       :help "Capture Org node...")
-    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-node-find")
                        (lambda () (interactive) (org-node-find))
                        'org-node-find :label ""
-                       :help "Find Org node...")
+                       :help "Find or make Org node...")
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-node-grep")
                        (lambda () (interactive) (org-node-grep))
                        'org-node-grep :label ""
