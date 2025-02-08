@@ -36,16 +36,34 @@
   ;;               'help
   ;;               :help "Pop up the Help menu"))
 
-  (define-key-after (default-value 'tool-bar-map) [separator-4] menu-bar-separator)
   (let ((tool-bar-map (default-value 'tool-bar-map)))
-    (tool-bar-add-item "index" (lambda () (interactive) (consult-ripgrep)) 'consult-ripgrep :label "" :help "Consult ripgrep..."))
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/ripgrep")
+                       (lambda () (interactive) (consult-ripgrep))
+                       'consult-ripgrep :label ""
+                       :help "Consult ripgrep..."))
   (define-key-after (default-value 'tool-bar-map) [separator-5] menu-bar-separator)
   
   ;;; org
   (let ((tool-bar-map (default-value 'tool-bar-map)))
-    (tool-bar-add-item "ezimage/tag-plus" (lambda () (interactive) (org-capture)) 'org-capture :label "" :help "Capture Org node...")
-    (tool-bar-add-item "jump-to" (lambda () (interactive) (org-node-find)) 'org-node-find :label "" :help "Find Org node...")
-    (tool-bar-add-item "search" (lambda () (interactive) (org-node-grep)) 'org-agenda :label "" :help "Grep Org node...")
-    (tool-bar-add-item "connect" (lambda () (interactive) (org-store-link)) 'org-store-link :label "" :help "Store Org link")
-    (tool-bar-add-item "mpc/play" (lambda () (interactive) (org-agenda)) 'org-agenda :label "" :help "Show Org agenda")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-capture")
+                       (lambda () (interactive) (org-capture))
+                       'org-capture :label ""
+                       :help "Capture Org node...")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-node-find")
+                       (lambda () (interactive) (org-node-find))
+                       'org-node-find :label ""
+                       :help "Find Org node...")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-node-grep")
+                       (lambda () (interactive) (org-node-grep))
+                       'org-node-grep :label ""
+                       :help "Grep Org node...")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-store-link")
+                       (lambda () (interactive) (org-store-link))
+                       'org-store-link :label ""
+                       :help "Store Org link")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-agenda")
+                       (lambda () (interactive) (org-agenda))
+                       'org-agenda :label ""
+                       :help "Show Org agenda"
+                       :vert-only t)
 ))
