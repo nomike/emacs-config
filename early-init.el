@@ -75,6 +75,5 @@
                        #'org-agenda
                        'org-agenda :label ""
                        :help "Show Org agenda"))
-  (define-key-after (default-value 'tool-bar-map) [separator-5] menu-bar-separator)
 
 )
