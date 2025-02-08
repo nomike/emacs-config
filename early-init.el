@@ -40,8 +40,12 @@
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/ripgrep")
                        #'consult-ripgrep
                        'consult-ripgrep :label ""
-                       :help "Consult ripgrep..."))
+                       :help "Consult ripgrep...")
 
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/embark-act")
+                       (lambda () (interactive) (embark-act))
+                       'embark-act :label ""
+                       :help "Embark act"))
   (define-key-after (default-value 'tool-bar-map) [separator-4] menu-bar-separator)
   
   ;;; org
@@ -70,15 +74,5 @@
                        :vert-only t)
 )
   (define-key-after (default-value 'tool-bar-map) [separator-5] menu-bar-separator)
-  (let ((tool-bar-map (default-value 'tool-bar-map)))
-    ; Subsumed by org-node-find for my workflow!
-    ;(tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-capture")
-    ;                   (lambda () (interactive) (org-capture))
-    ;                   'org-capture :label ""
-    ;                   :help "Capture Org node...")
-    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/embark-act")
-                       (lambda () (interactive) (embark-act))
-                       'embark-act :label ""
-                       :help "Embark act"))
 
 )
