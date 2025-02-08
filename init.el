@@ -211,7 +211,7 @@
  '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 100 :width normal))))
  '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8)))))
 
-(set-face-attribute 'default nil :height 105)
+(set-face-attribute 'default nil :height 100)
 (setq tool-bar-button-margin (cons 7 1))
 
 (with-eval-after-load 'treemacs
