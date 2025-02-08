@@ -252,19 +252,3 @@ If MENUS is not provided, the function searches through all menus in the menu ba
 					;:enable (lambda () t)
               )))))
      groups)))
-
-					;(unbreak)
-
-(defun update-toolbar-items-on-keybinding-change (&rest _)
-  "Update toolbar items when keybindings change."
-  (remove-hook 'after-load-functions 'add-toolbar-items-for-keyboard-shortcuts)
-  (add-hook 'after-load-functions 'add-toolbar-items-for-keyboard-shortcuts t)
-  (add-toolbar-items-for-keyboard-shortcuts))
-
-					; By hooking into the after-load-functions hook, we ensure that the toolbar items are updated after Emacs loads any changes in keybindings, such as when loading packages or custom configurations.
-
-					;(add-hook 'after-load-functions 'add-toolbar-items-for-keyboard-shortcuts t)
-					;(add-hook 'after-load-functions 'update-toolbar-items-on-keybinding-change)
-
-;; Hook into keybinding changes
-					;(add-hook 'after-load-functions 'update-toolbar-items-on-keybinding-change)
