@@ -43,9 +43,13 @@
                        :help "Consult ripgrep...")
 
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/embark-act")
-                       (lambda () (interactive) (embark-act))
+                       #'embark-act
                        'embark-act :label ""
-                       :help "Embark act"))
+                       :help "Embark act")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/magit")
+                       #'magit
+                       'magit :label ""
+                       :help "Magit (git)"))
   (define-key-after (default-value 'tool-bar-map) [separator-4] menu-bar-separator)
   
   ;;; org
