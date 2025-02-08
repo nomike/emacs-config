@@ -38,32 +38,33 @@
 
   (let ((tool-bar-map (default-value 'tool-bar-map)))
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/ripgrep")
-                       (lambda () (interactive) (consult-ripgrep))
+                       #'consult-ripgrep
                        'consult-ripgrep :label ""
                        :help "Consult ripgrep..."))
-  (define-key-after (default-value 'tool-bar-map) [separator-5] menu-bar-separator)
+
+  (define-key-after (default-value 'tool-bar-map) [separator-4] menu-bar-separator)
   
   ;;; org
   (let ((tool-bar-map (default-value 'tool-bar-map)))
     ; Subsumed by org-node-find for my workflow!
     ;(tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-capture")
-    ;                   (lambda () (interactive) (org-capture))
+    ;                   #'org-capture
     ;                   'org-capture :label ""
     ;                   :help "Capture Org node...")
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-capture")
-                       (lambda () (interactive) (org-node-find))
+                       #'org-node-find
                        'org-node-find :label ""
                        :help "Find or make Org node...")
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-node-grep")
-                       (lambda () (interactive) (org-node-grep))
+                       #'org-node-grep
                        'org-node-grep :label ""
                        :help "Grep Org node...")
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-store-link")
-                       (lambda () (interactive) (org-store-link))
+                       #'org-store-link
                        'org-store-link :label ""
                        :help "Store Org link")
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-agenda")
-                       (lambda () (interactive) (org-agenda))
+                       #'org-agenda
                        'org-agenda :label ""
                        :help "Show Org agenda"
                        :vert-only t)
