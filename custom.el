@@ -5,7 +5,7 @@
                                         ;  (add-hook 'rust-ts-mode-hook 'variable-pitch-mode)
 (add-hook 'treemacs-mode-hook 'variable-pitch-mode)
 (add-hook 'nxml-mode-hook 'variable-pitch-mode)
-(add-hook 'emacs-lisp-mode-hook 'variable-pitch-mode)
+;(add-hook 'emacs-lisp-mode-hook 'variable-pitch-mode)
 (add-hook 'js-mode-hook 'variable-pitch-mode)
 (add-hook 'css-mode-hook 'variable-pitch-mode)
 (add-hook 'html-mode-hook 'variable-pitch-mode)
@@ -112,9 +112,16 @@ Warn if the directory already exists."
 
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
 (global-set-key (kbd "<Search>") 'isearch-forward)
-(global-set-key (kbd "<Search>") 'isearch-forward)
+; pixel-scroll-interpolate-down
+;(define-key isearch-mode-map (kbd "<next>") #'isearch-repeat-forward)
+; pixel-scroll-interpolate-?
+;(define-key isearch-mode-map (kbd "<prior>") #'isearch-repeat-backward))
+
+(global-set-key (kbd "M-<Search>") #'consult-ripgrep)
+
+
                                         ;(global-set-key (kbd "<Launch1>") 'async-shell-command)
-(global-set-key (kbd "<Launch1>") 'project-compile)
+(global-set-key (kbd "<Launch1>") 'embark-act)
 
 
 (global-set-key (kbd "<f2>") 'save-buffer)
@@ -551,12 +558,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; Make the indentation look nicer
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'org-sticky-header-mode)
-
-
-;; Shortcuts for storing links, viewing the agenda, and starting a capture
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(define-key global-map "\C-cc" 'org-capture)
 
 
 ;; Hide the markers so you just see bold text as BOLD-TEXT and not *BOLD-TEXT*
@@ -1049,9 +1050,6 @@ argument is given. Choose a file name based on any document
 
 (keymap-set global-map "C-<Search>" #'org-node-find)
 (keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
-                                        ;(global-set-key (kbd "C-c l") 'org-store-link)
-                                        ;(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
 
 (add-hook 'org-mode-hook #'org-node-backlink-mode)
 (setq org-node-creation-fn #'org-capture)
@@ -1312,6 +1310,7 @@ argument is given. Choose a file name based on any document
 (add-hook 'rust-mode-hook #'form-feed-mode)
 (add-hook 'julia-mode-hook #'form-feed-mode)
 (add-hook 'org-mode-hook #'form-feed-mode) ; looks weird and sometimes disappears on save
+(add-hook 'elisp-mode-hook #'form-feed-mode)
 (add-hook 'elisp-mode-hook #'paredit-mode)
 (add-hook 'scheme-mode-hook #'paredit-mode)
 
@@ -1408,7 +1407,7 @@ argument is given. Choose a file name based on any document
 
 (require 'company-lsp)
 (with-eval-after-load 'company
-  (push 'company-robe company-backends)
+  ; missing (push 'company-robe company-backends)
   (push 'company-lsp company-backends))
 
 (require 'vlf-setup) ; very large files
@@ -1454,15 +1453,22 @@ argument is given. Choose a file name based on any document
   (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
 (add-hook 'org-mode-hook #'endless/org-ispell)
 
-(with-eval-after-load 'org
-  '(progn
+;;; Shortcuts for storing links, viewing the agenda, and starting a capture should work whereever you are.
+
+;; "Queues" a link-to-point for later.
+(define-key global-map (kbd "C-c m") 'org-store-link)
+(define-key global-map (kbd "C-c a") 'org-agenda)
+(define-key global-map (kbd "C-c c") 'org-capture)
+; with-eval-after-load org wouldn't work!
+(progn
      (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
      (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
      (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
      (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
-     (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
+     ;; Inserts a link to a queued item into the current doc.
+     (define-key org-mode-map (kbd "C-c l") #'org-insert-link)
      ;; When you want to change the level of an org item, use SMR
-     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
+     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright))
 
 (defun unset-line-move-visual ()
   (define-key org-mode-map [remap move-beginning-of-line] nil)
@@ -1607,3 +1613,60 @@ argument is given. Choose a file name based on any document
              ,@(if selected-p '(selected t))
              face ,face
              mouse-face tab-line-highlight))))
+
+;; TODO: bind it to a key in magit-mode-map to make it easier. 
+(defun mes/pr-review-via-forge ()
+  (interactive)
+  (if-let* ((target (forge--browse-target))
+            (url (if (stringp target) target (forge-get-url target)))
+            (rev-url (pr-review-url-parse url)))
+      (pr-review url)
+    (user-error "No PR to review at point")))
+
+;; FIXME: org-store-link (C-c l); "queues" links to where you are now.
+;; FIXME: org-node-insert-link (C-c i)
+; [[help:x]]
+; [[info:blub#blah]]
+;; org-id-store-link-maybe
+
+(use-package org-noter
+  :config
+  ;; Your org-noter config ........
+  (require 'org-noter-pdftools))
+
+(use-package org-pdftools
+  :hook (org-mode . org-pdftools-setup-link))
+
+;; [[pdf:~/file.pdf::3][Link to page 3]]
+(use-package org-noter-pdftools
+  :after org-noter
+  :config
+  ;; Add a function to ensure precise note is inserted
+  (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
+    (interactive "P")
+    (org-noter--with-valid-session
+     (let ((org-noter-insert-note-no-questions (if toggle-no-questions
+                                                   (not org-noter-insert-note-no-questions)
+                                                 org-noter-insert-note-no-questions))
+           (org-pdftools-use-isearch-link t)
+           (org-pdftools-use-freepointer-annot t))
+       (org-noter-insert-note (org-noter--get-precise-info)))))
+
+  ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
+  (defun org-noter-set-start-location (&optional arg)
+    "When opening a session with this document, go to the current location.
+With a prefix ARG, remove start location."
+    (interactive "P")
+    (org-noter--with-valid-session
+     (let ((inhibit-read-only t)
+           (ast (org-noter--parse-root))
+           (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
+       (with-current-buffer (org-noter--session-notes-buffer session)
+         (org-with-wide-buffer
+          (goto-char (org-element-property :begin ast))
+          (if arg
+              (org-entry-delete nil org-noter-property-note-location)
+            (org-entry-put nil org-noter-property-note-location
+                           (org-noter--pretty-print-location location))))))))
+  (with-eval-after-load 'pdf-annot
+    (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
