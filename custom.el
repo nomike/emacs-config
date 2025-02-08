@@ -1,7 +1,51 @@
 ;; -*- lexical-binding: t -*-
 
-(spacious-padding-mode 1)
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+(add-hook 'rustic-mode-hook 'variable-pitch-mode)
+                                        ;  (add-hook 'rust-ts-mode-hook 'variable-pitch-mode)
+(add-hook 'treemacs-mode-hook 'variable-pitch-mode)
+(add-hook 'nxml-mode-hook 'variable-pitch-mode)
+(add-hook 'emacs-lisp-mode-hook 'variable-pitch-mode)
+(add-hook 'js-mode-hook 'variable-pitch-mode)
+(add-hook 'css-mode-hook 'variable-pitch-mode)
+(add-hook 'html-mode-hook 'variable-pitch-mode)
+(add-hook 'mhtml-mode-hook 'variable-pitch-mode)
+(add-hook 'python-mode-hook 'variable-pitch-mode)
+                                        ;(dolist (mode '(scheme-mode-hook term-mode-hook))  ; org-mode-hook term-mode-hook eshell-mode-hook treemacs-mode-hook
+                                        ;  (add-hook mode
+                                        ;    (lambda ()
+                                        ;      (display-line-numbers-mode 0))))
 
+                                        ; Nope. (add-hook 'scheme-mode-hook 'variable-pitch-mode)
+
+                                        ; TODO local; TODO override paragraphs.el forward-paragraph
+                                        ;(global-set-key (kbd "C-<Down>") 'combobulate-navigate-logical-next)
+                                        ;(global-set-key (kbd "C-<Up>") 'combobulate-navigate-logical-previous)
+
+                                        ; (column-number-mode)
+                                        ; (global-display-line-numbers-mode t)
+                                        ;(global-display-line-numbers-mode 1) ; that includes treemacs and that's dumb
+                                        ;(dolist (mode '(org-mode-hook term-mode-hook eshell-mode-hook treemacs-mode-hook))
+                                        ;  (add-hook mode
+                                        ;            (lambda ()
+                                        ;              (display-line-numbers-mode 0))));
+                                        ; Shouldn't those be context-dependent?
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'comment-tags-mode)
+
+(use-package spacious-padding
+  :config
+  (spacious-padding-mode 1)
+
+  ;; TODO on frame hook
+  (custom-set-faces
+   '(mode-line ((t (:font "Noto Sans 8"))))
+   '(mode-line-inactive ((t (:font "Noto Sans 8"))))))
+
+;(custom-set-faces
+;       '(tab-line-tab-current ((t (:box (:line-width 1 :style released-button))
+    
 (require 'eshell)
 (require 'em-unix)
 
