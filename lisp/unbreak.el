@@ -12,8 +12,7 @@ If MENUS is not provided, the function searches through all menus in the menu ba
           (print "menu bar")
           (princ result)
           (print "\n")
-          t
-          )
+          t)
       nil)))
 
 (defun detour (group)
@@ -80,7 +79,7 @@ If MENUS is not provided, the function searches through all menus in the menu ba
         (push binding key-bindings)))
     (push (mapconcat #'key-description key-bindings " or ") keys)
     (car keys)))
-    
+
 ;; total result: Missing menus for Xref, Lsp, Project, Bookmark, Kmacro, Rustic, Vc, Describe, Tab, Find, Set, Magit, Org, Flycheck, Hi-lock
 (defun unbreak ()
   "Create toolbar items for groups of Emacs commands."
@@ -205,11 +204,8 @@ If MENUS is not provided, the function searches through all menus in the menu ba
 			       "tmm" ; tmm-menubar (keyboard centric)
 
 					; "flycheck" ; see "Tools" / "Syntax Checking"; but not everything is there.
-
-					; TODO: show copilot
 			       ))
          (when (> (length commands) 1)
-
            (let ((detour-menu (detour group)))
              (if detour-menu ; existing menu
                  (progn
@@ -234,38 +230,27 @@ If MENUS is not provided, the function searches through all menus in the menu ba
 			     (let* ((command-name (drop-prefix group (symbol-name command)))
 				    (doc (documentation command))
 				    (menu-label (capitalize (replace-regexp-in-string "-" " " command-name))))
-			       `(menu-item ,menu-label ,command :help ,doc))
-
-                             
-			     ))
-                         commands)
-                   )
-
-		 )))
-
-           )
+			       `(menu-item ,menu-label ,command :help ,doc))))
+                         commands))))))
 
 	 (when (= (length commands) 1)
 					; See <https://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Images.html>
-
-      (let* ((command-symbol (car commands))
-             (keybinding (lookup-function (current-global-map) command-symbol))
-             (keybinding (if (and keybinding
-                                  (> (length keybinding) 0))
-                             (concat "\n\nKeybinding: " keybinding) keybinding)))
-	   (tool-bar-add-item
-            "index"
-            (lambda ()
-              (interactive)
-              (call-interactively (car commands)))
-            (car commands)
+           (let* ((command-symbol (car commands))
+                  (keybinding (lookup-function (current-global-map) command-symbol))
+                  (keybinding (if (and keybinding
+                                       (> (length keybinding) 0))
+                                  (concat "\n\nKeybinding: " keybinding) keybinding)))
+	     (tool-bar-add-item
+              "index"
+              (lambda ()
+                (interactive)
+                (call-interactively (car commands)))
+              (car commands)
 					;nil
-            :label (capitalize (replace-regexp-in-string "-" " " (symbol-name (car commands))))
-            :help (concat (documentation (car commands)) keybinding)
+              :label (capitalize (replace-regexp-in-string "-" " " (symbol-name (car commands))))
+              :help (concat (documentation (car commands)) keybinding)
 					;:enable (lambda () t)
-
-            )
-           ))))
+              )))))
      groups)))
 
 					;(unbreak)
