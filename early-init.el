@@ -74,6 +74,6 @@
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-agenda")
                        #'org-agenda
                        'org-agenda :label ""
-                       :help "Show Org agenda"))
+                       :help "Show Org agenda..."))
 
 )
