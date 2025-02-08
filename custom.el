@@ -227,6 +227,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; next sibling; via combobulate
 (global-set-key (kbd "C-M-<down>") 'forward-sexp)
 
+;(eval-after-load 'emacs-lisp-mode
+;  '(progn
+      ;; overwrites down-mouse-1 that would do mouse-buffer-menu
+      (define-key emacs-lisp-mode-map (kbd "C-<down-mouse-1>") #'xref-find-definitions-at-mouse)
+;))
+
 ;; FIXME also C-<f8> maybe
 (global-set-key (kbd "<f5>") 'dap-breakpoint-toggle)
 
