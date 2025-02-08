@@ -250,7 +250,9 @@ If MENUS is not provided, the function searches through all menus in the menu ba
 
       (let* ((command-symbol (car commands))
              (keybinding (lookup-function (current-global-map) command-symbol))
-             (keybinding (if keybinding (concat " (" keybinding ")") keybinding)))
+             (keybinding (if (and keybinding
+                                  (> (length keybinding) 0))
+                             (concat "\n\nKeybinding: " keybinding) keybinding)))
 	   (tool-bar-add-item
             "index"
             (lambda ()
@@ -258,8 +260,8 @@ If MENUS is not provided, the function searches through all menus in the menu ba
               (call-interactively (car commands)))
             (car commands)
 					;nil
-            :label (concat (capitalize (replace-regexp-in-string "-" " " (symbol-name (car commands)))) keybinding)
-            :help (documentation (car commands))
+            :label (capitalize (replace-regexp-in-string "-" " " (symbol-name (car commands))))
+            :help (concat (documentation (car commands)) keybinding)
 					;:enable (lambda () t)
 
             )
