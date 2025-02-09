@@ -116,6 +116,14 @@
                        #'elfeed
                        'elfeed :label ""
                        :help "Elfeed (RSS)")
-    (tool-bar-add-item-from-menu 'gptel "gptel" nil :label "Talk to LLM" :vert-only t)
-    (tool-bar-add-item-from-menu 'osm "osm" nil :label "View street map" :vert-only t)
-    (tool-bar-add-item-from-menu 'emms "emms" nil :label "Play music..." :vert-only t)))
+    (tool-bar-add-item-from-menu 'gptel
+                                 (expand-file-name "~/.emacs.d/icons/gptel")
+                                 nil :label "Talk to LLM"
+                                 :vert-only t)
+    (tool-bar-add-item-from-menu 'osm
+                                 (expand-file-name "~/.emacs.d/icons/osm")
+                                 nil :label "View street map" :vert-only t)
+    (tool-bar-add-item-from-menu 'emms
+                                 (expand-file-name "~/.emacs.d/icons/emms")
+                                 nil :label "Play music..."
+                                 :vert-only t)))
