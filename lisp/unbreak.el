@@ -251,3 +251,30 @@ If MENUS is not provided, the function searches through all menus in the menu ba
                                         ;:enable (lambda () t)
               )))))
      groups)))
+
+(defun find-single-word-commands ()
+  "Find and display all M-x commands that don't contain hyphens."
+  (interactive)
+  (let ((commands '())
+        (buffer (get-buffer-create "*Single Word Commands*")))
+    ;; Collect all commands without hyphens
+    (mapatoms
+     (lambda (symbol)
+       (when (and (commandp symbol)
+                  (not (string-match-p "-" (symbol-name symbol))))
+         (push (symbol-name symbol) commands))))
+    
+    ;; Sort commands alphabetically
+    (setq commands (sort commands 'string<))
+    
+    ;; Display results in a buffer
+    (with-current-buffer buffer
+      (erase-buffer)
+      (insert "Commands without hyphens:\n\n")
+      (dolist (cmd commands)
+        (insert cmd "\n"))
+      (goto-char (point-min)))
+    
+    ;; Display the buffer
+    (display-buffer buffer)
+    (message "Found %d commands without hyphens" (length commands))))
