@@ -101,9 +101,9 @@
    '(mode-line ((t (:font "Noto Sans 8"))))
    '(mode-line-inactive ((t (:font "Noto Sans 8"))))))
 
-;(custom-set-faces
-;       '(tab-line-tab-current ((t (:box (:line-width 1 :style released-button))
-    
+                                        ;(custom-set-faces
+                                        ;       '(tab-line-tab-current ((t (:box (:line-width 1 :style released-button))
+
 (require 'eshell)
 (require 'em-unix)
 
