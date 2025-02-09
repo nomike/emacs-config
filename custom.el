@@ -27,25 +27,48 @@
     ;    (define-key-after tool-bar-map [separator-2] menu-bar-separator)
     ; Subsumed by org-node-find for my workflow!
     ;(tool-bar-add-item "org-capture"
-    ;                   #'org-capture
-    ;                   'org-capture :label "org-capture"
-    ;                   :help "Capture Org node...")
-    (tool-bar-add-item "org-capture"
-                       #'org-node-find
-                       'org-node-find
-                       :label "org-node-find"
-                       :help "Find or make Org node...")
-    (tool-bar-add-item "org-node-grep"
-                       #'org-node-grep
-                       'org-node-grep
-                       :label "org-node-grep"
-                       :help "Grep Org node...")
-    (tool-bar-add-item "org-agenda"
-                       #'org-agenda
-                       'org-agenda
-                       :label "org-agenda"
-                       :help "Show Org agenda...")
-    nil)
+  (tool-bar-add-item "ripgrep"
+                     #'consult-ripgrep
+                     'consult-ripgrep
+                     :label "consult-ripgrep"
+                     :help "Consult ripgrep...")
+  (tool-bar-add-item "embark-act"
+                     #'embark-act
+                     'embark-act
+                     :label "embark-act"
+                     :help "Embark act")
+  (tool-bar-add-item "magit"
+                     #'magit
+                     'magit
+                     :label "magit"
+                     :help "Magit (git)")
+  (tool-bar-add-item "org-store-link"
+                     #'org-store-link
+                     'org-store-link
+                     :label "org-store-link"
+                     :help "Store Org link")
+                                        ;    (define-key-after tool-bar-map [separator-2] menu-bar-separator)
+                                        ; Subsumed by org-node-find for my workflow!
+                                        ;(tool-bar-add-item "org-capture"
+                                        ;                   #'org-capture
+                                        ;                   'org-capture :label "org-capture"
+                                        ;                   :help "Capture Org node...")
+  (tool-bar-add-item "org-capture"
+                     #'org-node-find
+                     'org-node-find
+                     :label "org-node-find"
+                     :help "Find or make Org node...")
+  (tool-bar-add-item "org-node-grep"
+                     #'org-node-grep
+                     'org-node-grep
+                     :label "org-node-grep"
+                     :help "Grep Org node...")
+  (tool-bar-add-item "org-agenda"
+                     #'org-agenda
+                     'org-agenda
+                     :label "org-agenda"
+                     :help "Show Org agenda...")
+  nil)
 
 (defun merge-permanent-toolbar-items ()
   (message "MERGE")
