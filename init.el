@@ -42,6 +42,15 @@
                                         ;(setq lsp-treemacs-theme "Iconless")
 
 (tool-bar-mode 1)
+
+                                        ;(setq-default header-line-format `(:eval (window-tool-bar-string)))
+                                        ;(global-window-tool-bar-mode 1)
+
+;; Add (window-tool-bar-string) to tab-line-format.
+;(setq-default tab-line-format '((:eval (tab-line-format))
+;                                " "
+;                                (:eval (window-tool-bar-string))))
+
 					;(tool-bar-add-item "my-custom-action" 'my-custom-command "tooltip" 'my-custom-icon)
 
 (projectile-mode +1)
