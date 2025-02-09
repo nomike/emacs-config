@@ -41,7 +41,7 @@
 (require 'lsp-treemacs)
                                         ;(setq lsp-treemacs-theme "Iconless")
 
-(tool-bar-mode 1)
+(tool-bar-mode -1)
 
                                         ;(setq-default header-line-format `(:eval (window-tool-bar-string)))
                                         ;(global-window-tool-bar-mode 1)

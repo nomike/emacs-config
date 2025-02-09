@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'window-tool-bar)
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
 (defun my-permanent-tool-bar-items ()
@@ -1666,6 +1667,7 @@ argument is given. Choose a file name based on any document
                                               (buffer-file-name buffer)))
                                ;; Don't turn mouse-1 into mouse-2 (bug#49247)
                                'follow-link 'ignore)
+                   (if selected-p (window-tool-bar-string) "")
                    (or (and (or buffer-p (assq 'buffer tab) (assq 'close tab))
                             tab-line-close-button-show
                             (not (eq tab-line-close-button-show
