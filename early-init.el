@@ -79,19 +79,16 @@
                        #'magit
                        'magit :label ""
                        :help "Magit (git)")
-    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/mu4e")
-                       #'mu4e
-                       'mu4e :label ""
-                       :help "Mu4e (Mail)")
-    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/elfeed")
-                       #'elfeed
-                       'elfeed :label ""
-                       :help "Elfeed (RSS)"))
+                       )
 
   (define-key-after (default-value 'tool-bar-map) [separator-4] menu-bar-separator)
   
   ;;; org
   (let ((tool-bar-map (default-value 'tool-bar-map)))
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-store-link")
+                       #'org-store-link
+                       'org-store-link :label ""
+                       :help "Store Org link")
     ; Subsumed by org-node-find for my workflow!
     ;(tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-capture")
     ;                   #'org-capture
@@ -105,15 +102,20 @@
                        #'org-node-grep
                        'org-node-grep :label ""
                        :help "Grep Org node...")
-    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-store-link")
-                       #'org-store-link
-                       'org-store-link :label ""
-                       :help "Store Org link")
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/org-agenda")
                        #'org-agenda
                        'org-agenda :label ""
                        :help "Show Org agenda..."))
+  (define-key-after (default-value 'tool-bar-map) [separator-5] menu-bar-separator)
   (let ((tool-bar-map (default-value 'tool-bar-map)))
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/mu4e")
+                       #'mu4e
+                       'mu4e :label ""
+                       :help "Mu4e (Mail)")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/elfeed")
+                       #'elfeed
+                       'elfeed :label ""
+                       :help "Elfeed (RSS)")
     (tool-bar-add-item-from-menu 'gptel "gptel" nil :label "Talk to LLM" :vert-only t)
     (tool-bar-add-item-from-menu 'osm "osm" nil :label "View street map" :vert-only t)
     (tool-bar-add-item-from-menu 'emms "emms" nil :label "Play music..." :vert-only t)))
