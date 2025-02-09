@@ -20,7 +20,7 @@
   (tool-bar-add-item-from-menu (lookup-key menu-bar-edit-menu [paste])
                    "paste" nil :vert-only t)
   (define-key-after (default-value 'tool-bar-map) [separator-3] menu-bar-separator)
-  (tool-bar-add-item-from-menu 'isearch-forward "search"
+  (tool-bar-add-item-from-menu 'swiper-isearch "search"
                    nil :label "Search" :vert-only t)
   ;;(tool-bar-add-item-from-menu 'ispell-buffer "spell")
 
