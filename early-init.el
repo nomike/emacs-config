@@ -1,4 +1,33 @@
 
+;; TODO: Report bug with trashed upstream that this is missing.
+(define-key global-map
+  [menu-bar tools trashed]
+  '("View trash" . trashed))
+
+;; TODO: Report bug with gptel upstream that this is missing.
+(define-key global-map
+  [menu-bar tools gptel]
+  '("Talk to Large Language Model" . gptel))
+
+;; TODO: Report bug with osm upstream that this is missing.
+(define-key global-map
+  [menu-bar tools osm]
+  '("View street map" . osm))
+
+;; TODO: Report bug with emms upstream that this is missing.
+(define-key global-map
+  [menu-bar tools emms]
+  '("Play music..." . emms))
+
+;; TODO: Report bug with wttrin upstream that this is missing.
+(define-key global-map
+  [menu-bar tools wttrin]
+  '("Check weather" . wttrin))
+
+(define-key global-map
+  [menu-bar tools maxima]
+  '("Do computer algebra via Maxima" . maxima))
+
 (defun tool-bar-setup ()
   (setq tool-bar-separator-image-expression
     (tool-bar--image-expression "separator"))
@@ -84,5 +113,7 @@
                        #'org-agenda
                        'org-agenda :label ""
                        :help "Show Org agenda..."))
-
-)
+  (let ((tool-bar-map (default-value 'tool-bar-map)))
+    (tool-bar-add-item-from-menu 'gptel "gptel" nil :label "Talk to LLM" :vert-only t)
+    (tool-bar-add-item-from-menu 'osm "osm" nil :label "View street map" :vert-only t)
+    (tool-bar-add-item-from-menu 'emms "emms" nil :label "Play music..." :vert-only t)))
