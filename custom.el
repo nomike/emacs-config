@@ -63,7 +63,7 @@
                                         ;  (add-hook 'rust-ts-mode-hook 'variable-pitch-mode)
 (add-hook 'treemacs-mode-hook 'variable-pitch-mode)
 (add-hook 'nxml-mode-hook 'variable-pitch-mode)
-;(add-hook 'emacs-lisp-mode-hook 'variable-pitch-mode)
+                                        ;(add-hook 'emacs-lisp-mode-hook 'variable-pitch-mode)
 (add-hook 'js-mode-hook 'variable-pitch-mode)
 (add-hook 'css-mode-hook 'variable-pitch-mode)
 (add-hook 'html-mode-hook 'variable-pitch-mode)
