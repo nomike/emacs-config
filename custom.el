@@ -169,11 +169,11 @@ Warn if the directory already exists."
   (define-key nov-mode-map (kbd "M-<Right>") #'nov-history-forward))
 
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
-(global-set-key (kbd "<Search>") 'isearch-forward)
-; pixel-scroll-interpolate-down
-;(define-key isearch-mode-map (kbd "<next>") #'isearch-repeat-forward)
-; pixel-scroll-interpolate-?
-;(define-key isearch-mode-map (kbd "<prior>") #'isearch-repeat-backward))
+(global-set-key (kbd "<Search>") 'swiper-isearch)
+                                        ; pixel-scroll-interpolate-down
+                                        ;(define-key isearch-mode-map (kbd "<next>") #'isearch-repeat-forward)
+                                        ; pixel-scroll-interpolate-?
+                                        ;(define-key isearch-mode-map (kbd "<prior>") #'isearch-repeat-backward))
 
 (global-set-key (kbd "M-<Search>") #'consult-ripgrep)
 
@@ -363,7 +363,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; Shift+Ctrl+Alt+F9 deploy project
                                         ; Shift+Ctrl+F9 run without debugger
 
-(global-set-key (kbd "C-f") 'find)
+(keymap-set global-map "C-f" #'swiper-isearch) ; Note: someone overwrites this.
 
 (global-set-key (kbd "C-s") 'save-buffer)
 (global-set-key (kbd "C-S-s") 'save-buffer)
@@ -1712,7 +1712,7 @@ argument is given. Choose a file name based on any document
      (let ((org-noter-insert-note-no-questions (if toggle-no-questions
                                                    (not org-noter-insert-note-no-questions)
                                                  org-noter-insert-note-no-questions))
-           (org-pdftools-use-isearch-link t)
+           (org-pdftools-use-isearch-link t) ; FIXME swiper here
            (org-pdftools-use-freepointer-annot t))
        (org-noter-insert-note (org-noter--get-precise-info)))))
 
