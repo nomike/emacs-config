@@ -537,8 +537,6 @@
 					;(require 'treemacs-magit)
 (treemacs-display-current-project-exclusively)
 
-(require 'back-button)
-
 (setq treemacs-width 25) ; Adjust the width of the treemacs window as needed
 
                                         ; bad
