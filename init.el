@@ -204,6 +204,8 @@
    "\\documentclass{article}\12\\usepackage[usenames]{color}\\usepackage{unicodeq}\12[DEFAULT-PACKAGES]\12[PACKAGES]\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
  '(org-id-link-to-org-use-id 'use-existing)
  '(org-replace-disputed-keys t)
+ '(org-sticky-header-always-show-header t)
+ '(org-sticky-header-full-path 'reversed)
  '(org-support-shift-select t)
  '(package-selected-packages
    '(dired-launch lv concurrent org-mime org-noter org-pdftools back-button counsel-projectile counsel-tramp magit-popup eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico counsel pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel paredit inheritenv buffer-env ob-async discover-my-major))
