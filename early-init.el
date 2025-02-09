@@ -49,7 +49,16 @@
     (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/magit")
                        #'magit
                        'magit :label ""
-                       :help "Magit (git)"))
+                       :help "Magit (git)")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/mu4e")
+                       #'mu4e
+                       'mu4e :label ""
+                       :help "Mu4e (Mail)")
+    (tool-bar-add-item (expand-file-name "~/.emacs.d/icons/elfeed")
+                       #'elfeed
+                       'elfeed :label ""
+                       :help "Elfeed (RSS)"))
+
   (define-key-after (default-value 'tool-bar-map) [separator-4] menu-bar-separator)
   
   ;;; org
