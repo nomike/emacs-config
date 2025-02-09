@@ -4,29 +4,6 @@
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
 (defun my-permanent-tool-bar-items ()
-    (tool-bar-add-item "ripgrep"
-                       #'consult-ripgrep
-                       'consult-ripgrep
-                       :label "consult-ripgrep"
-                       :help "Consult ripgrep...")
-    (tool-bar-add-item "embark-act"
-                       #'embark-act
-                       'embark-act
-                       :label "embark-act"
-                       :help "Embark act")
-    (tool-bar-add-item "magit"
-                       #'magit
-                       'magit
-                       :label "magit"
-                       :help "Magit (git)")
-    (tool-bar-add-item "org-store-link"
-                       #'org-store-link
-                       'org-store-link
-                       :label "org-store-link"
-                       :help "Store Org link")
-    ;    (define-key-after tool-bar-map [separator-2] menu-bar-separator)
-    ; Subsumed by org-node-find for my workflow!
-    ;(tool-bar-add-item "org-capture"
   (tool-bar-add-item "ripgrep"
                      #'consult-ripgrep
                      'consult-ripgrep
