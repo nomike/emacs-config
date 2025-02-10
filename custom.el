@@ -3,26 +3,36 @@
 (require 'window-tool-bar)
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
-(defun my-media-text-handler (mime-type data)
-  (insert data))
+;(prefer-coding-system 'utf-8)
+;(set-default-coding-systems 'utf-8)
+;(set-terminal-coding-system 'utf-8)
+;(set-keyboard-coding-system 'utf-8)
+;(set-selection-coding-system 'utf-8)
+;(set-file-name-coding-system 'utf-8)
+;(set-clipboard-coding-system 'utf-8)
+; ;(set-w32-system-coding-system 'utf-8)
+;(set-buffer-file-coding-system 'utf-8)
 
-;(defun my-smart-yank (&optional arg)
-;  "Intelligent yank that handles both text and media content."
-;  (interactive "*P")
-;  (if (and (gui-backend-selection-exists-p 'CLIPBOARD)
-;           (let ((types (gui-backend-selection-supported-formats)))
-;             (seq-find (lambda (type)
-;                        (string-match-p "image/" type))
-;                      types)))
-;      (yank-media)
-;    (yank arg)))
+(defun my-media-text-handler (mime-type data)
+  (insert (decode-coding-string data 'utf-8)))
+
+                                        ;(defun my-smart-yank (&optional arg)
+                                        ;  "Intelligent yank that handles both text and media content."
+                                        ;  (interactive "*P")
+                                        ;  (if (and (gui-backend-selection-exists-p 'CLIPBOARD)
+                                        ;           (let ((types (gui-backend-selection-supported-formats)))
+                                        ;             (seq-find (lambda (type)
+                                        ;                        (string-match-p "image/" type))
+                                        ;                      types)))
+                                        ;      (yank-media)
+                                        ;    (yank arg)))
 (global-set-key [remap yank] #'yank-media)
 
 ;; Allow pasting regular text using yank-media.
 (setq-default yank-media--registered-handlers
- '(("text/plain;charset=utf-8" . my-media-text-handler)))
-;(defun original-yank (&optional arg)
-;  (yank arg))
+              '(("text/plain;charset=utf-8" . my-media-text-handler)))
+                                        ;(defun original-yank (&optional arg)
+                                        ;  (yank arg))
 (defun yank (&optional arg)
   (yank-media))
 
