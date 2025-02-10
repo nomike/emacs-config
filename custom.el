@@ -3,6 +3,31 @@
 (require 'window-tool-bar)
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
+(defun my-media-text-handler (mime-type data)
+  (insert data))
+
+;(defun my-smart-yank (&optional arg)
+;  "Intelligent yank that handles both text and media content."
+;  (interactive "*P")
+;  (if (and (gui-backend-selection-exists-p 'CLIPBOARD)
+;           (let ((types (gui-backend-selection-supported-formats)))
+;             (seq-find (lambda (type)
+;                        (string-match-p "image/" type))
+;                      types)))
+;      (yank-media)
+;    (yank arg)))
+(global-set-key [remap yank] #'yank-media)
+
+;; Allow pasting regular text using yank-media.
+(setq-default yank-media--registered-handlers
+ '(("text/plain;charset=utf-8" . my-media-text-handler)))
+;(defun original-yank (&optional arg)
+;  (yank arg))
+(defun yank (&optional arg)
+  (yank-media))
+
+;(setq interprogram-paste-function (lambda () nil))
+
 (defun my-permanent-tool-bar-items ()
   (tool-bar-add-item "ripgrep"
                      #'consult-ripgrep
