@@ -31,8 +31,7 @@
   [menu-bar tools maxima]
   '("Do computer algebra via Maxima" . maxima))
 
-;; TODO: Report bug with emacs upstream that org major mode (org.el) doesn't add a toolbutton for org-insert-last-stored-link.
-;; TODO: Report bug with emacs upstream that org major mode (org.el) doesn't have menu items for org-store-link, org-insert-last-stored-link, org-insert-link.
+;; TODO: Report bug with emacs upstream that org major mode (org.el) doesn't have menu items for org-insert-last-stored-link.
 
 ;; orgmode:
 ;; Install ‘cdlatex.el’ and ‘texmathp.el’ (the latter comes also with AUCTeX) from NonGNU ELPA with the Emacs packaging system or alternatively from https://staff.fnwi.uva.nl/c.dominik/Tools/cdlatex/.
