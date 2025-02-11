@@ -134,7 +134,7 @@
 
   ;; TODO on frame hook
   (custom-set-faces
-   '(mode-line ((t (:font "Noto Sans 8"))))
+   '(mode-line-active ((t (:font "Noto Sans 8"))))
    '(mode-line-inactive ((t (:font "Noto Sans 8"))))))
 
                                         ;(custom-set-faces
