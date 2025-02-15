@@ -1546,7 +1546,7 @@ argument is given. Choose a file name based on any document
 
 (require 'company-lsp)
 (with-eval-after-load 'company
-  ; missing (push 'company-robe company-backends)
+                                        ; missing (push 'company-robe company-backends)
   (push 'company-lsp company-backends))
 
 (require 'vlf-setup) ; very large files
@@ -1765,8 +1765,8 @@ argument is given. Choose a file name based on any document
 
 ;; FIXME: org-store-link (C-c l); "queues" links to where you are now.
 ;; FIXME: org-node-insert-link (C-c i)
-; [[help:x]]
-; [[info:blub#blah]]
+                                        ; [[help:x]]
+                                        ; [[info:blub#blah]]
 ;; org-id-store-link-maybe
 
 (use-package org-noter
