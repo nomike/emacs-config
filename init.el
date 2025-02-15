@@ -211,6 +211,7 @@
  '(org-noter-auto-save-last-location t)
  '(org-noter-notes-search-path '("~/doc/org-roam"))
  '(org-replace-disputed-keys t)
+ '(org-startup-with-inline-images t)
  '(org-sticky-header-always-show-header t)
  '(org-sticky-header-full-path 'reversed)
  '(org-support-shift-select t)
