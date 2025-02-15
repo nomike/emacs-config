@@ -679,8 +679,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 ;; Make the indentation look nicer
 (add-hook 'org-mode-hook 'org-indent-mode)
-(add-hook 'org-mode-hook 'org-sticky-header-mode)
-
+(add-hook 'org-mode-hook 'org-sticky-header-mode) ; would kill window tool bar; so I could set org-sticky-header-prefix (to 'window-tool-bar-string); TODO: org-sticky-header--indent-prefix
 
 ;; Hide the markers so you just see bold text as BOLD-TEXT and not *BOLD-TEXT*
 (setq org-hide-emphasis-markers t)
