@@ -22,6 +22,7 @@
 ;   (popper-window-height 15))
 ;(bind-key* (kbd "C-;") #'popper-toggle)
 
+(require 'org-protocol)
 (require 'window-tool-bar)
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
