@@ -24,6 +24,8 @@
 
 (require 'org-protocol)
 (require 'window-tool-bar)
+;(setq-default header-line-format `(:eval (window-tool-bar-string)))
+
 ;; <https://github.com/chaosemer/window-tool-bar/issues/33>
 ;(global-unset-key (kbd "<tool-bar> <S-back-button>"))
 ;(global-unset-key (kbd "<tool-bar> <S-forward-button>"))
