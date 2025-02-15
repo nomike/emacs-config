@@ -58,7 +58,7 @@
 (defun yank (&optional arg)
   (yank-media))
 
-;(setq interprogram-paste-function (lambda () nil))
+                                        ;(setq interprogram-paste-function (lambda () nil))
 
 (defun my-permanent-tool-bar-items ()
   (tool-bar-add-item "ripgrep"
@@ -110,11 +110,11 @@
 
 (add-hook 'after-init-hook #'merge-permanent-toolbar-items)
 (merge-permanent-toolbar-items)
-;(setq-default tool-bar-map (merge-permanent-toolbar-items))
+                                        ;(setq-default tool-bar-map (merge-permanent-toolbar-items))
 
-;(add-hook 'after-change-major-mode-hook #'merge-permanent-toolbar-items)
-;(add-hook 'pre-redisplay-functions #'merge-permanent-toolbar-items-w) ; nil 'local ; overkill
-(add-hook 'info-mode-hook #'merge-permanent-toolbar-items)
+                                        ;(add-hook 'after-change-major-mode-hook #'merge-permanent-toolbar-items)
+                                        ;(add-hook 'pre-redisplay-functions #'merge-permanent-toolbar-items-w) ; nil 'local ; overkill
+                                        ;(add-hook 'info-mode-hook #'merge-permanent-toolbar-items)
 
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 (add-hook 'rustic-mode-hook 'variable-pitch-mode)
@@ -343,11 +343,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; next sibling; via combobulate
 (global-set-key (kbd "C-M-<down>") 'forward-sexp)
 
-;(eval-after-load 'emacs-lisp-mode
-;  '(progn
-      ;; overwrites down-mouse-1 that would do mouse-buffer-menu
-      (define-key emacs-lisp-mode-map (kbd "C-<down-mouse-1>") #'xref-find-definitions-at-mouse)
-;))
+                                        ;(eval-after-load 'emacs-lisp-mode
+                                        ;  '(progn
+;; overwrites down-mouse-1 that would do mouse-buffer-menu
+(define-key emacs-lisp-mode-map (kbd "C-<down-mouse-1>") #'xref-find-definitions-at-mouse)
+                                        ;))
 
 ;; FIXME also C-<f8> maybe
 (global-set-key (kbd "<f5>") 'dap-breakpoint-toggle)
@@ -930,7 +930,20 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          :tree-type week
          :clock-in t
          :clock-resume t
-         :empty-lines 0)))
+         :empty-lines 0)
+
+        ;; org-protocol by chrome org-capture extension.
+        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox") ; WTF?
+          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+        ;; org-protocol by chrome org-capture extension.
+        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox") ; WTF?
+        "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\nCaptured On: %U")
+
+        ;; org-protocol-html bookmarklet.
+        ("w" "Web site" entry (file "") ; or (file+olp "~/org/inbox.org" "Web")
+         "* %a :website:\n\n%U %?\n\n%:initial")
+
+))
 
 ;; Tags
 (setq org-tag-alist '(
