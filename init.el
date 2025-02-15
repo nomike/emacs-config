@@ -47,9 +47,9 @@
                                         ;(global-window-tool-bar-mode 1)
 
 ;; Add (window-tool-bar-string) to tab-line-format.
-;(setq-default tab-line-format '((:eval (tab-line-format))
-;                                " "
-;                                (:eval (window-tool-bar-string))))
+                                        ;(setq-default tab-line-format '((:eval (tab-line-format))
+                                        ;                                " "
+                                        ;                                (:eval (window-tool-bar-string))))
 
 					;(tool-bar-add-item "my-custom-action" 'my-custom-command "tooltip" 'my-custom-icon)
 
@@ -542,6 +542,10 @@
                                         ; bad
 (setq doc-view-resolution 300)
 (require 'pdf-tools)
+                                        ;(use-package saveplace-pdf-view
+                                        ;  :after pdf-tools
+                                        ;  :config
+                                        ;  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
 
 ;; Die, Doc-View-mode! die!
                                         ;(defalias 'doc-view-mode #'pdf-view-mode)
