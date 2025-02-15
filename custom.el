@@ -893,6 +893,10 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 %?"))
 
+(defun transform-square-brackets-to-round-ones (string-to-transform)
+  "Transforms [ into ( and ] into ), other chars left unchanged." ; notably arvix
+  (concat (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
+
 (setq org-capture-templates
       `(("i" "Capture into ID node"
          plain (function org-node-capture-target)
