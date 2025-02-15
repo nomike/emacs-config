@@ -24,6 +24,10 @@
 
 (require 'org-protocol)
 (require 'window-tool-bar)
+;; <https://github.com/chaosemer/window-tool-bar/issues/33>
+;(global-unset-key (kbd "<tool-bar> <S-back-button>"))
+;(global-unset-key (kbd "<tool-bar> <S-forward-button>"))
+
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
                                         ;(prefer-coding-system 'utf-8)
