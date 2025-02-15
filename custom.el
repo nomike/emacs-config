@@ -1754,7 +1754,7 @@ argument is given. Choose a file name based on any document
              face ,face
              mouse-face tab-line-highlight))))
 
-;; TODO: bind it to a key in magit-mode-map to make it easier. 
+;; TODO: bind it to a key in magit-mode-map to make it easier.
 (defun mes/pr-review-via-forge ()
   (interactive)
   (if-let* ((target (forge--browse-target))
