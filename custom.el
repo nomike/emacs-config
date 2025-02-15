@@ -908,10 +908,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          ,my-org-header
          :immediate-finish t)
 
-        ("w" "Work Log Entry"
-         entry (file+datetree "~/doc/org/work-log.org")
-         "* %?"
-         :empty-lines 0)
         ("n" "Note"
          entry (file+headline "~/doc/org/notes.org" "Random Notes")
          "** %?"
