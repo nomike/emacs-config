@@ -1,5 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
+(add-hook 'comint-mode-hook #'capf-autosuggest-mode)
+
+;; That's actually kinda annoying?  Company should be enough.
+;; Maybe set it up so I have to type at least one character somehow?
+;; Note: Emacs 30 has completion-preview-mode built-in !!!
+(add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
+;(setq capf-autosuggest-minimum-input 1) ; does not exist
 (require 'window-tool-bar)
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 

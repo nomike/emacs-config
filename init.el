@@ -670,8 +670,6 @@
   :hook
   (eshell-mode . my/eshell-hook))
 
-(add-hook 'comint-mode-hook #'capf-autosuggest-mode)
-(add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
 
 ;; Match eshell, shell, term and/or vterm buffers
 ;; Usually need both name and major mode
