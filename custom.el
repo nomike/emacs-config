@@ -1598,16 +1598,16 @@ argument is given. Choose a file name based on any document
 (define-key global-map (kbd "C-c m") 'org-store-link)
 (define-key global-map (kbd "C-c a") 'org-agenda)
 (define-key global-map (kbd "C-c c") 'org-capture)
-; with-eval-after-load org wouldn't work!
+                                        ; with-eval-after-load org wouldn't work!
 (progn
-     (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
-     (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
-     (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
-     (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
-     ;; Inserts a link to a queued item into the current doc.
-     (define-key org-mode-map (kbd "C-c l") #'org-insert-link)
-     ;; When you want to change the level of an org item, use SMR
-     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright))
+  (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
+  (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
+  (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
+  (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
+  ;; Inserts a link to a queued item into the current doc.
+  (define-key org-mode-map (kbd "C-c l") #'org-insert-link)
+  ;; When you want to change the level of an org item, use SMR
+  (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright))
 
 (defun unset-line-move-visual ()
   (define-key org-mode-map [remap move-beginning-of-line] nil)
