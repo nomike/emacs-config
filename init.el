@@ -527,6 +527,8 @@
                                         ;  )
 
 
+                                        ;(add-to-list 'load-path "~/.emacs.d/color-theme-solarized")
+(require 'solarized-theme)
 (setq solarized-termcolors 256)
 (set-terminal-parameter nil 'background-mode 'light)
                                         ;(require 'solarized-theme)
