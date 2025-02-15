@@ -556,6 +556,9 @@
                                         ;  :after pdf-tools
                                         ;  :config
                                         ;  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+(require 'bookmark)
+(require 'saveplace-pdf-view)
+(save-place-mode 1)
 
 ;; Die, Doc-View-mode! die!
                                         ;(defalias 'doc-view-mode #'pdf-view-mode)
