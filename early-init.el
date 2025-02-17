@@ -31,6 +31,11 @@
   [menu-bar tools maxima]
   '("Do computer algebra via Maxima" . maxima))
 
+;; TODO: Report bug with emacs upstream that this is missing.
+(define-key global-map
+  [menu-bar tools serial-term]
+  '("Start serial terminal" . serial-term))
+
 ;; TODO: Report bug with emacs upstream that org major mode (org.el) doesn't have menu items for org-insert-last-stored-link.
 
 ;; orgmode:
