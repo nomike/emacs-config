@@ -1581,6 +1581,12 @@ argument is given. Choose a file name based on any document
   (setq-local org-outline-regexp "\\*+ \\|\\(^\f$\\)"))
 (add-hook 'org-mode-hook #'fix-org-indent-form-feed)
 
+;; See <https://www.naiquev.in/recurring-checklists-using-org-mode-in-emacs.html>.
+(use-package org-contrib
+  :ensure t
+  :config
+  (require 'org-checklist))
+
 ;; Doesn't work. Sigh.
                                         ;(defun fix-org-indent-form-feed ()
                                         ;  (setq-local org-heading-regexp "^\\(\f?\\*+\\)\\(?: +\\(.*?\\)\\)?[ 	]*$"))
