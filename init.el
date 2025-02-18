@@ -223,6 +223,7 @@
  '(spacious-padding-subtle-mode-line t)
  '(spacious-padding-widths
    '(:internal-border-width 0 :header-line-width 4 :mode-line-width 6 :tab-width 5 :right-divider-width 10 :scroll-bar-width 8 :fringe-width 12))
+ '(tab-line-close-tab-function 'kill-buffer)
  '(tool-bar-style 'image))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
