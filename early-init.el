@@ -1,4 +1,56 @@
 
+;; Newer emacs already has that.
+(require 'tab-line) ; keymap
+(setq tab-line-close-button
+      (propertize " x"
+                  'display `(image :type xpm
+                                   :file "tabs/close.xpm"
+                                   :face shadow
+                                   :height (1.4 . em)
+                                   :margin (2 . 0)
+                                   :ascent center)
+                  'keymap tab-line-tab-close-map
+                  'mouse-face 'tab-line-close-highlight
+                  'help-echo "Click to close tab"))
+
+(setq tab-line-new-button
+  (propertize " + "
+              'display '(image :type xpm
+                               :file "tabs/new.xpm"
+                               :face shadow
+                               :height (1.4 . em)
+                               :margin (2 . 0)
+                               :ascent center)
+              'keymap tab-line-add-map
+              'mouse-face 'tab-line-highlight
+              'help-echo "Click to add tab"))
+
+(setq tab-line-left-button
+  (propertize " <"
+              'display '(image :type xpm
+                               :file "tabs/left-arrow.xpm"
+                               :face shadow
+                               :height (1.4 . em)
+                               :margin (2 . 0)
+                               :ascent center)
+              'keymap tab-line-left-map
+              'mouse-face 'tab-line-highlight
+              'help-echo "Click to scroll left"))
+
+(setq tab-line-right-button
+  (propertize "> "
+              'display '(image :type xpm
+                               :file "tabs/right-arrow.xpm"
+                               :face shadow
+                               :height (1.4 . em)
+                               :margin (2 . 0)
+                               :ascent center)
+              'keymap tab-line-right-map
+              'mouse-face 'tab-line-highlight
+              'help-echo "Click to scroll right"))
+
+(force-mode-line-update)  ; Force an update to see the change
+
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
 ;; TODO: Report bug with trashed upstream that this is missing.
@@ -35,6 +87,8 @@
 (define-key global-map
   [menu-bar tools serial-term]
   '("Start serial terminal" . serial-term))
+
+;; TODO: where is enwc
 
 ;; TODO: Report bug with emacs upstream that org major mode (org.el) doesn't have menu items for org-insert-last-stored-link.
 
