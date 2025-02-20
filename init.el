@@ -789,6 +789,7 @@
                                         ;(require 'howm) ; not right now
 
 (load "~/.emacs.d/custom.el" t)
+(load "~/.emacs.d/autoresize.el" t)
 
 ;; Otherwise half the icons are from the wrong set.
 (treemacs-refresh)
