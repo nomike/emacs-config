@@ -1,10 +1,14 @@
 
+(setq local-icon-directory (expand-file-name "~/.emacs.d/icons"))
+
+(add-to-list 'image-load-path local-icon-directory)
+
 ;; Newer emacs already has that.
 (require 'tab-line) ; keymap
 (setq tab-line-close-button
       (propertize " x"
                   'display `(image :type xpm
-                                   :file "tabs/close.xpm"
+                                   :file (string-append local-icon-directory "/tabs/close.xpm")
                                    :face shadow
                                    :height (1.4 . em)
                                    :margin (2 . 0)
@@ -16,7 +20,7 @@
 (setq tab-line-new-button
   (propertize " + "
               'display '(image :type xpm
-                               :file "tabs/new.xpm"
+                               :file (string-append local-icon-directory "/tabs/new.xpm")
                                :face shadow
                                :height (1.4 . em)
                                :margin (2 . 0)
@@ -28,7 +32,7 @@
 (setq tab-line-left-button
   (propertize " <"
               'display '(image :type xpm
-                               :file "tabs/left-arrow.xpm"
+                               :file (string-append local-icon-directory "/tabs/left-arrow.xpm")
                                :face shadow
                                :height (1.4 . em)
                                :margin (2 . 0)
@@ -40,7 +44,7 @@
 (setq tab-line-right-button
   (propertize "> "
               'display '(image :type xpm
-                               :file "tabs/right-arrow.xpm"
+                               :file (string-append local-icon-directory "/tabs/right-arrow.xpm")
                                :face shadow
                                :height (1.4 . em)
                                :margin (2 . 0)
@@ -50,8 +54,6 @@
               'help-echo "Click to scroll right"))
 
 (force-mode-line-update)  ; Force an update to see the change
-
-(add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
 ;; TODO: Report bug with trashed upstream that this is missing.
 (define-key global-map
