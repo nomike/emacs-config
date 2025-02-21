@@ -458,7 +458,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; Improve contrast
 (add-to-list 'default-frame-alist '(foreground-color . "#505050"))
 
-(add-to-list 'load-path "~/.emacs.d/treemacs-nerd-icons/")
 (require 'treemacs-nerd-icons)
 (treemacs-load-theme "nerd-icons")
 
@@ -568,12 +567,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 (add-to-list 'load-path "~/.emacs.d/ssass-mode/")
 (load "ssass-mode.el")
 
-                                        ;(add-to-list 'load-path "~/src/dap-mode/")
-;;(load "dap-mode.el")
-                                        ;(require 'dap-cpptools)
-
-(add-to-list 'load-path "~/.emacs.d/bar-cursor/")
-;;(load "dap-mode.el")
 (require 'bar-cursor)
 (bar-cursor-mode 1)
 
@@ -1269,9 +1262,6 @@ argument is given. Choose a file name based on any document
                                         ;(require 'qemu-qmp)
                                         ;(require 'qemu-dap)
 
-;; TODO: Add to Guix.
-
-(add-to-list 'load-path "~/.emacs.d/org-notify/")
 (require 'org-notify)
 (org-notify-start)
 

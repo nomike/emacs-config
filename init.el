@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
                                         ;(customize-set-variable 'lsp-treemacs-theme "Iconless")
-(add-to-list 'load-path "~/.emacs.d/elfeed/")
 
 (require 'nerd-icons)
                                         ; Gtk 3
@@ -529,7 +528,6 @@
                                         ;  )
 
 
-                                        ;(add-to-list 'load-path "~/.emacs.d/color-theme-solarized")
 (require 'solarized-theme)
 (setq solarized-termcolors 256)
 (set-terminal-parameter nil 'background-mode 'light)
