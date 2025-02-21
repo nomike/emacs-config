@@ -231,6 +231,10 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 100 :width normal))))
  '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8)))))
+ '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8))))
+ '(mode-line-active ((t (:font "Noto Sans 8"))))
+ '(mode-line-inactive ((t (:font "Noto Sans 8"))))
+ '(tab-line ((t (:height 0.9 :foreground "black" :background "grey85" :inherit variable-pitch)))))
 
 (set-face-attribute 'default nil :height 100)
 (setq tool-bar-button-margin (cons 7 1))
