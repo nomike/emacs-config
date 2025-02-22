@@ -428,8 +428,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; Shift+Ctrl+Alt+F9 deploy project
                                         ; Shift+Ctrl+F9 run without debugger
 
-(keymap-set global-map "C-f" #'swiper-isearch) ; Note: someone overwrites this.
-
 (global-set-key (kbd "C-s") 'save-buffer)
 (global-set-key (kbd "C-S-s") 'save-buffer)
 
@@ -593,6 +591,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (require 'wakib-keys)
 (wakib-keys 1)
+(define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
 
 (load "~/.emacs.d/lisp/copilot.el")
 (global-set-key (kbd "C-.") 'gptel-send)
