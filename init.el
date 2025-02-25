@@ -201,7 +201,7 @@
  '(org-export-exclude-tags '("confidential"))
  '(org-export-select-tags '("public"))
  '(org-format-latex-options
-   '(:foreground default :background default :scale 0.7 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+   '(:foreground default :background default :scale 0.6 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(org-id-link-to-org-use-id 'use-existing)
  '(org-latex-packages-alist
