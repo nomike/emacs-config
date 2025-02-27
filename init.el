@@ -208,7 +208,7 @@
  '(org-id-link-to-org-use-id 'use-existing)
  '(org-latex-packages-alist
    '(("" "braket" t nil)
-     ("" "siunitx" t nil)
+     ("" "esint" t nil)
      ("" "units" t nil)
      ("" "unicodeq" t nil)))
  '(org-msg-convert-citation t)
