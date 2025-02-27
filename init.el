@@ -136,7 +136,9 @@
  '(format-all-show-errors 'errors)
  '(frame-background-mode 'light)
  '(ignored-local-variable-values
-   '((eval progn
+   '((eval with-eval-after-load 'git-commit
+           (add-to-list 'git-commit-trailers "Change-Id"))
+     (eval progn
            (require 'lisp-mode)
            (defun emacs27-lisp-fill-paragraph
                (&optional justify)
