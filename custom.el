@@ -235,6 +235,11 @@ Warn if the directory already exists."
 
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
 (global-set-key (kbd "<Search>") 'swiper-isearch)
+(with-eval-after-load 'pdf-tools
+  (define-key pdf-view-mode-map (kbd "<Search>") #'pdf-occur)
+  ;; Will probably not work again:
+  (define-key pdf-view-mode-map (kbd "C-f") #'pdf-occur))
+
                                         ; pixel-scroll-interpolate-down
                                         ;(define-key isearch-mode-map (kbd "<next>") #'isearch-repeat-forward)
                                         ; pixel-scroll-interpolate-?
