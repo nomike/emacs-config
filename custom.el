@@ -1381,6 +1381,7 @@ argument is given. Choose a file name based on any document
 (emms-all)
 (setq emms-player-list '(emms-player-mpv))
 (emms-add-directory-tree "~/Music")
+(require 'org-emms)
 
 (defun elfeed-search-print-entry (entry)
   "Print ENTRY to the buffer."
