@@ -586,8 +586,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (add-to-list 'load-path "~/.emacs.d/xenops/lisp/")
 (require 'xenops)
+(setq-default xenops-math-image-scale-factor 0.6)
+; (setq-default xenops-reveal-on-entry t) ; unreveal in org mode is buggy
 (require 'ob-python) ; optional
 (add-hook 'LaTeX-mode-hook #'xenops-mode)
+(add-hook 'org-mode-hook #'xenops-mode)
+
                                         ; (add-hook 'org-mode-hook #'xenops-mode) ; fucks up begin_src and end_src (lowercase) handling maybe
 
                                         ; Undefined
