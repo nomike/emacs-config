@@ -219,6 +219,7 @@
  '(org-noter-notes-search-path '("~/doc/org-roam"))
  '(org-preview-latex-default-process 'dvisvgm)
  '(org-replace-disputed-keys t)
+ '(org-startup-folded 'content)
  '(org-startup-with-inline-images t)
  '(org-sticky-header-always-show-header t)
  '(org-sticky-header-full-path 'reversed)
