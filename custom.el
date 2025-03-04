@@ -1589,18 +1589,35 @@ argument is given. Choose a file name based on any document
                                   :test-dir "spec/"
                                   :test-suffix "_spec")
 
-;; Pascal
-(defun projectile-fpc-project-p (&optional dir)
-  "Check if a project contains a fpc project marker.
-When DIR is specified it checks DIR's project, otherwise
-it acts on the current project."
-  (or (projectile-verify-file-wildcard "?*.lpi" dir) ; Lazarus
-      (projectile-verify-file-wildcard "fp.cfg" dir))) ; FP
-(projectile-register-project-type 'fpc #'projectile-fpc-project-p
-                                  :project-file '("?*.lpi" "fp.cfg")
-                                  :compile "lazbuild"
+;; fp
+(projectile-register-project-type 'fp '("fp.cfg")
+                                  :project-file '("fp.cfg")
+                                  :compile "fpcmake"
                                   :run "fpc" ; FIXME
                                   :test "fpc") ; FIXME
+
+;; Lazarus
+(defun projectile-lazarus-project-p (&optional dir)
+  "Check if a project contains a Lazarus project marker.
+When DIR is specified it checks DIR's project, otherwise
+it acts on the current project."
+  (projectile-verify-file-wildcard "?*.lpi" dir))
+(defun my/lazarus-compile-command ()
+  "Returns a String representing the compile command to run for the given context"
+  (let* ((root (projectile-acquire-root))
+         (project-file (when root
+                         (cl-loop for file in (directory-files root t "?*.lpi")
+                                  when (file-exists-p file)
+                                  return (file-name-nondirectory file)))))
+    (concat "lazbuild " project-file)))
+(defun my/lazarus-test-command ()
+  "Returns a String representing the test command to run for the given context"
+  "laztest")
+(projectile-register-project-type 'lazarus #'projectile-lazarus-project-p
+                                  :project-file '("?*.lpi")
+                                  :compile #'my/lazarus-compile-command
+                                  :run "lazrun" ; FIXME
+                                  :test #'my/lazarus-test-command)
 
 (setq org-agenda-files '("~/doc/org-agenda"))
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
