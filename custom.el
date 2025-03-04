@@ -943,16 +943,16 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
         ;; org-protocol by chrome org-capture extension.
         ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox") ; WTF?
-          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
         ;; org-protocol by chrome org-capture extension.
         ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox") ; WTF?
-        "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\nCaptured On: %U")
+         "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\nCaptured On: %U")
 
         ;; org-protocol-html bookmarklet.
-        ("w" "Web site" entry (file "") ; or (file+olp "~/org/inbox.org" "Web")
+        ("w" "Web site" entry (file "") ; or (file+olp ,(concat org-directory "inbox.org" "Web"))
          "* %a :website:\n\n%U %?\n\n%:initial")
 
-))
+        ))
 
 ;; Tags
 (setq org-tag-alist '(
