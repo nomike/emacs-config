@@ -6,29 +6,29 @@
 ;; Maybe set it up so I have to type at least one character somehow?
 ;; Note: Emacs 30 has completion-preview-mode built-in !!!
 (add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
-;(setq capf-autosuggest-minimum-input 1) ; does not exist
+                                        ;(setq capf-autosuggest-minimum-input 1) ; does not exist
 
-; "Failed to define function popper-toggle"
-;(use-package popper
-;   :init
-;   (setq popper-reference-buffers
-;     '("\\*eshell.*"
-;        flymake-diagnostics-buffer-mode
-;        help-mode
-;        compilation-mode))
-;   (popper-mode 1)
-;   (popper-echo-mode 1)
-;   :custom
-;   (popper-window-height 15))
-;(bind-key* (kbd "C-;") #'popper-toggle)
+                                        ; "Failed to define function popper-toggle"
+                                        ;(use-package popper
+                                        ;   :init
+                                        ;   (setq popper-reference-buffers
+                                        ;     '("\\*eshell.*"
+                                        ;        flymake-diagnostics-buffer-mode
+                                        ;        help-mode
+                                        ;        compilation-mode))
+                                        ;   (popper-mode 1)
+                                        ;   (popper-echo-mode 1)
+                                        ;   :custom
+                                        ;   (popper-window-height 15))
+                                        ;(bind-key* (kbd "C-;") #'popper-toggle)
 
 (require 'org-protocol)
 (require 'window-tool-bar)
-;(setq-default header-line-format `(:eval (window-tool-bar-string)))
+                                        ;(setq-default header-line-format `(:eval (window-tool-bar-string)))
 
 ;; <https://github.com/chaosemer/window-tool-bar/issues/33>
-;(global-unset-key (kbd "<tool-bar> <S-back-button>"))
-;(global-unset-key (kbd "<tool-bar> <S-forward-button>"))
+                                        ;(global-unset-key (kbd "<tool-bar> <S-back-button>"))
+                                        ;(global-unset-key (kbd "<tool-bar> <S-forward-button>"))
 
 (add-to-list 'image-load-path (expand-file-name "~/.emacs.d/icons"))
 
