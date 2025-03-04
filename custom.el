@@ -1776,11 +1776,10 @@ argument is given. Choose a file name based on any document
                                      (if selected-p 'non-selected 'selected)))
                             tab-line-close-button)
                        ""))
-           `(
-             tab ,tab
-             ,@(if selected-p '(selected t))
-             face ,face
-             mouse-face tab-line-highlight))))
+           `(tab ,tab
+                 ,@(if selected-p '(selected t))
+                 face ,face
+                 mouse-face tab-line-highlight))))
 
 ;; TODO: bind it to a key in magit-mode-map to make it easier.
 (defun mes/pr-review-via-forge ()
