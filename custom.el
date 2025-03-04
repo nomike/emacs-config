@@ -1589,6 +1589,19 @@ argument is given. Choose a file name based on any document
                                   :test-dir "spec/"
                                   :test-suffix "_spec")
 
+;; Pascal
+(defun projectile-fpc-project-p (&optional dir)
+  "Check if a project contains a fpc project marker.
+When DIR is specified it checks DIR's project, otherwise
+it acts on the current project."
+  (or (projectile-verify-file-wildcard "?*.lpi" dir) ; Lazarus
+      (projectile-verify-file-wildcard "fp.cfg" dir))) ; FP
+(projectile-register-project-type 'fpc #'projectile-fpc-project-p
+                                  :project-file '("?*.lpi" "fp.cfg")
+                                  :compile "lazbuild"
+                                  :run "fpc" ; FIXME
+                                  :test "fpc") ; FIXME
+
 (setq org-agenda-files '("~/doc/org-agenda"))
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
 
