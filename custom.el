@@ -1003,6 +1003,16 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                       ("accomplishment" . ?a)
                       ))
 
+;; The ones without "t" are cleared..
+(setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+
 ;; Tag colors
 (setq org-tag-faces
       '(("planning" . (:foreground "mediumPurple1" :weight bold))
