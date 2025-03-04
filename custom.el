@@ -1837,3 +1837,49 @@ With a prefix ARG, remove start location."
                            (org-noter--pretty-print-location location))))))))
   (with-eval-after-load 'pdf-annot
     (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
+
+;; Or: Switch to line mode in the Terminal menu.
+                                        ;(eval-after-load 'term
+                                        ;  '(define-key term-raw-map (kbd "M-x") #'execute-extended-command))
+
+
+(defun org-noter--get-location-top (location)
+  "Get the top coordinate given a LOCATION.
+... when LOCATION has form (page top . left) or (page . top)."
+  (cond
+   ((org-noter-pdftools--location-p location) 0)
+   ((listp (cdr location)) (cadr location))
+   (t (cdr location))))
+
+(defun org-noter--get-location-page (location)
+  "Get the page number given a LOCATION of form (page top . left) or (page . top)."
+  (if (listp location)
+      (car location)
+    location))
+
+(defun org-noter--get-location-left (location)
+  "Get the left coordinate given a LOCATION.
+... when LOCATION has form (page top . left) or (page . top).  If
+later form of vector is passed return 0."
+  (cond
+   ((org-noter-pdftools--location-p location) 0)
+   ((listp (cdr location))
+    (if (listp (cddr location))
+        (caddr location)
+      (cddr location)))
+   (t 0)))
+
+;; based on <http://emacsredux.com/blog/2013/04/03/delete-file-and-buffer/>
+(defun delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if filename
+        (if (y-or-n-p (concat "Do you really want to delete file " filename " ?"))
+            (progn
+              (delete-file filename)
+              (message "Deleted file %s." filename)
+              (kill-buffer)))
+      (message "Not a file visiting buffer!"))))
+
+(global-set-key (kbd "s-<delete>") #'delete-file-and-buffer)
