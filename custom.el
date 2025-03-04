@@ -401,9 +401,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
                                         ; https://delphi.fandom.com/wiki/Default_IDE_Shortcut_Keys
                                         ; FIXME: also run under debugger
-(global-set-key (kbd "<f9>") 'project-compile)
+(global-set-key (kbd "<f9>") #'projectile-compile-project)
                                         ; FIXME: Alt+F9 recompile all, Shift-F9 same
-(global-set-key (kbd "C-<f9>") 'compile)
+(global-set-key (kbd "C-<f9>") #'projectile-run-project)
+(global-set-key (kbd "C-S-<f9>") #'projectile-test-project)
+;(global-set-key (kbd "M-<f9>") #'compile)
                                         ; TODO: shift-ctrl-f find in files
                                         ; TODO: ctrl-h search replace
                                         ; Ctrl+Alt+B breakpoint list
