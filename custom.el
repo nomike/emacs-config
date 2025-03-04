@@ -963,6 +963,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                       ("@spike" . ?j)
                       (:endgroup . nil)
 
+                      ("WAITING" . ?w)
+                      ("HOLD" . ?h)
+                      ("CANCELLED" . ?c)
+                      ("FLAGGED" . ??)
+
                       ;; Ticket flags
                       ("@write_future_ticket" . ?w)
                       ("@emergency" . ?e)
