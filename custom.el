@@ -1377,7 +1377,7 @@ argument is given. Choose a file name based on any document
   '("Guix manifest"
     "; Guix manifest definition." \n
     "(specifications->manifest" \n
-    " (list \"gcc-toolchain\" \"texlive-minted\" \"texlive-latex-bin\" \"dvisvgm\" \"python-lsp-server\" \"emacs-ediprolog\"))" \n))
+    " (list \"gcc-toolchain\" \"gdb\" \"rr\" \"texlive-minted\" \"texlive-latex-bin\" \"dvisvgm\" \"python-lsp-server\" \"emacs-ediprolog\"))" \n))
 
 (add-to-list 'load-path "~/.emacs.d/kiwix.el")
 (require 'kiwix)
