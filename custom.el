@@ -1375,7 +1375,7 @@ argument is given. Choose a file name based on any document
 ;; Guix Manifest Template
 (define-auto-insert '("manifest\\.scm\\'" . "Guix manifest")
   '("Guix manifest"
-    "; Guix manifest definition." \n
+    ";;; Guix manifest definition." \n
     "(specifications->manifest" \n
     " (list \"gcc-toolchain\" \"gdb\" \"rr\" \"texlive-minted\" \"texlive-latex-bin\" \"dvisvgm\" \"python-lsp-server\" \"emacs-ediprolog\"))" \n))
 
