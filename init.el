@@ -210,6 +210,7 @@
    '(("" "braket" t nil)
      ("" "esint" t nil)
      ("" "units" t nil)
+     ("" "mathrsfs" t nil)
      ("" "unicodeq" t nil)))
  '(org-msg-convert-citation t)
  '(org-msg-greeting-fmt "Hello%s,")
