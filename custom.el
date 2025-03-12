@@ -1384,6 +1384,27 @@ argument is given. Choose a file name based on any document
                                         ; duplicate
 (setq kiwix-default-browser-function 'eww-browse-url)
 
+(defun youtube-url-p (url)
+  "Return t if URL points to YouTube."
+  (string-match-p "https://\\(www.\\)?youtube.com\\|https://youtu.be" url))
+
+(require 'mpv)
+(defun browse-youtube-url-with-mpv (url &optional new-window)
+  "Open URL using mpv.  mpv will use yt-dlp to fetch it."
+  (mpv-start url "--fs")) ; was: --full-screen ?!!?!
+
+(push '(youtube-url-p . browse-youtube-url-with-mpv) browse-url-handlers)
+
+(defun video-url-p (url)
+  "Return t if URL points to YouTube."
+  (string-match-p ".*[.]mp4" url))
+
+(defun browse-video-url-with-mpv (url &optional new-window)
+  "Open URL using mpv."
+  (mpv-start url "--fs")) ; was: --full-screen ?!!?!
+
+(push '(video-url-p . browse-video-url-with-mpv) browse-url-handlers)
+
                                         ; TODO: Use which-key instead.
                                         ;(require 'discover-my-major)
                                         ;(global-set-key (kbd "C-h C-m") 'discover-my-major)
