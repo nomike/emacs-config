@@ -25,7 +25,6 @@
 	path = xenops
 	url = https://github.com/dandavison/xenops.git
 	branch = master
-[submodule "iscroll"]
-	path = iscroll
-	url = https://github.com/casouri/iscroll.git
-	branch = master
+[submodule "ultra-scroll"]
+	path = ultra-scroll
+	url = https://github.com/jdtsmith/ultra-scroll.git

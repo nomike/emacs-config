@@ -880,12 +880,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
                                         ; Unbreak image scrolling
 
-(add-to-list 'load-path "~/.emacs.d/iscroll/")
-(require 'iscroll)
+;(add-to-list 'load-path "~/.emacs.d/iscroll/")
+;(require 'iscroll)
                                         ; Note: Only enable in text modes, not prog modes
                                         ;(iscroll-mode)
 
-(add-hook 'elfeed-show-mode-hook 'iscroll-mode)
+;(add-hook 'elfeed-show-mode-hook 'iscroll-mode)
 
 ;;; Org mode
 
@@ -1913,3 +1913,12 @@ later form of vector is passed return 0."
       (message "Not a file visiting buffer!"))))
 
 (global-set-key (kbd "s-<delete>") #'delete-file-and-buffer)
+
+;(pixel-scroll-precision-mode 1)
+(use-package ultra-scroll
+  :load-path "~/.emacs.d/ultra-scroll"
+  :init
+  (setq scroll-conservatively 101 ; important!
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
