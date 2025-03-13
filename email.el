@@ -1,5 +1,7 @@
 
 (setq message-send-mail-function 'smtpmail-send-it)
+(setq mail-user-agent #'mu4e-user-agent
+      message-mail-user-agent t)
 
 (setq mu4e-get-mail-command "offlineimap"
       mu4e-maildir (expand-file-name "~/Mail")
