@@ -227,8 +227,6 @@
  '(package-selected-packages
    '(dired-launch lv concurrent org-mime org-noter org-pdftools back-button counsel-projectile counsel-tramp magit-popup eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico counsel pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel paredit inheritenv buffer-env ob-async discover-my-major))
  '(read-mail-command 'mu4e)
- '(smtpmail-smtp-server "w0062d1b.kasserver.com" t)
- '(smtpmail-smtp-service 25 t)
  '(spacious-padding-subtle-mode-line t)
  '(spacious-padding-widths
    '(:internal-border-width 0 :header-line-width 4 :mode-line-width 6 :tab-width 5 :right-divider-width 10 :scroll-bar-width 8 :fringe-width 12))
