@@ -125,7 +125,8 @@
  ;; If there is more than one, they won't work right.
  '(back-button-no-wrap t)
  '(buffer-env-safe-files
-   '(("/home/dannym/src/latex-ex/manifest.scm" . "5200b8ce405410acc7ad0e4baf5bfaa85b0160bff5815265a305bdc9a7fb70ed")))
+   '(("/home/dannym/src/guix/manifest.scm" . "0b387290e9851813debd81b6e3aa5099f0f17fad1fade821ca1f0928262e56c4")
+     ("/home/dannym/src/latex-ex/manifest.scm" . "5200b8ce405410acc7ad0e4baf5bfaa85b0160bff5815265a305bdc9a7fb70ed")))
  '(dtrt-indent-global-mode t)
  '(elfeed-feeds
    '("https://the-dam.org/rss.xml"
