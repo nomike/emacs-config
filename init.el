@@ -9,7 +9,6 @@
                                         ;(desktop-save-mode 1) ; save the desktop session
                                         ;(savehist-mode 1) ; save history
 
-(pixel-scroll-precision-mode 1)
 (global-auto-revert-mode 1) ; revert buffers when the underlying file has changed
 
 ;;; disable byte compilation would be: (setq load-suffixes '(".el"))
