@@ -45,10 +45,10 @@
                 (smtpmail-stream-type . 'starttls)
                 (smtpmail-smtp-service . 587)
                                         ;(smtpmail-auth-credentials . (expand-file-name "~/.authinfo.gpg"))
-                (mu4e-sent-folder . "/friendly-machines.com/sent")
-                (mu4e-drafts-folder . "/friendly-machines.com/drafts")
-                (mu4e-trash-folder . "/friendly-machines.com/trash")
-                (mu4e-refile-folder . "/friendly-machines.com/Archives")
+                (mu4e-sent-folder . "/friendly-machines.com/INBOX/Sent")
+                (mu4e-drafts-folder . "/friendly-machines.com/INBOX/Drafts")
+                (mu4e-trash-folder . "/friendly-machines.com/INBOX/Trash")
+                (mu4e-refile-folder . "/friendly-machines.com/INBOX/Archives") ; TODO: Check.
                 (mu4e-get-mail-command . "offlineimap -a dannym@friendly-machines.com")
 
                 (mu4e-maildir-shortcuts . ( ("/friendly-machines.com/inbox" . ?i)
