@@ -116,20 +116,7 @@
 (setq mu4e-view-show-images t)
 (setq mu4e-view-show-addresses t)
 
-                                        ;(defvar my-mu4e-account-alist
-                                        ;  '(("scratchpost.org"
-                                        ;     (user-mail-address  "dannym@scratchpost.org")
-                                        ;     (user-full-name     "Danny Milosavljevic")
-                                        ;     (mu4e-sent-folder   "/scratchpost.org/sent")
-                                        ;     (mu4e-drafts-folder "/scratchpost.org/drafts")
-                                        ;     (mu4e-trash-folder  "/scratchpost.org/trash")
-                                        ;     (mu4e-refile-folder "/scratchpost.org/archive"))))
-
-                                        ;(setq mu4e-user-mail-address-list
-                                        ;      (mapcar (lambda (account) (cadr (assq 'user-mail-address account)))
-                                        ;              my-mu4e-account-alist))
-
-                                        ; offlineimap offlineimap --dry-run -a dannym@scratchpost.org
+; offlineimap: offlineimap --dry-run -a dannym@friendly-machines.com
 (setq mu4e-context-policy 'pick-first)
 (setq mu4e-compose-context-policy 'ask)
 
