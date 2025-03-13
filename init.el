@@ -238,6 +238,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 100 :width normal))))
+ '(line-number ((t (:inherit default :background "#fdf6e3"))))
  '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8))))
  '(mode-line-active ((t (:font "Noto Sans 8"))))
  '(mode-line-inactive ((t (:font "Noto Sans 8"))))
