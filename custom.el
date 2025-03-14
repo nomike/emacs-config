@@ -2057,30 +2057,78 @@ later form of vector is passed return 0."
 (add-hook 'mu4e-view-mode-hook #'my-mu4e-view-setup-toolbar)
 ;(my-mu4e-view-setup-toolbar)
 
-     "mail/unread" tool-bar-map mu4e-headers-mode-map
-     :label "Unread"
-     :help "Mark as unread")
+(defun my-mu4e-headers-setup-toolbar ()
+  "Add mu4e-specific items to the global toolbar for mu4e-headers-mode."
+  (let ((tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
+    ;; Add mu4e-specific items
 
-    ;; Move to folder [ok; uses different help text?]
-    (tool-bar-local-item-from-menu
-     'mu4e-headers-mark-for-move
-     "mail/move" tool-bar-map mu4e-headers-mode-map
-     :label "Move"
-     :help "Move to folder")
+    (tool-bar-local-item-from-menu 'mu4e-compose-wide-reply "mail/reply-all" tool-bar-map mu4e-headers-mode-map :label "Reply to all" :help "Reply to all recipients")
+    (tool-bar-local-item-from-menu 'mu4e-compose-reply "mail/reply" tool-bar-map mu4e-headers-mode-map :label "Reply" :help "Reply to sender")
+    (tool-bar-local-item-from-menu 'mu4e-compose-forward "mail/forward" tool-bar-map mu4e-headers-mode-map :label "Forward" :help "Forward this message")
+    (tool-bar-local-item-from-menu 'mu4e-headers-mark-for-move "mail/move" tool-bar-map mu4e-headers-mode-map :label "Move" :help "Mark this message for moving")
+    ; BROKEN (tool-bar-local-item-from-menu 'mu4e-headers-mark-for-flag "mail/flag-for-followup" tool-bar-map mu4e-headers-mode-map :label "Flag for followup" :help "Mark this message for followup")
 
-    ;; Execute marks [invisible]
-    (tool-bar-local-item-from-menu
+    ;; Commit marks
+    ;; (tool-bar-local-item-from-menu 'mu4e-mark-execute-all "mpc/play" tool-bar-map mu4e-headers-mode-map :label "Commit marks" :help "Commit marks") ; broken
+    (tool-bar-local-item
+     "mpc/play"
      'mu4e-mark-execute-all
-     "mpc/play" tool-bar-map mu4e-headers-mode-map
+     'mu4e-mark-execute-all ; id
+     tool-bar-map
      :label "Commit marks"
      :help "Commit marks")
 
-    ;; Refresh [invisible]
-    (tool-bar-local-item-from-menu
+    ;; Mark for trash
+    ;; (tool-bar-local-item-from-menu 'mu4e-headers-mark-for-trash "delete" tool-bar-map mu4e-headers-mode-map :label "Trash" :help "Mark this message for trashing") ; broken
+    (tool-bar-local-item
+     "delete"
+     'mu4e-headers-mark-for-trash
+     'mu4e-headers-mark-for-trash ; id
+     tool-bar-map
+     :label "Mark for trashing"
+     :help "Mark for trashing")
+
+    ;; Mark as read
+    ;;(tool-bar-local-item-from-menu
+    ;; 'mu4e-headers-mark-as-read
+    ;; "mail/read" tool-bar-map mu4e-headers-mode-map
+    ;; :label "Read"
+    ;; :help "Mark as read")
+    ;(tool-bar-local-item
+    ; "mail/read"
+    ; 'mu4e-headers-mark-as-read
+    ; 'mu4e-headers-mark-as-read ; id
+    ; tool-bar-map
+    ; :label "Mark as read"
+    ; :help "Mark as read")
+
+    ;;; Mark as unread
+    ;;;(tool-bar-local-item-from-menu
+    ;;; 'mu4e-headers-mark-as-unread
+    ;;; "mail/unread" tool-bar-map mu4e-headers-mode-map
+    ;;; :label "Unread"
+    ;;; :help "Mark as unread")
+	;(tool-bar-local-item
+    ; "mail/unread"
+    ; 'mu4e-headers-mark-as-unread
+    ; 'mu4e-headers-mark-as-unread ; id
+    ; tool-bar-map
+    ; :label "Mark as unread"
+    ; :help "Mark as unread")
+
+    ;; Refresh
+    ;;(tool-bar-local-item-from-menu
+    ;; 'mu4e-headers-rerun-search
+    ;; "refresh" tool-bar-map mu4e-headers-mode-map
+    ;; :label "Refresh"
+    ;; :help "Refresh headers")
+    (tool-bar-local-item
+     "refresh"
      'mu4e-headers-rerun-search
-     "refresh" tool-bar-map mu4e-headers-mode-map
+     'mu4e-headers-rerun-search ; id
+     tool-bar-map
      :label "Refresh"
-     :help "Refresh headers")
+     :help "Rerun search")
 
     (setq-local tool-bar-map tool-bar-map)))
 
