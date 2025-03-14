@@ -17,7 +17,6 @@
       message-signature-file "~/.emacs.d/.signature"
       mu4e-compose-signature-auto-include nil
       mu4e-view-prefer-html t
-      mu4e-compose-in-new-frame t
       mu4e-change-filenames-when-moving t
                                         ;message-send-mail-function 'smtpmail-send-it
       starttls-use-gnutls t
@@ -53,15 +52,18 @@
                 (mu4e-refile-folder . "/friendly-machines.com/INBOX/Archives") ; TODO: Check.
                 (mu4e-get-mail-command . "offlineimap -a dannym@friendly-machines.com")
 
-                (mu4e-maildir-shortcuts . ( ("/friendly-machines.com/inbox" . ?i)
-                                            ("/friendly-machines.com/sent" . ?s)
-                                            ("/friendly-machines.com/trash" . ?t)
-                                            ("/friendly-machines.com/archives" . ?a)
-                                            ("/friendly-machines.com/drafts" . ?d)
-                                            ("/friendly-machines.com/Project" . ?p)
-                                            ("/friendly-machines.com/Research" . ?r)
-                                            ("/friendly-machines.com/Work" . ?w)
-                                            ("/friendly-machines.com/Important" . ?i)))))))
+                (mu4e-maildir-shortcuts . ( ("/friendly-machines.com/INBOX" . ?i)
+                                            ("/friendly-machines.com/INBOX/Sent" . ?s)
+                                            ("/friendly-machines.com/INBOX/Trash" . ?t)
+                                            ("/friendly-machines.com/INBOX/Archives" . ?a)
+                                            ("/friendly-machines.com/INBOX/Drafts" . ?d)
+                                            ("/friendly-machines.com/INBOX/Hobby/Shellbox" .?s)
+                                            ("/friendly-machines.com/INBOX/Work/Friendly_Machines" .?f)
+                                            ("/friendly-machines.com/INBOX/Work/Guix/Devel" . ?g)
+                                            ("/friendly-machines.com/INBOX/Work/Guix/Patches" . ?h)
+                                            ("/friendly-machines.com/INBOX/Work/Physics" . ?p)
+                                            ("/friendly-machines.com/INBOX/Work/TU_Tieftemperatur" . ?i)
+                                            ("/friendly-machines.com/INBOX/Work/Oxide" . ?x)))))))
 
 (setq mu4e-change-filenames-when-moving t)
 
