@@ -2057,5 +2057,34 @@ later form of vector is passed return 0."
 (add-hook 'mu4e-view-mode-hook #'my-mu4e-view-setup-toolbar)
 ;(my-mu4e-view-setup-toolbar)
 
+     "mail/unread" tool-bar-map mu4e-headers-mode-map
+     :label "Unread"
+     :help "Mark as unread")
+
+    ;; Move to folder [ok; uses different help text?]
+    (tool-bar-local-item-from-menu
+     'mu4e-headers-mark-for-move
+     "mail/move" tool-bar-map mu4e-headers-mode-map
+     :label "Move"
+     :help "Move to folder")
+
+    ;; Execute marks [invisible]
+    (tool-bar-local-item-from-menu
+     'mu4e-mark-execute-all
+     "mpc/play" tool-bar-map mu4e-headers-mode-map
+     :label "Commit marks"
+     :help "Commit marks")
+
+    ;; Refresh [invisible]
+    (tool-bar-local-item-from-menu
+     'mu4e-headers-rerun-search
+     "refresh" tool-bar-map mu4e-headers-mode-map
+     :label "Refresh"
+     :help "Refresh headers")
+
+    (setq-local tool-bar-map tool-bar-map)))
+
+(add-hook 'mu4e-headers-mode-hook #'my-mu4e-headers-setup-toolbar)
+
 ;;; Composer has a very good toolbar already.
 ;;; The major mode is mu4e:compose mode defined in mu4e-compose.el.
