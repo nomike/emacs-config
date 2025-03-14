@@ -1943,3 +1943,124 @@ later form of vector is passed return 0."
         scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
+
+(require 'mu4e)
+;; Patch mu4e user-unfriendliness.  TODO: Upstream.
+(defvar mu4e-view-tool-bar-map
+  (let ((tool-bar-map (make-sparse-keymap)))
+;    (tool-bar-local-item
+;     "mail/reply-all"
+;     (lambda () (interactive) (mu4e-compose-reply t))
+;     'reply-all
+;     tool-bar-map
+;     :label "Reply All"
+;     :help "Reply to all recipients")
+
+    (tool-bar-local-item-from-menu
+     'mu4e-compose-wide-reply
+     "mail/reply-all" tool-bar-map mu4e-view-mode-map
+     :label "Reply to all"
+     :help "Reply to all recipients")
+
+    (tool-bar-local-item-from-menu
+     'mu4e-compose-reply
+     "mail/reply" tool-bar-map mu4e-view-mode-map
+     :label "Reply"
+     :help "Reply to sender")
+
+    (tool-bar-local-item-from-menu
+     'mu4e-compose-forward
+     "mail/forward" tool-bar-map mu4e-view-mode-map
+     :label "Forward"
+     :help "Forward this message")
+
+    (tool-bar-local-item-from-menu
+     'mu4e-view-mark-for-move
+     "mail/move" tool-bar-map mu4e-view-mode-map
+     :label "Move"
+     :help "Mark this message for moving")
+
+    (tool-bar-local-item-from-menu
+     'mu4e-view-mark-for-flag
+     "mail/flag-for-followup" tool-bar-map mu4e-view-mode-map
+     :label "Flag for followup"
+     :help "Mark this message for followup")
+
+    (tool-bar-local-item-from-menu
+     'mu4e-view-mark-for-trash
+     "delete" tool-bar-map mu4e-view-mode-map
+     :label "Trash"
+     :help "Mark this message for trashing")
+
+    ;;;(tool-bar-local-item-from-menu
+    ;;; 'mu4e-view-mark-for-delete
+    ;;; "delete" tool-bar-map mu4e-view-mode-map
+    ;;; :label "Delete"
+    ;;; :help "Mark this message for deletion")
+
+    (tool-bar-local-item
+     "mpc/play"
+     'mu4e-view-marked-execute
+     'mu4e-view-marked-execute ; id
+     tool-bar-map
+     :label "Commit marks"
+     :help "Commit marks")
+
+;;;    (tool-bar-local-item-from-menu
+;;;     'mu4e-view-marked-execute
+;;;     "mpc/play" tool-bar-map mu4e-view-mode-map
+;;;     :label "Commit marks"
+;;;     :help "Commit marks")
+
+    ;; TODO: compose !!!!
+
+    ;; TODO: copy [?]
+    ;; TODO: repack [?]
+    ;; TODO: reply-to [?]
+    ;; TODO: save-draft [?]
+    ;; TODO: save [?]
+    ;; TODO: send [?]
+    ;; TODO: not-spam [?]
+    ;; TODO: spam [?]
+
+    (tool-bar-local-item
+     "left-arrow"
+     'mu4e-view-headers-prev
+     'mu4e-view-headers-prev
+     tool-bar-map
+     :label "Go to previous message"
+     :help "Go to previous message")
+
+    (tool-bar-local-item
+     "right-arrow"
+     'mu4e-view-headers-next
+     'mu4e-view-headers-next
+     tool-bar-map
+     :label "Go to next message"
+     :help "Go to next message")
+
+    ;;;(tool-bar-local-item-from-menu
+    ;;; 'mu4e-view-headers-next
+    ;;; "right-arrow" tool-bar-map mu4e-view-mode-map
+    ;;; :label "Next"
+    ;;; :help "Go to next message")
+
+    ;;;(tool-bar-local-item-from-menu
+    ;;; 'mu4e-view-headers-prev
+    ;;; "left-arrow" tool-bar-map mu4e-view-mode-map
+    ;;; :label "Previous"
+    ;;; :help "Go to previous message")
+
+    tool-bar-map))
+
+(defun my-mu4e-view-setup-toolbar ()
+  "Set up the toolbar for mu4e-view-mode."
+  (setq-local tool-bar-map mu4e-view-tool-bar-map)
+  ; we don't need that: (tool-bar-mode 1)
+  )
+
+(add-hook 'mu4e-view-mode-hook #'my-mu4e-view-setup-toolbar)
+;(my-mu4e-view-setup-toolbar)
+
+;;; Composer has a very good toolbar already.
+;;; The major mode is mu4e:compose mode defined in mu4e-compose.el.
