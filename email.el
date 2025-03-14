@@ -42,7 +42,7 @@
                          msg '(:from :to :cc :bcc) "dannym@friendly-machines.com")))
         :vars `((user-mail-address . "dannym@friendly-machines.com")
                                         ; from passwd (user-full-name . "Danny Milosavljevic")
-                (mu4e-sent-messages-behavior . delete) ; or sent
+                (mu4e-sent-messages-behavior . sent)
                 (message-send-mail-function . friendly-machines-deliver-to-maildir)
                 (send-mail-function . friendly-machines-deliver-to-maildir)
                 (smtpmail-smtp-server . "smtp.dreamhost.com")
@@ -53,7 +53,8 @@
                 (smtpmail-always-send-ehlo . t)
                 (smtpmail-authenticate-always . t)
                 (smtpmail-require-credentials . t)
-                ;(auth-sources . nil) ; awful
+                ;(smtpmail-queue-mail  . nil)
+                ;(smtpmail-queue-dir  "/home/dannym/Mail/friendly-machines.com/INBOX/Sent/cur")
 
                 (mu4e-sent-folder . "/friendly-machines.com/INBOX/Sent")
                 (mu4e-drafts-folder . "/friendly-machines.com/INBOX/Drafts")
