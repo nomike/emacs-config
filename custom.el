@@ -491,11 +491,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (add-to-list 'treesit-extra-load-path "/home/dannym/.guix-home/profile/lib/tree-sitter/")
 
-(setq send-mail-function    'smtpmail-send-it
-      smtpmail-smtp-server  "w0062d1b.kasserver.com"
-      smtpmail-stream-type  'starttls
-      smtpmail-smtp-service 587)
-
                                         ; argh
 (setq python-shell-completion-native-disabled-interpreters '("python3" "pypy3"))
 
