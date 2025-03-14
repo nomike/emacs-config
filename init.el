@@ -200,6 +200,7 @@
  '(lsp-rust-analyzer-rustc-source
    "/usr/local/rustup/toolchains/nightly-2024-08-03-x86_64-unknown-linux-musl/lib/rustlib/rustc-src/rust/compiler/rustc/Cargo.toml")
  '(lsp-treemacs-theme "Iconless")
+ '(mu4e-compose-switch nil)
  '(org-export-exclude-tags '("confidential"))
  '(org-export-select-tags '("public"))
  '(org-format-latex-options
