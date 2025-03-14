@@ -1,5 +1,9 @@
+;; TODO: smtpmail-queue-mail
+;; TODO: smtpmail-send-queued-mail
 
-(setq message-send-mail-function 'smtpmail-send-it)
+(defun friendly-machines-deliver-to-maildir ()
+  (smtpmail-send-it))
+
 (setq mail-user-agent #'mu4e-user-agent
       message-mail-user-agent t)
 
@@ -18,9 +22,7 @@
       mu4e-compose-signature-auto-include nil
       mu4e-view-prefer-html t
       mu4e-change-filenames-when-moving t
-                                        ;message-send-mail-function 'smtpmail-send-it
       starttls-use-gnutls t
-      smtpmail-stream-type 'starttls
       ;;mu4e-html2text-command "w3m -T text/html"
       )
 
@@ -38,14 +40,21 @@
                       (when msg
                         (mu4e-message-contact-field-matches
                          msg '(:from :to :cc :bcc) "dannym@friendly-machines.com")))
-        :vars '((user-mail-address . "dannym@friendly-machines.com")
+        :vars `((user-mail-address . "dannym@friendly-machines.com")
                                         ; from passwd (user-full-name . "Danny Milosavljevic")
-                (mu4e-sent-messages-behavior . sent)
-                (send-mail-function . 'smtpmail-send-it)
-                (smtpmail-smtp-server . "mail.friendly-machines.com")
-                (smtpmail-stream-type . 'starttls)
+                (mu4e-sent-messages-behavior . delete) ; or sent
+                (message-send-mail-function . friendly-machines-deliver-to-maildir)
+                (send-mail-function . friendly-machines-deliver-to-maildir)
+                (smtpmail-smtp-server . "smtp.dreamhost.com")
+                (smtpmail-stream-type . starttls)
+                (smtpmail-smtp-user . "dannym@friendly-machines.com")
                 (smtpmail-smtp-service . 587)
-                                        ;(smtpmail-auth-credentials . (expand-file-name "~/.authinfo.gpg"))
+                (smtpmail-auth-supported . (plain login))
+                (smtpmail-always-send-ehlo . t)
+                (smtpmail-authenticate-always . t)
+                (smtpmail-require-credentials . t)
+                ;(auth-sources . nil) ; awful
+
                 (mu4e-sent-folder . "/friendly-machines.com/INBOX/Sent")
                 (mu4e-drafts-folder . "/friendly-machines.com/INBOX/Drafts")
                 (mu4e-trash-folder . "/friendly-machines.com/INBOX/Trash")
@@ -70,7 +79,7 @@
 (setq mu4e-view-show-images t)
 (setq mu4e-view-show-addresses t)
 
-; offlineimap: offlineimap --dry-run -a dannym@friendly-machines.com
+                                        ; offlineimap: offlineimap --dry-run -a dannym@friendly-machines.com
 (setq mu4e-context-policy 'pick-first)
 (setq mu4e-compose-context-policy 'ask)
 
