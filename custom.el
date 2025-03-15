@@ -1504,7 +1504,10 @@ argument is given. Choose a file name based on any document
 (use-package vertico
   :ensure nil
   :hook (after-init . vertico-mode))
-
+  
+;;; (setq completion-category-overrides '((file (styles basic))))
+;(keymap-set vertico-map "<Return>" #'vertico-exit-input)
+ 
 (use-package marginalia
   :ensure nil
   :hook (after-init . marginalia-mode))
