@@ -485,6 +485,9 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          (window-width . 0.25) ;; Side window takes up 1/4th of the screen
          (side . right)
          )
+        ("\\*.*[Ss]hell.*\\*" ; especially "*Async Shell Command*"
+         (display-buffer-same-window)
+         (reusable-frames . visible))
         ))
 
 (require 'mh-e) ; mail
