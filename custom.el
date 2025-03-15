@@ -474,7 +474,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          (side . right)
          )
         ("^\\*Projectile.*"
-         ((display-buffer-reuse-window display-buffer-at-top)
+         ((display-buffer-in-side-window)
           (window-height . 0.25)))
         ("^\\*scratch.*"
          (display-buffer-in-side-window)
