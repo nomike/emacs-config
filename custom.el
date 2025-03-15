@@ -256,7 +256,7 @@ Warn if the directory already exists."
                                         ; TODO: restart
                                         ;(global-set-key (kbd "C-<f2>") ')
 
-(global-set-key (kbd "<f3>") 'counsel-find-file)
+(global-set-key (kbd "<f3>") 'find-file)
 (global-set-key (kbd "C-<f3>") 'find-file-at-point)
 (global-set-key (kbd "M-<f3>") 'ff-get-other-file)
 
@@ -1509,7 +1509,6 @@ argument is given. Choose a file name based on any document
   :ensure nil
   :hook (after-init . marginalia-mode))
 
-;; Apparently doesn't do anything
 (use-package orderless
   :ensure f
   :config

@@ -227,7 +227,7 @@
  '(org-sticky-header-full-path 'reversed)
  '(org-support-shift-select t)
  '(package-selected-packages
-   '(dired-launch lv concurrent org-mime org-noter org-pdftools back-button counsel-projectile counsel-tramp magit-popup eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico counsel pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel paredit inheritenv buffer-env ob-async discover-my-major))
+   '(dired-launch lv concurrent org-mime org-noter org-pdftools back-button magit-popup eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel smartparens inheritenv buffer-env ob-async discover-my-major))
  '(read-mail-command 'mu4e)
  '(spacious-padding-subtle-mode-line t)
  '(spacious-padding-widths
@@ -614,13 +614,6 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history)))
 
 (require 'format-all)
 
