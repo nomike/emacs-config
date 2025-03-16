@@ -69,11 +69,6 @@
 (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 (define-key global-map (kbd "C-y") #'undo-redo)
 
-;;; Mouse in terminal
-
-					; M-x xterm-mouse-mode
-;(xterm-mouse-mode 1)
-
 ;;; Virtual word wrapping
 
 					;(add-hook 'text-mode-hook 'visual-line-mode)
