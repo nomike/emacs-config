@@ -1948,13 +1948,13 @@ later form of vector is passed return 0."
 ;; Patch mu4e user-unfriendliness.  TODO: Upstream.
 (defvar mu4e-view-tool-bar-map
   (let ((tool-bar-map (make-sparse-keymap)))
-;    (tool-bar-local-item
-;     "mail/reply-all"
-;     (lambda () (interactive) (mu4e-compose-reply t))
-;     'reply-all
-;     tool-bar-map
-;     :label "Reply All"
-;     :help "Reply to all recipients")
+                                        ;    (tool-bar-local-item
+                                        ;     "mail/reply-all"
+                                        ;     (lambda () (interactive) (mu4e-compose-reply t))
+                                        ;     'reply-all
+                                        ;     tool-bar-map
+                                        ;     :label "Reply All"
+                                        ;     :help "Reply to all recipients")
 
     (tool-bar-local-item-from-menu
      'mu4e-compose-wide-reply
