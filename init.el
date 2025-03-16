@@ -72,7 +72,7 @@
 ;;; Mouse in terminal
 
 					; M-x xterm-mouse-mode
-(xterm-mouse-mode 1)
+;(xterm-mouse-mode 1)
 
 ;;; Virtual word wrapping
 
