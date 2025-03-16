@@ -2067,15 +2067,13 @@ later form of vector is passed return 0."
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
     ;; Add mu4e-specific items
 
-    ; doesn't work (does show): (tool-bar-local-item-from-menu 'mu4e-compose-new "mail/compose" my-tool-bar-map mu4e-headers-mode-map :label "Compose new mail" :help "Compose a new mail")
-    ; doesn't work (does show) (tool-bar-local-item "mail/compose" 'compose-mail 'mu4e-compose-new my-tool-bar-map :label "Compose new mail" :help "Compose a new mail")
-    ;; doesn't actually work
+    ;; (tool-bar-local-item-from-menu 'mu4e-compose-new "mail/compose" my-tool-bar-map mu4e-headers-mode-map :label "Compose new mail" :help "Compose a new mail")
+    ;; (tool-bar-local-item "mail/compose" 'compose-mail 'mu4e-compose-new my-tool-bar-map :label "Compose new mail" :help "Compose a new mail")
     (tool-bar-local-item "mail/compose" 'compose-mail 'compose-mail my-tool-bar-map :label "Compose new mail" :help "Compose a new mail")
 
     (tool-bar-local-item-from-menu 'mu4e-compose-wide-reply "mail/reply-all" my-tool-bar-map mu4e-headers-mode-map :label "Reply to all" :help "Reply to all recipients")
     (tool-bar-local-item-from-menu 'mu4e-compose-reply "mail/reply" my-tool-bar-map mu4e-headers-mode-map :label "Reply" :help "Reply to sender")
     (tool-bar-local-item-from-menu 'mu4e-compose-forward "mail/forward" my-tool-bar-map mu4e-headers-mode-map :label "Forward" :help "Forward this message")
-    ;; Doesn't actually work when clicking on it.
     (tool-bar-local-item-from-menu 'mu4e-headers-mark-for-move "mail/move" my-tool-bar-map mu4e-headers-mode-map :label "Move" :help "Mark this message for moving")
                                         ; BROKEN (tool-bar-local-item-from-menu 'mu4e-headers-mark-for-flag "mail/flag-for-followup" my-tool-bar-map mu4e-headers-mode-map :label "Flag for followup" :help "Mark this message for followup")
 
