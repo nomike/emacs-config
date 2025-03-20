@@ -2224,3 +2224,13 @@ later form of vector is passed return 0."
 ;; Minor mode to render bug references in emails (this includes mu4e)
 (add-hook 'gnus-article-mode-hook 'bug-reference-mode)
 (setq request-backend 'url-retrieve) ; alternative: curl
+
+(use-package trashed
+  :ensure t
+  :commands (trashed)
+  :config
+  (setq trashed-action-confirmer 'y-or-n-p)
+  (setq trashed-use-header-line t)
+  (setq trashed-sort-key '("Date deleted" . t))
+  (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
+
