@@ -2219,3 +2219,7 @@ later form of vector is passed return 0."
               ("C-c C-f" . elfeed-tube-mpv-follow-mode)
               ("C-c C-w" . elfeed-tube-mpv-where)))
 
+;; Minor mode to render bug references in emails (this includes mu4e)
+(add-hook 'gnus-summary-mode-hook 'bug-reference-mode)
+;; Minor mode to render bug references in emails (this includes mu4e)
+(add-hook 'gnus-article-mode-hook 'bug-reference-mode)
