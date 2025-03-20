@@ -446,12 +446,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 ;; Those conflict with move to previous word, move to next word, respectively.
 ;; They have alternative bindings anyway--so kill these here.
-(eval-after-load "paredit"
-  '(progn
-     (define-key paredit-mode-map (kbd "C-<left>") 'paredit-backward) ; alternative: C-} ; new alternative: M-b
-     (define-key paredit-mode-map (kbd "C-<right>") 'paredit-forward) ; alternative: C-) ; new alternative: M-f
-     (define-key paredit-mode-map (kbd "C-<up>") 'paredit-backward-up)
-     (define-key paredit-mode-map (kbd "C-<down>") 'paredit-backward-down)))
+                                        ;(eval-after-load "paredit"
+                                        ;  '(progn
+                                        ;     (define-key paredit-mode-map (kbd "C-<left>") 'paredit-backward) ; alternative: C-} ; new alternative: M-b
+                                        ;     (define-key paredit-mode-map (kbd "C-<right>") 'paredit-forward) ; alternative: C-) ; new alternative: M-f
+                                        ;     (define-key paredit-mode-map (kbd "C-<up>") 'paredit-backward-up)
+                                        ;     (define-key paredit-mode-map (kbd "C-<down>") 'paredit-backward-down)))
 
 ;;; ======================
 
@@ -1491,8 +1491,8 @@ argument is given. Choose a file name based on any document
 (add-hook 'julia-mode-hook #'form-feed-mode)
 (add-hook 'org-mode-hook #'form-feed-mode) ; looks weird and sometimes disappears on save
 (add-hook 'elisp-mode-hook #'form-feed-mode)
-(add-hook 'elisp-mode-hook #'paredit-mode)
-(add-hook 'scheme-mode-hook #'paredit-mode)
+(add-hook 'elisp-mode-hook #'smartparens-mode)
+(add-hook 'scheme-mode-hook #'smartparens-mode)
 
 (use-package savehist
   :ensure nil ; it is built-in
