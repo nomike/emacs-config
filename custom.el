@@ -444,6 +444,21 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (keymap-set global-map "C-M-s" #'org-node-series-dispatch)
 
+(require 'smartparens-config)
+;;; Execute sp-beginning-of-sexp. I bound it to C-M-a.
+;;; Execute sp-end-of-sexp. I bound it to C-M-e.
+;;; Execute sp-down-sexp. I bound it to C-down.
+;;; Execute sp-up-sexp. I bound it to C-up.
+;;; Execute sp-backward-down-sexp. I bound it to M-down.
+;;; Execute sp-backward-up-sexp. I bound it to M-up.
+;;; Execute sp-forward-sexp. I bound it to C-M-f.
+;;; Execute sp-backward-sexp. I bound it to C-M-b.
+;;; Execute sp-next-sexp. I bound it to C-M-n.
+;;; Execute sp-previous-sexp. I bound it to C-M-p.
+;;; Execute sp-backward-symbol. I bound it to C-S-b.
+;;; Execute sp-forward-symbol. I bound it to C-S-f.
+;;; Pressing C-M-Space or ESC C-Space followed by [ will make the whole region become surrounded by matching [ and ]. It also applies to keys like (, {, ", ', *, _
+
 ;; Those conflict with move to previous word, move to next word, respectively.
 ;; They have alternative bindings anyway--so kill these here.
                                         ;(eval-after-load "paredit"
