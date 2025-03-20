@@ -1950,7 +1950,7 @@ later form of vector is passed return 0."
 
 (global-set-key (kbd "s-<delete>") #'delete-file-and-buffer)
 
-;(pixel-scroll-precision-mode 1)
+                                        ;(pixel-scroll-precision-mode 1)
 (use-package ultra-scroll
   :load-path "~/.emacs.d/ultra-scroll"
   :init
@@ -2071,11 +2071,11 @@ later form of vector is passed return 0."
 (defun my-mu4e-view-setup-toolbar ()
   "Set up the toolbar for mu4e-view-mode."
   (setq-local tool-bar-map mu4e-view-tool-bar-map)
-  ; we don't need that: (tool-bar-mode 1)
+                                        ; we don't need that: (tool-bar-mode 1)
   )
 
 (add-hook 'mu4e-view-mode-hook #'my-mu4e-view-setup-toolbar)
-;(my-mu4e-view-setup-toolbar)
+                                        ;(my-mu4e-view-setup-toolbar)
 
 (defun my-mu4e-headers-setup-toolbar ()
   "Add mu4e-specific items to the global toolbar for mu4e-headers-mode."
