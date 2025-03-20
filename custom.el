@@ -2223,3 +2223,4 @@ later form of vector is passed return 0."
 (add-hook 'gnus-summary-mode-hook 'bug-reference-mode)
 ;; Minor mode to render bug references in emails (this includes mu4e)
 (add-hook 'gnus-article-mode-hook 'bug-reference-mode)
+(setq request-backend 'url-retrieve) ; alternative: curl
