@@ -2196,3 +2196,26 @@ later form of vector is passed return 0."
                                         ;(tool-bar-local-item "delete" 'mu4e-headers-mark-for-trash 'mu4e-headers-mark-for-trash tool-bar-map :label "Mark for trashing" :help "Mark for trashing")
     nil))
 (add-hook 'scheme-mode-hook #'my-scheme-setup-toolbar)
+
+(use-package elfeed-tube
+                                        ;:ensure t ;; or :straight t
+  :after elfeed
+  :demand t
+  :config
+  ;; (setq elfeed-tube-auto-save-p nil) ; default value
+  ;; (setq elfeed-tube-auto-fetch-p t)  ; default value
+  (elfeed-tube-setup)
+
+  :bind (:map elfeed-show-mode-map
+              ("F" . elfeed-tube-fetch)
+              ([remap save-buffer] . elfeed-tube-save)
+              :map elfeed-search-mode-map
+              ("F" . elfeed-tube-fetch)
+              ([remap save-buffer] . elfeed-tube-save)))
+
+(use-package elfeed-tube-mpv
+                                        ;:ensure t ;; or :straight t
+  :bind (:map elfeed-show-mode-map
+              ("C-c C-f" . elfeed-tube-mpv-follow-mode)
+              ("C-c C-w" . elfeed-tube-mpv-where)))
+
