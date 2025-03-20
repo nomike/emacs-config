@@ -2162,3 +2162,21 @@ later form of vector is passed return 0."
 
 ;;; Composer has a very good toolbar already.
 ;;; The major mode is mu4e:compose mode defined in mu4e-compose.el.
+
+(use-package arei
+  :config
+  nil
+  ;; - `sesman-start' (C-c C-s s) to connect to nrepl server.
+  ;; - `universal-argument' (C-u) to select a connection endpoint (host and port).
+  ;; - `sesman-quit' (C-c C-s q) to close the connection.
+  ;; Development related and other commands:
+  ;; - `arei-evaluate-last-sexp' (C-d C-e) to evaluate expression before point.
+  ;; - `arei-evaluate-buffer' (C-d C-k) to evaluate buffer.
+  ;; - `arei-evaluate-sexp' (M-x ... RET) to interactively evaluate an expression you input.
+;;;  "C-c C-b" #'arei-interrupt-evaluation   wtf? Why not C-g ? Or C-d C-c ?
+;;;  "C-c C-z" #'arei-switch-to-connection-buffer
+;;;  "C-M-x" #'arei-evaluate-defun
+;;;  "C-c C-c" #'arei-evaluate-defun
+;;;arei-mode-map
+  )
+
