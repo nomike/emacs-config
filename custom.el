@@ -2180,3 +2180,19 @@ later form of vector is passed return 0."
 ;;;arei-mode-map
   )
 
+(defun my-scheme-setup-toolbar ()
+  "Add mu4e-specific items to the global toolbar for scheme-mode."
+  (let ((tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
+    ;; Add scheme-specific items
+
+    ;;; (async-shell-command COMMAND &optional OUTPUT-BUFFER ERROR-BUFFER)
+    ;;; TODO: Add button for "build guix package at point" like C-M-x.
+    ;;; TODO: Use some arei-like scheme thing to send package to REPL.
+    ;;; M-x "arei" to connect to nREPL server.
+
+                                        ;(tool-bar-local-item-from-menu 'mu4e-compose-wide-reply "mail/reply-all" tool-bar-map scheme-mode-map :label "Reply to all" :help "Reply to all recipients")
+                                        ;(tool-bar-local-item-from-menu 'mu4e-compose-reply "mail/reply" tool-bar-map scheme-mode-map :label "Reply" :help "Reply to sender")
+                                        ;(tool-bar-local-item-from-menu 'mu4e-compose-forward "mail/forward" tool-bar-map scheme-mode-map :label "Forward" :help "Forward this message")
+                                        ;(tool-bar-local-item "delete" 'mu4e-headers-mark-for-trash 'mu4e-headers-mark-for-trash tool-bar-map :label "Mark for trashing" :help "Mark for trashing")
+    nil))
+(add-hook 'scheme-mode-hook #'my-scheme-setup-toolbar)
