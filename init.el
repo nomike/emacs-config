@@ -29,22 +29,10 @@
 (setq lsp-enable-suggest-server-download nil)
                                         ; <https://github.com/thread314/intuitive-tab-line-mode>
 (global-tab-line-mode 1)
-                                        ;(global-visual-line-mode 1) ; no! Home would be beginning-of-visual-line
 
 (require 'lsp-treemacs)
-                                        ;(setq lsp-treemacs-theme "Iconless")
 
 (tool-bar-mode -1)
-
-                                        ;(setq-default header-line-format `(:eval (window-tool-bar-string)))
-                                        ;(global-window-tool-bar-mode 1)
-
-;; Add (window-tool-bar-string) to tab-line-format.
-                                        ;(setq-default tab-line-format '((:eval (tab-line-format))
-                                        ;                                " "
-                                        ;                                (:eval (window-tool-bar-string))))
-
-					;(tool-bar-add-item "my-custom-action" 'my-custom-command "tooltip" 'my-custom-icon)
 
 (projectile-mode +1)
 
@@ -66,14 +54,7 @@
 
 ;;; Virtual word wrapping
 
-					;(add-hook 'text-mode-hook 'visual-line-mode)
 (setq-default word-wrap t)
-					; default: C-a (beginning-of-visual-line) moves to the beginning of the screen line, C-e (end-of-visual-line) moves to the end of the screen line, and C-k (kill-visual-line) kills text to the end of the screen line.
-					;(bind-key* "cursor down" 'next-logical-line)
-					;(bind-key* "cursor up" 'previous-logical-line)
-					; TODO: only in text editor?
-                                        ;(global-set-key (kbd "<down>") 'next-logical-line) ; done by setting line-move-visual
-                                        ;(global-set-key (kbd "<up>") 'previous-logical-line)
 
 ;;; Packages
 
