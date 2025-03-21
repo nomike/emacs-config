@@ -763,8 +763,22 @@
 (require 'mpv)
                                         ;(require 'howm) ; not right now
 
-(load "~/.emacs.d/custom.el" t)
-(load "~/.emacs.d/autoresize.el" t)
+(load (locate-user-emacs-file "custom.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "email.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "git-protected-branches.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "autoresize.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "wolfram.el")
+      :no-error-if-file-is-missing)
+                                        ;(load (locate-user-emacs-file "straico.el")
+                                        ;       :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "mcphas.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "ada.el")
+      :no-error-if-file-is-missing)
 
 ;; Otherwise half the icons are from the wrong set.
 (treemacs-refresh)
