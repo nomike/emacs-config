@@ -2301,6 +2301,7 @@ This function is called by `org-babel-execute-src-block'."
 (use-package org-books
   :config
   (setq org-books-file "~/doc/org/books.org"))
+
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((ditaa . t)
