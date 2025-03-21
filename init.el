@@ -3,11 +3,6 @@
                                         ;(customize-set-variable 'lsp-treemacs-theme "Iconless")
 
 (require 'nerd-icons)
-                                        ; Gtk 3
-;; XXX test
-                                        ;(save-place-mode 1) ; save cursor position
-                                        ;(desktop-save-mode 1) ; save the desktop session
-                                        ;(savehist-mode 1) ; save history
 
 (global-auto-revert-mode 1) ; revert buffers when the underlying file has changed
 
