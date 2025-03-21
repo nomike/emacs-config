@@ -2289,3 +2289,6 @@ This function is called by `org-babel-execute-src-block'."
     (message cmd) (shell-command cmd)
     (when pdf-cmd (message pdf-cmd) (shell-command pdf-cmd))
     nil)) ;; signal that output has already been written to file
+(use-package org-books
+  :config
+  (setq org-books-file "~/doc/org/books.org"))
