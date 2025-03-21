@@ -2289,6 +2289,15 @@ This function is called by `org-babel-execute-src-block'."
     (message cmd) (shell-command cmd)
     (when pdf-cmd (message pdf-cmd) (shell-command pdf-cmd))
     nil)) ;; signal that output has already been written to file
+
+(use-package dirvish
+  :config
+  (setq dirvish-attributes
+        (append
+         '(vc-state subtree-state nerd-icons collapse)
+         ;; Other attributes are displayed in the order they appear in this list.
+         '(git-msg file-time file-size))))
+
 (use-package org-books
   :config
   (setq org-books-file "~/doc/org/books.org"))
