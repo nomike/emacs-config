@@ -2234,3 +2234,33 @@ later form of vector is passed return 0."
   (setq trashed-sort-key '("Date deleted" . t))
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
+(defun org-babel-execute:ditaa (body params)
+  "Execute a block of Ditaa code with org-babel.
+This function is called by `org-babel-execute-src-block'."
+  (let* ((out-file (or (cdr (assq :file params))
+                       (error
+                        "ditaa code block requires :file header argument")))
+         (cmdline (cdr (assq :cmdline params)))
+         (java (cdr (assq :java params)))
+         (in-file (org-babel-temp-file "ditaa-"))
+         (eps (cdr (assq :eps params)))
+         (eps-file (when eps
+                     (org-babel-process-file-name (concat in-file ".eps"))))
+         (pdf-cmd (when (and (or (string= (file-name-extension out-file) "pdf")
+                                 (cdr (assq :pdf params))))
+                    (concat
+                     "epstopdf"
+                     " " eps-file
+                     " -o=" (org-babel-process-file-name out-file))))
+         (cmd (concat "ditaa"
+                      " " cmdline
+                      " " (org-babel-process-file-name in-file)
+                      " " (if pdf-cmd
+                              eps-file
+                            (org-babel-process-file-name out-file)))))
+    (unless (file-exists-p org-ditaa-jar-path)
+      (error "Could not find ditaa.jar at %s" org-ditaa-jar-path))
+    (with-temp-file in-file (insert body))
+    (message cmd) (shell-command cmd)
+    (when pdf-cmd (message pdf-cmd) (shell-command pdf-cmd))
+    nil)) ;; signal that output has already been written to file
