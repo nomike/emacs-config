@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; TODO: smtpmail-queue-mail
 ;; TODO: smtpmail-send-queued-mail
 
