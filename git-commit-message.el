@@ -110,14 +110,24 @@ If there is leftover content, return nil."
   "Collect one continuous block starting with a single '+'.
 It is an error if there's more than one block.
 "
-  (let ((block-lines nil))
-    (dolist (line lines)
-      (cond
-       ((and (not block-lines) (string-match "^[+]" line) (not (string-match "^[+][+][+]" line)))
-        (setq block-lines (list (substring line 1))))
-       ((and block-lines (string-match "^[+]" line) (not (string-match "^[+][+][+]" line)))
-        (push (substring line 1) block-lines))
-       (t nil)))
+  (let ((block-lines nil)
+        (block-seen nil))
+    (catch 'break
+      (dolist (line lines)
+        (cond
+         ((and (not block-lines)
+               (string-match "^[+]" line)
+               (not (string-match "^[+][+][+]" line)))
+          (setq block-lines (list (substring line 1))))
+         ((and block-lines
+               (string-match "^[+]" line)
+               (not (string-match "^[+][+][+]" line)))
+          (if block-seen
+              (throw 'break nil))
+          (push (substring line 1) block-lines))
+         (block-lines ; more than one block, maybe
+          (setq block-seen t))
+         (t nil))))
     (reverse block-lines)))
 
 (ert-deftest my/test-diff-lines->files ()
