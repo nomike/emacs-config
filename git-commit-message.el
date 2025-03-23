@@ -106,30 +106,6 @@ If there is leftover content, return nil."
             collect (match-string 1 line))
    :test 'string=))
 
-(defun my/diff-lines->block-lines (lines)
-  "Collect one continuous block starting with a single '+'.
-It is an error if there's more than one block.
-"
-  (let ((block-lines nil)
-        (block-seen nil))
-    (catch 'break
-      (dolist (line lines)
-        (cond
-         ((and (not block-lines)
-               (string-match "^[+]" line)
-               (not (string-match "^[+][+][+]" line)))
-          (setq block-lines (list (substring line 1))))
-         ((and block-lines
-               (string-match "^[+]" line)
-               (not (string-match "^[+][+][+]" line)))
-          (if block-seen
-              (throw 'break nil))
-          (push (substring line 1) block-lines))
-         (block-lines ; more than one block, maybe
-          (setq block-seen t))
-         (t nil))))
-    (reverse block-lines)))
-
 (ert-deftest my/test-diff-lines->files ()
   "Test the my/diff-lines->files function."
   (let ((diff "diff --git a/path/filename1.scm b/path/filename1.scm
@@ -146,6 +122,35 @@ index 0000001..1234567
 + (define-public another-package-0.8)"))
     (should (equal (my/diff-lines->files (split-string diff "\n"))
                    '("a/path/filename1.scm" "a/path/filename2.scm")))))
+
+(defun my/diff-lines->block-lines (lines)
+  "Collect one continuous block starting with a single '+'.
+It is an error if there's more than one block.
+"
+  (let ((block-lines nil)
+        (block-seen nil))
+    (cl-loop for line in lines
+             when (and block-lines
+                       (string-match "^[+]" line)
+                       (not (string-match "^[+][+][+]" line))
+                       block-seen) ; more than one block
+             return nil
+             do
+             (cond
+              ((and (not block-lines)
+                    (string-match "^[+]" line)
+                    (not (string-match "^[+][+][+]" line)))
+               (setq block-lines (list (substring line 1))))
+              ((and block-lines
+                    (string-match "^[+]" line)
+                    (not (string-match "^[+][+][+]" line)))
+               (if block-seen
+                   (throw 'break nil))
+               (push (substring line 1) block-lines))
+              (block-lines ; more than one block, maybe
+               (setq block-seen t))
+              (t nil)))
+    (reverse block-lines)))
 
 (ert-deftest my/test-diff-lines->block-lines ()
   "Test the my/diff-lines->blocks function."
