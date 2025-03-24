@@ -2308,3 +2308,7 @@ This function is called by `org-babel-execute-src-block'."
    (dot . t)
    (gnuplot . t)
    (plantuml . t)))
+;; wakib has keyboard-quit on <escape> via wakib-keys-overriding-map (see simple.el)
+;; but apparently there's a minibuffer-keyboard-quit we don't use, except on C-g, where delsel.el defines it.
+;;(define-key minibuffer-local-map (kbd "<Escape>") 'minibuffer-keyboard-quit)
+(wakib-define-keys wakib-keys-overriding-map `(("<escape>" . ,#'keyboard-escape-quit)))
