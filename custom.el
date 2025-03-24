@@ -2312,3 +2312,10 @@ This function is called by `org-babel-execute-src-block'."
 ;; but apparently there's a minibuffer-keyboard-quit we don't use, except on C-g, where delsel.el defines it.
 ;;(define-key minibuffer-local-map (kbd "<Escape>") 'minibuffer-keyboard-quit)
 (wakib-define-keys wakib-keys-overriding-map `(("<escape>" . ,#'keyboard-escape-quit)))
+
+;; Org mode stuff is too small for me (since it often contains math). Increase font size slightly.
+;(face-remap-add-relative 'stripe-highlight '(:foreground "black" :background "yellow"))
+(defun my/org-scale-up-font ()
+  (text-scale-increase 1)
+  (setq xenops-math-image-scale-factor 0.75))
+(add-hook 'org-mode-hook #'my/org-scale-up-font)
