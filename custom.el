@@ -1735,6 +1735,9 @@ it acts on the current project."
                                         ;     (add-to-list 'mmm-mode-ext-classes-alist
                                         ;                  '(rpm-spec-mode "\\.spec\\'" rpm-sh))
 
+(add-to-list 'auto-mode-alist '("\\.gp\\'" . gnuplot-mode))
+(add-to-list 'auto-mode-alist '("\\.plot\\'" . gnuplot-mode))
+
 (require 'ox-publish)
 (setq org-publish-project-alist
       '(("friendly-machines.com"
