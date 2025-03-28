@@ -2227,6 +2227,23 @@ later form of vector is passed return 0."
 (add-hook 'gnus-summary-mode-hook 'bug-reference-mode)
 ;; Minor mode to render bug references in emails (this includes mu4e)
 (add-hook 'gnus-article-mode-hook 'bug-reference-mode)
+
+(require 'debbugs)
+(require 'bug-reference)
+
+(add-to-list 'bug-reference-setup-from-mail-alist
+             `("Guix" ; name
+               nil   ;; no header matching needed ; FIXME
+               ,(concat "\\b\\(bug#\\("
+                        "[0-9]\\{1,100\\}\\)\\)\\b")
+               "https://debbugs.gnu.org/%s"))
+
+;; Only used when the URL matches <https://debbugs.gnu.org/12345> or <https://bugs.gnu.org/54321>.
+(add-hook 'bug-reference-mode-hook 'debbugs-browse-mode)
+
+;; Only used when the URL matches <https://debbugs.gnu.org/12345> or <https://bugs.gnu.org/54321>.
+(add-hook 'bug-reference-prog-mode-hook 'debbugs-browse-mode)
+
 (setq request-backend 'url-retrieve) ; alternative: curl
 
 (use-package trashed
