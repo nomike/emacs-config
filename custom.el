@@ -551,7 +551,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;(setq org-ellipsis "▾")
 
                                         ; See https://magit.vc/manual/ghub/Storing-a-Token.html
-(setq auth-sources '("~/.authinfo"))
+(use-package auth-source
+  :defer t
+  :config
+  (setq auth-sources
+   (list (expand-file-name ".authinfo.gpg" user-emacs-directory))))
 
 ;; Assuming the Guix checkout is in ~/src/guix.
 ;; Yasnippet configuration
