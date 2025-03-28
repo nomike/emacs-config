@@ -2536,3 +2536,14 @@ This function is called by `org-babel-execute-src-block'."
   (add-hook 'proced-mode-hook
     (lambda ()
       (proced-toggle-auto-update 1))))
+
+(use-package flymake
+  :defer t
+  :hook (emacs-lisp-mode . flymake-mode)
+  :custom
+  (flymake-show-diagnostics-at-end-of-line t)
+  (flymake-indicator-type 'margins)
+  (flymake-margin-indicators-string
+   `((error "!" compilation-error)
+     (warning "?" compilation-warning)
+     (note "i" compilation-info))))
