@@ -2510,3 +2510,6 @@ This function is called by `org-babel-execute-src-block'."
   (text-scale-increase 1)
   (setq xenops-math-image-scale-factor 0.75))
 (add-hook 'org-mode-hook #'my/org-scale-up-font)
+(with-eval-after-load 'magit
+  (define-key prog-mode-map (kbd "C-c s") 'magit-stage-region)
+  (define-key prog-mode-map (kbd "C-c c") 'magit-commit))
