@@ -2514,3 +2514,12 @@ This function is called by `org-babel-execute-src-block'."
 (with-eval-after-load 'magit
   (define-key prog-mode-map (kbd "C-c s") 'magit-stage-region)
   (define-key prog-mode-map (kbd "C-c c") 'magit-commit))
+
+(use-package compile
+  :ensure nil
+  :custom
+  (compilation-scroll-output t)
+  (ansi-color-for-compilation-mode t)
+  ; (compilation-environment '("TERM=xterm-256color"))
+  :config
+  (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
