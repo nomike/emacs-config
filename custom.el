@@ -2523,3 +2523,16 @@ This function is called by `org-babel-execute-src-block'."
   ; (compilation-environment '("TERM=xterm-256color"))
   :config
   (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
+(use-package proced
+  :defer t
+  :custom
+  (proced-enable-color-flag t)
+  (proced-tree-flag t)
+  (proced-auto-update-flag 'visible)
+  (proced-auto-update-interval 1)
+  (proced-descent t)
+  (proced-filter 'user)
+  :config
+  (add-hook 'proced-mode-hook
+    (lambda ()
+      (proced-toggle-auto-update 1))))
