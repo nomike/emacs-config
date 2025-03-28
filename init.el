@@ -107,6 +107,7 @@
  '(format-all-debug nil)
  '(format-all-show-errors 'errors)
  '(frame-background-mode 'light)
+ '(grep-command "rg -nS --no-heading ")
  '(ignored-local-variable-values
    '((eval with-eval-after-load 'git-commit
            (add-to-list 'git-commit-trailers "Change-Id"))
@@ -206,7 +207,8 @@
    '(:internal-border-width 0 :header-line-width 4 :mode-line-width 6 :tab-width 5 :right-divider-width 10 :scroll-bar-width 8 :fringe-width 12))
  '(tab-line-close-tab-function 'kill-buffer)
  '(tool-bar-style 'image)
- '(vertico-preselect 'prompt))
+ '(vertico-preselect 'prompt)
+ '(xref-search-program 'ripgrep))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
