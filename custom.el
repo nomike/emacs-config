@@ -2332,6 +2332,150 @@ This function is called by `org-babel-execute-src-block'."
    (dot . t)
    (gnuplot . t)
    (plantuml . t)))
+                                        ; gnus-dired-attach in dired; attaches to open email
+  (setq gnus-play-startup-jingle nil)
+                                        ; Also .newsrc
+                                        ; If the variable gnus-default-subscribed-newsgroups is set, Gnus will subscribe you to just those groups in that list, leaving the rest killed. Your system administrator should have set this variable to something useful.
+                                        ;(setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]")
+                                        ;(setq nnml-directory "~/gmail")
+                                        ;(setq message-directory "~/gmail")
+  (setq gnus-gcc-mark-as-read t)
+  (setq gnus-agent t)
+                                        ;(setq gnus-novice-user nil)           ; careful with this
+  ;; checking sources
+  (setq gnus-check-new-newsgroups 'ask-server)
+  (setq gnus-read-active-file 'some)
+  ;; dribble
+  (setq gnus-use-dribble-file t)
+  (setq gnus-always-read-dribble-file t)
+;;; agent
+  (setq gnus-agent-article-alist-save-format 1)  ; uncompressed
+  (setq gnus-agent-cache t)
+  (setq gnus-agent-confirmation-function 'y-or-n-p)
+  (setq gnus-agent-consider-all-articles nil)
+  (setq gnus-agent-directory "~/News/agent/")
+  (setq gnus-agent-enable-expiration 'ENABLE)
+  (setq gnus-agent-expire-all nil)
+  (setq gnus-agent-expire-days 30)
+  (setq gnus-agent-mark-unread-after-downloaded t)
+  (setq gnus-agent-queue-mail t)        ; queue if unplugged
+  (setq gnus-agent-synchronize-flags nil)
+;;; article
+  (setq gnus-article-browse-delete-temp 'ask)
+  (setq gnus-article-over-scroll nil)
+  (setq gnus-article-show-cursor t)
+  (setq gnus-article-sort-functions
+        '((not gnus-article-sort-by-number)
+          (not gnus-article-sort-by-date)))
+  (setq gnus-article-truncate-lines nil)
+  (setq gnus-html-frame-width 80)
+  (setq gnus-html-image-automatic-caching t)
+  (setq gnus-inhibit-images t)
+  (setq gnus-max-image-proportion 0.7)
+  (setq gnus-treat-display-smileys nil)
+  (setq gnus-article-mode-line-format "%G %S %m")
+  (setq gnus-visible-headers
+        '("^From:" "^To:" "^Cc:" "^Subject:" "^Newsgroups:" "^Date:"
+          "Followup-To:" "Reply-To:" "^Organization:" "^X-Newsreader:"
+          "^X-Mailer:"))
+  (setq gnus-sorted-header-list gnus-visible-headers)
+  (setq gnus-article-x-face-too-ugly ".*") ; all images in headers are outright annoying---disabled!
+;;; async
+  (setq gnus-asynchronous t)
+  (setq gnus-use-article-prefetch 15)
+;;; group
+  (setq gnus-level-subscribed 6)
+  (setq gnus-level-unsubscribed 7)
+  (setq gnus-level-zombie 8)
+  (setq gnus-activate-level 1)
+  (setq gnus-list-groups-with-ticked-articles nil)
+  (setq gnus-group-sort-function
+        '((gnus-group-sort-by-unread)
+          (gnus-group-sort-by-alphabet)
+          (gnus-group-sort-by-rank)))
+  (setq gnus-group-line-format "%M%p%P%5y:%B%(%g%)\n")
+  (setq gnus-group-mode-line-format "%%b")
+  (setq gnus-topic-display-empty-topics nil)
+;;; summary
+  (setq gnus-auto-select-first nil)
+  (setq gnus-summary-ignore-duplicates t)
+  (setq gnus-suppress-duplicates t)
+  (setq gnus-save-duplicate-list t)
+  (setq gnus-summary-goto-unread nil)
+  (setq gnus-summary-make-false-root 'adopt)
+  (setq gnus-summary-thread-gathering-function
+        'gnus-gather-threads-by-subject)
+  (setq gnus-summary-gather-subject-limit 'fuzzy)
+  (setq gnus-thread-sort-functions
+        '((not gnus-thread-sort-by-date)
+          (not gnus-thread-sort-by-number)))
+  (setq gnus-subthread-sort-functions
+        'gnus-thread-sort-by-date)
+  (setq gnus-thread-hide-subtree nil)
+  (setq gnus-thread-ignore-subject nil)
+  (setq gnus-user-date-format-alist
+        '(((gnus-seconds-today) . "Today at %R")
+          ((+ (* 60 60 24) (gnus-seconds-today)) . "Yesterday, %R")
+          (t . "%Y-%m-%d %R")))
+
+  ;; When the %f specifier in `gnus-summary-line-format' matches my
+  ;; name, this will use the contents of the "To:" field, prefixed by
+  ;; the string I specify.  Useful when checking your "Sent" summary or
+  ;; a mailing list you participate in.
+  (setq gnus-ignored-from-addresses "Protesilaos Stavrou")
+  (setq gnus-summary-to-prefix "To: ")
+
+  (setq gnus-summary-line-format "%U%R %-18,18&user-date; %4L:%-25,25f %B%s\n")
+  (setq gnus-summary-mode-line-format "[%U] %p")
+  (setq gnus-sum-thread-tree-false-root "")
+  (setq gnus-sum-thread-tree-indent " ")
+  (setq gnus-sum-thread-tree-single-indent "")
+  (setq gnus-sum-thread-tree-leaf-with-other "+-> ")
+  (setq gnus-sum-thread-tree-root "")
+  (setq gnus-sum-thread-tree-single-leaf "\\-> ")
+  (setq gnus-sum-thread-tree-vertical "|")
+  (setq gnus-select-method
+        '(nntp "news.gmane.io"
+               (nntp-open-connection-function nntp-open-network-stream) ; FIXME: Force STARTTLS
+               (nntp-port-number 119)))
+  ;(add-hook 'dired-mode-hook #'gnus-dired-mode) ; dired integration ; does not exist??
+  (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
+  (add-hook 'gnus-select-group-hook #'gnus-group-set-timestamp)
+
+  (dolist (mode '(gnus-group-mode-hook gnus-summary-mode-hook gnus-browse-mode-hook))
+    (add-hook mode #'hl-line-mode))
+
+  ;;; Gnus is a marvelous client because it has really good NNTP and threading support (silencing and automatic scoring)
+  ;;; Is it possible to make mu4e index nntp articles cached by gnus-agent?
+  ;;; It seems that mu4e wants maildir but gnus-agent uses mh (?).
+  ;;; gmane also includes gwene groups that mirror RSS feeds as usenet messages.
+  ;;; For search: nnir (but gmane search broke--even though it would otherwise be built-in and autoconfigured):
+  ;;; In the group buffer typing G G will search the group on the current line by calling gnus-group-make-nnir-group.
+  ;;; This prompts for a query string, creates an ephemeral nnir group containing the articles that match this query, and takes you to a summary buffer showing these articles.
+  ;;; Articles may then be read, moved and deleted using the usual commands.
+  ;;; Likewise, mailing list subscriptions have been moved from m.gmane.org to m.gmane-mx.org.
+  ;;; The gmane server supports STARTTLS on port 119.
+  (let ((map gnus-article-mode-map))
+    (define-key map (kbd "i") #'gnus-article-show-images)
+    (define-key map (kbd "s") #'gnus-mime-save-part)
+    (define-key map (kbd "o") #'gnus-mime-copy-part))
+  (let ((map gnus-group-mode-map))       ; I always use `gnus-topic-mode'
+    (define-key map (kbd "n") #'gnus-group-next-group)
+    (define-key map (kbd "p") #'gnus-group-prev-group)
+    (define-key map (kbd "M-n") #'gnus-topic-goto-next-topic)
+    (define-key map (kbd "M-p") #'gnus-topic-goto-previous-topic))
+  (let ((map gnus-summary-mode-map))
+    (define-key map (kbd "<delete>") #'gnus-summary-delete-article)
+    (define-key map (kbd "n") #'gnus-summary-next-article)
+    (define-key map (kbd "p") #'gnus-summary-prev-article)
+    (define-key map (kbd "N") #'gnus-summary-next-unread-article)
+    (define-key map (kbd "P") #'gnus-summary-prev-unread-article)
+    (define-key map (kbd "M-n") #'gnus-summary-next-thread)
+    (define-key map (kbd "M-p") #'gnus-summary-prev-thread)
+    (define-key map (kbd "C-M-n") #'gnus-summary-next-group)
+    (define-key map (kbd "C-M-p") #'gnus-summary-prev-group)
+    (define-key map (kbd "C-M-^") #'gnus-summary-refer-thread)))
+
 ;; wakib has keyboard-quit on <escape> via wakib-keys-overriding-map (see simple.el)
 ;; but apparently there's a minibuffer-keyboard-quit we don't use, except on C-g, where delsel.el defines it.
 ;;(define-key minibuffer-local-map (kbd "<Escape>") 'minibuffer-keyboard-quit)
