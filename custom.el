@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+;;; Code:
+
 (add-hook 'comint-mode-hook #'capf-autosuggest-mode)
 
 ;; That's actually kinda annoying?  Company should be enough.
@@ -68,6 +70,7 @@
                                         ;(setq interprogram-paste-function (lambda () nil))
 
 (defun my-permanent-tool-bar-items ()
+  "Add permanent items to tool bar."
   (tool-bar-add-item "ripgrep"
                      #'consult-ripgrep
                      'consult-ripgrep
@@ -112,7 +115,7 @@
   nil)
 
 (defun merge-permanent-toolbar-items ()
-  (message "MERGE")
+  "Add permanent items to tool bar."
   (my-permanent-tool-bar-items))
 
 (add-hook 'after-init-hook #'merge-permanent-toolbar-items)
@@ -160,7 +163,6 @@
 (use-package spacious-padding
   :config
   (spacious-padding-mode 1)
-
   ;; TODO on frame hook
   (custom-set-faces
    '(mode-line-active ((t (:font "Noto Sans 8"))))
@@ -201,7 +203,7 @@
 
 (defun eshell/nd (args)
   "Create a directory (and its parents) if they don't exist.
-Warn if the directory already exists."
+Warn if the directory already exists.  ARGS will be evaluated by eshell."
   (eshell-eval-using-options
    "nd" args
    '((?v "verbose" nil verbose-flag "verbose output")
@@ -555,7 +557,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
   :defer t
   :config
   (setq auth-sources
-   (list (expand-file-name ".authinfo.gpg" user-emacs-directory))))
+        (list (expand-file-name ".authinfo.gpg" user-emacs-directory))))
 
 ;; Assuming the Guix checkout is in ~/src/guix.
 ;; Yasnippet configuration
@@ -821,14 +823,14 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 (setq pandoc-data-dir "~/.emacs.d/etc/pandoc/")
 
 (defun efe/export-to-docx ()
-  "Output to docx using pandoc-mode"
+  "Output to docx using `pandoc-mode'."
   (interactive)
   (pandoc-mode)
   (execute-kbd-macro (kbd "C-c / O W d b b r"))
   (setq pandoc-mode nil))
 
 (defun insert-html-blog-template ()
-  "Inserts HTML_HEAD lines at the first empty line and html code at the end of the buffer."
+  "Insert HTML_HEAD lines at the first empty line and html code at the end of the buffer."
   (interactive)
   (save-excursion
     (goto-char (point-min))
@@ -916,7 +918,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 %?"))
 
 (defun transform-square-brackets-to-round-ones (string-to-transform)
-  "Transforms [ into ( and ] into ), other chars left unchanged." ; notably arvix
+  "Convert `[' into `(' and `]' into `)' of STRING-TO-TRANSFORM.  That's especially for arxiv."
   (concat (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 
 (setq org-capture-templates
@@ -1142,9 +1144,7 @@ the cdr is the executable name."
     (geiser-chicken-binary . "chicken")
     (haskell-process-path-ghci . "ghci")
     (js-comint-program-command . "node"))
-  "A list of REPL environment configurations. Each item is a cons cell where
-the car is the name of the local variable to setq-local, and the cdr is
-the name of the executable program to search for (searched-for in PATH).")
+  "A list of REPL environment configurations.  Each item is (name of the local variable to `setq-local' . name of the executable program to search for (searched-for in PATH)).")
 
 (defun update-repl-commands (&rest _args)
   "Update all REPL executable names for the current `process-environment'."
@@ -1159,11 +1159,11 @@ the name of the executable program to search for (searched-for in PATH).")
     (projectile-project-root)))
 
 (defun get-builtin-project-root ()
-  "Get the root directory of the project according to Emacs' built-in project.el."
+  "Get the root directory of the project according to Emacs' built-in `project.el'."
   (when-let ((project (project-current)))
     (project-root project)))
 
-(defun ensure-line-in-file (line file-path)
+(defun my/ensure-line-in-file (line file-path)
   "Open FILE-PATH in a buffer and ensure that a specific LINE exists. Does not save the buffer automatically."
   (let* ((file (expand-file-name file-path))
          (buffer (find-file-noselect file)))
@@ -1178,29 +1178,28 @@ the name of the executable program to search for (searched-for in PATH).")
         (switch-to-buffer-other-window buffer)
         (message "Review the changes and save the buffer if they are correct.")))))
 
-(defun envrc-root-directory ()
+(defun my/envrc-root-directory ()
   "Attempt to get the envrc root directory for the current buffer."
   (when (featurep 'envrc)
     (envrc--find-env-dir)))
 
-(defun update-guix-shell-authorized ()
-  "Ensure the current buffer's project or its directory is listed in
-   '~/.config/guix/shell-authorized-directories'."
-  (let ((project-dir (envrc-root-directory)))
+(defun my/update-guix-shell-authorized ()
+  "Ensure the current buffer's project or its directory is listed in '~/.config/guix/shell-authorized-directories'."
+  (let ((project-dir (my/envrc-root-directory)))
     (when project-dir
       ;; Ensure there's no trailing slash to keep consistency in shell-authorized-directories
       (setq project-dir (directory-file-name project-dir))
-      (ensure-line-in-file project-dir
-                           (expand-file-name "~/.config/guix/shell-authorized-directories")))))
+      (my/ensure-line-in-file project-dir
+                              (expand-file-name "~/.config/guix/shell-authorized-directories")))))
 
 ;; envrc-allow also allows `guix shell' to do its thing
-(advice-add 'envrc-allow :before #'update-guix-shell-authorized)
+(advice-add 'envrc-allow :before #'my/update-guix-shell-authorized)
 
 (defun my-notdeft-import-web-page (url &optional ask-dir)
   "Import the web page at URL into NotDeft.
 Query for the target directory if ASK-DIR is non-nil.
 Interactively, query for a URL, and set ASK-DIR if a prefix
-argument is given. Choose a file name based on any document
+argument is given.  Choose a file name based on any document
 <title>, or generate some unique name."
   (interactive "sPage URL: \nP")
   (let* ((s (shell-command-to-string
@@ -1642,8 +1641,9 @@ argument is given. Choose a file name based on any document
 When DIR is specified it checks DIR's project, otherwise
 it acts on the current project."
   (projectile-verify-file-wildcard "?*.lpi" dir))
+
 (defun my/lazarus-compile-command ()
-  "Returns a String representing the compile command to run for the given context"
+  "Return the compile command to run."
   (let* ((root (projectile-acquire-root))
          (project-file (when root
                          (cl-loop for file in (directory-files root t "?*.lpi")
@@ -1651,8 +1651,11 @@ it acts on the current project."
                                   return (file-name-nondirectory file)))))
     (concat "lazbuild " project-file)))
 (defun my/lazarus-test-command ()
-  "Returns a String representing the test command to run for the given context"
+  "Return the test command to run."
+  ;; See "FPCUnitApplication" project type.
+  ;; See also <https://github.com/bbatsov/projectile/pull/1790/files>.
   "laztest")
+
 (projectile-register-project-type 'lazarus #'projectile-lazarus-project-p
                                   :project-file '("?*.lpi")
                                   :compile #'my/lazarus-compile-command
@@ -1662,9 +1665,10 @@ it acts on the current project."
 (setq org-agenda-files '("~/doc/org-agenda"))
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
 
-;; I'm using org-indent-mode together with form-feed-mode: org-indent-mode interprets the form feed character as part of the previous section and indents it--which is not what I want.  I'm use the form feed for sections. So the form feed should belong to no section.
 (defun fix-org-indent-form-feed ()
+  "I'm using `org-indent-mode' together with `form-feed-mode': `org-indent-mode' interprets the form feed character as part of the previous section and indents it--which is not what I want.  I use the form feed for sections.  So the form feed should belong to no section."
   (setq-local org-outline-regexp "\\*+ \\|\\(^\f$\\)"))
+
 (add-hook 'org-mode-hook #'fix-org-indent-form-feed)
 
 ;; See <https://www.naiquev.in/recurring-checklists-using-org-mode-in-emacs.html>.
@@ -1707,12 +1711,13 @@ it acts on the current project."
   ;; When you want to change the level of an org item, use SMR
   (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright))
 
-(defun unset-line-move-visual ()
+(defun my/unset-line-move-visual ()
+  "Fix up `org-mode' so it lets me have logical lines."
   (define-key org-mode-map [remap move-beginning-of-line] nil)
   (define-key org-mode-map [remap move-end-of-line] nil)
   (setq line-move-visual nil))
 
-(add-hook 'org-mode-hook #'unset-line-move-visual)
+(add-hook 'org-mode-hook #'my/unset-line-move-visual)
 
                                         ;(with-eval-after-load 'web-mode ...)
 (require 'lsp-mode)
@@ -1722,7 +1727,7 @@ it acts on the current project."
 
 (require 'web-mode)
 (define-derived-mode genehack-vue-mode web-mode "ghVue"
-  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+  "A major mode derived from `web-mode', for editing .vue files with LSP support.")
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
                                         ;(add-hook 'genehack-vue-mode-hook #'eglot-ensure)
 (add-hook 'genehack-vue-mode-hook #'lsp)
@@ -1816,9 +1821,8 @@ it acts on the current project."
     (global-set-key
      (kbd (concat "<" loc "> <mouse-movement>")) #'ignore)))
 
-;; Make the tab tooltip show the buffer file name.
 (defun tab-line-tab-name-format-default (tab tabs)
-  "Default function to use as `tab-line-tab-name-format-function', which see."
+  "Default function to use as `tab-line-tab-name-format-function'.  Show a tooltip with the full path if you hover on TAB, and show a window tool bar inside TAB."
   (let* ((buffer-p (bufferp tab))
          (selected-p (if buffer-p
                          (eq tab (window-buffer))
@@ -1892,7 +1896,7 @@ it acts on the current project."
            (org-pdftools-use-freepointer-annot t))
        (org-noter-insert-note (org-noter--get-precise-info)))))
 
-  ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
+  ;; fix <https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf>
   (defun org-noter-set-start-location (&optional arg)
     "When opening a session with this document, go to the current location.
 With a prefix ARG, remove start location."
@@ -1944,7 +1948,7 @@ later form of vector is passed return 0."
 
 ;; based on <http://emacsredux.com/blog/2013/04/03/delete-file-and-buffer/>
 (defun delete-file-and-buffer ()
-  "Kill the current buffer and deletes the file it is visiting."
+  "Kill the current buffer and delete the file it was visiting."
   (interactive)
   (let ((filename (buffer-file-name)))
     (if filename
@@ -2076,7 +2080,7 @@ later form of vector is passed return 0."
     tool-bar-map))
 
 (defun my-mu4e-view-setup-toolbar ()
-  "Set up the toolbar for mu4e-view-mode."
+  "Set up the toolbar for `mu4e-view-mode'."
   (setq-local tool-bar-map mu4e-view-tool-bar-map)
                                         ; we don't need that: (tool-bar-mode 1)
   )
@@ -2085,7 +2089,7 @@ later form of vector is passed return 0."
                                         ;(my-mu4e-view-setup-toolbar)
 
 (defun my-mu4e-headers-setup-toolbar ()
-  "Add mu4e-specific items to the global toolbar for mu4e-headers-mode."
+  "Add mu4e-specific items to the global toolbar for `mu4e-headers-mode'."
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
     ;; Add mu4e-specific items
 
@@ -2188,7 +2192,7 @@ later form of vector is passed return 0."
   )
 
 (defun my-scheme-setup-toolbar ()
-  "Add mu4e-specific items to the global toolbar for scheme-mode."
+  "Add mu4e-specific items to the global toolbar for `scheme-mode'."
   (let ((tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
     ;; Add scheme-specific items
 
@@ -2284,7 +2288,7 @@ same ID still has the benchmarks table and possibly queued input."
 (setq el-job--debug-level 1)
 
 (defun org-babel-execute:ditaa (body params)
-  "Execute a block of Ditaa code with org-babel.
+  "Execute a block of Ditaa code in BODY with org-babel (and parameters PARAMS).
 This function is called by `org-babel-execute-src-block'."
   (let* ((out-file (or (cdr (assq :file params))
                        (error
