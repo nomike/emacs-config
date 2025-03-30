@@ -3,6 +3,8 @@
 ;; TODO: smtpmail-queue-mail
 ;; TODO: smtpmail-send-queued-mail
 
+;; Mu4e doesn't ignore underlying folders, which is cool if you have a very simple workflow. It's also superior to notmuch in the sense tags are stored in message headers, so they can easily be sync'ed across clients.
+
 (defun friendly-machines-deliver-to-maildir ()
   (smtpmail-send-it))
 
