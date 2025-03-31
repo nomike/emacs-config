@@ -2501,7 +2501,53 @@ This function is called by `org-babel-execute-src-block'."
     (define-key map (kbd "M-p") #'gnus-summary-prev-thread)
     (define-key map (kbd "C-M-n") #'gnus-summary-next-group)
     (define-key map (kbd "C-M-p") #'gnus-summary-prev-group)
-    (define-key map (kbd "C-M-^") #'gnus-summary-refer-thread)))
+    (define-key map (kbd "C-M-^") #'gnus-summary-refer-thread))
+
+  (defvar gnus-article-mode-tool-bar-map
+    (let ((tool-bar-map (make-sparse-keymap)))
+      (tool-bar-local-item "mail/reply-all" 'gnus-summary-wide-reply 'gnus-summary-wide-reply tool-bar-map :label "Reply to all" :help "Reply to all recipients")
+      (tool-bar-local-item "mail/reply" 'gnus-summary-reply 'gnus-summary-reply tool-bar-map :label "Reply" :help "Reply to sender")
+      (tool-bar-local-item "mail/forward" 'gnus-summary-post-forward 'gnus-summary-post-forward tool-bar-map :label "Forward" :help "Forward this message")
+
+      ;; TODO mark
+
+      tool-bar-map))
+
+  (defun my-gnus-article-mode-setup-toolbar ()
+    "Set up the toolbar for `gnus-article-mode'."
+    (message "GNUS ARTICLE XXX")
+    (setq-local tool-bar-map gnus-article-mode-tool-bar-map))
+
+  (add-hook 'gnus-article-mode-hook #'my-gnus-article-mode-setup-toolbar)
+
+  (defun my-gnus-summary-mode-setup-toolbar ()
+    "Set up the toolbar for `gnus-summary-mode'."
+    (let ((my-tool-bar-map (if tool-bar-map (copy-keymap tool-bar-map) (make-sparse-keymap))))  ; Start with copy of global toolbar
+      (tool-bar-local-item "mail/compose" 'gnus-summary-post-news 'gnus-summary-post-news my-tool-bar-map :label "Compose new post" :help "Compose a new post")
+
+      (tool-bar-local-item-from-menu
+       'gnus-summary-wide-reply
+       "mail/reply-all" my-tool-bar-map gnus-summary-mode-map
+       :label "Reply to all"
+       :help "Reply to all recipients")
+
+      (tool-bar-local-item-from-menu
+       'gnus-summary-reply
+       "mail/reply" my-tool-bar-map gnus-summary-mode-map
+       :label "Reply"
+       :help "Reply to sender")
+
+      (tool-bar-local-item-from-menu
+       'gnus-summary-post-forward
+       "mail/forward" my-tool-bar-map gnus-summary-mode-map
+       :label "Forward"
+       :help "Forward this message")
+
+      ;; TODO: next, previous article.
+
+      (setq-local tool-bar-map my-tool-bar-map)))
+
+  (add-hook 'gnus-summary-mode-hook #'my-gnus-summary-mode-setup-toolbar))
 
 ;; wakib has keyboard-quit on <escape> via wakib-keys-overriding-map (see simple.el)
 ;; but apparently there's a minibuffer-keyboard-quit we don't use, except on C-g, where delsel.el defines it.
