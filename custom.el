@@ -2606,21 +2606,22 @@ This function is called by `org-babel-execute-src-block'."
 (defun my-emms-playlist-setup-toolbar ()
   "Add mu4e-specific items to the global toolbar for `emms-playlist-mode'."
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
-    ;; TODO: emms-playlist-mode-kill-track
-    ;; TODO: emms-playlist-mode-shift-track-up
-    ;; TODO: RET emms-playlist-mode-play-smart
-    ;; emms-playlist-mode-shift-track-down
-    ;; emms-playlist-mode-kill
-    ;; TODO: emms-playlist-mode-kill-track
-    ;; emms-playlist-mode-yank
-    ;; emms-playlist-mode-undo
-    ;; SPC scroll-up
-    ;; emms-volume-raise
-    ;; emms-volume-lower
+    ;;; TODO: emms-playlist-mode-kill-track
+    ;;; TODO: emms-playlist-mode-shift-track-up
+    ;;; TODO: RET emms-playlist-mode-play-smart
+    ;;; emms-playlist-mode-shift-track-down
+    ;;; emms-playlist-mode-kill
+    ;;; TODO: emms-playlist-mode-kill-track
+    ;;; emms-playlist-mode-yank
+    ;;; emms-playlist-mode-undo
+    ;;; SPC scroll-up
+    ;;; emms-volume-raise
+    ;;; emms-volume-lower
 
-    ; icons: add.pbm  play.pbm  play.xpm  rewind.pbm  rewind.xpm
+    ;;; icons: add.pbm
 
-    ;(tool-bar-local-item "mpc/?" 'emms-seek-backward 'emms-seek-backward my-tool-bar-map :label "Seek backward" :help "Seek backward in track")
+    (tool-bar-local-item "mpc/play" 'emms-playlist-mode-play-smart 'emms-playlist-mode-play-smart my-tool-bar-map :label "Play" :help "Play track at point")
+    (tool-bar-local-item "mpc/rewind" 'emms-seek-backward 'emms-seek-backward my-tool-bar-map :label "Seek backward" :help "Seek backward in track")
     (tool-bar-local-item "mpc/ffwd" 'emms-seek-forward 'emms-seek-forward my-tool-bar-map :label "Seek forward" :help "Seek forward in track")
     (tool-bar-local-item "mpc/pause" 'emms-pause 'emms-pause my-tool-bar-map :label "Pause" :help "Pause playing")
     (tool-bar-local-item "mpc/prev" 'emms-previous 'emms-previous my-tool-bar-map :label "Previous track" :help "Go to previous track")
