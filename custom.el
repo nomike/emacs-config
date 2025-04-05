@@ -2523,7 +2523,6 @@ This function is called by `org-babel-execute-src-block'."
 
   (defun my-gnus-article-mode-setup-toolbar ()
     "Set up the toolbar for `gnus-article-mode'."
-    (message "GNUS ARTICLE XXX")
     (setq-local tool-bar-map gnus-article-mode-tool-bar-map))
 
   (add-hook 'gnus-article-mode-hook #'my-gnus-article-mode-setup-toolbar)
