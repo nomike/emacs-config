@@ -2646,8 +2646,8 @@ This function is called by `org-babel-execute-src-block'."
       ["Seek backward" emms-seek-backward :help "Seek backward"]
       ["Seek forward" emms-seek-forward :help "Seek forward"]
       ["Pause" emms-pause :help "Pause"]
-      ["Previous track" emms-playlist-mode-play-smart :help "Go to previous track"]
-      ["Next track" emms-playlist-mode-play-smart :help "Go to next track"]
+      ["Previous track" emms-previous :help "Go to previous track"]
+      ["Next track" emms-next :help "Go to next track"]
       ["Stop" emms-stop :help "Stop playing"]
       ))
 
