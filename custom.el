@@ -2607,6 +2607,7 @@ This function is called by `org-babel-execute-src-block'."
      (note "i" compilation-info))))
 
 (add-hook 'emms-browser-mode-hook 'tab-line-mode)
+(add-hook 'emms-browser-mode-hook #'variable-pitch-mode)
 (defun my-emms-browser-setup-toolbar ()
   "Add emms-browser-specific items to the global toolbar for `emms-browser-mode'."
 
@@ -2694,6 +2695,7 @@ This function is called by `org-babel-execute-src-block'."
     (setq-local tool-bar-map my-tool-bar-map)))
 
 (add-hook 'emms-playlist-mode-hook #'my-emms-playlist-setup-toolbar)
+(add-hook 'emms-playlist-mode-hook #'variable-pitch-mode)
 
 ; emms-playlist-mode-go
 ; switch-to-buffer emms-playlist-buffer
