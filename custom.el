@@ -2615,7 +2615,7 @@ This function is called by `org-babel-execute-src-block'."
 
   (easy-menu-define emms-browser-mode-menu emms-browser-mode-map
     "Menu for emms-browser"
-    '("Emms browser"
+    '("Emms"
       ["Browse by album" emms-browse-by-album :help "Browse by album"]
       ["Browse by year" emms-browse-by-year :help "Browse by year"]
       ["Browse by genre" emms-browse-by-genre :help "Browse by genre"]
@@ -2639,6 +2639,18 @@ This function is called by `org-babel-execute-src-block'."
 (add-hook 'emms-playlist-mode-hook 'tab-line-mode)
 (defun my-emms-playlist-setup-toolbar ()
   "Add emms-playlist-specific items to the global toolbar for `emms-playlist-mode'."
+  (easy-menu-define emms-playlist-mode-menu emms-playlist-mode-map
+    "Menu for emms-playlist"
+    '("Emms"
+      ["Play smart" emms-playlist-mode-play-smart :help "Play (smart)"]
+      ["Seek backward" emms-seek-backward :help "Seek backward"]
+      ["Seek forward" emms-seek-forward :help "Seek forward"]
+      ["Pause" emms-pause :help "Pause"]
+      ["Previous track" emms-playlist-mode-play-smart :help "Go to previous track"]
+      ["Next track" emms-playlist-mode-play-smart :help "Go to next track"]
+      ["Stop" emms-stop :help "Stop playing"]
+      ))
+
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
     ;;; TODO: emms-playlist-mode-kill-track
     ;;; TODO: emms-playlist-mode-shift-track-up
