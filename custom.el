@@ -1613,10 +1613,10 @@ argument is given.  Choose a file name based on any document
 (add-hook 'python-mode-hook 'flycheck-mode)
                                         ;(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 
-(require 'company-lsp)
-(with-eval-after-load 'company
-                                        ; missing (push 'company-robe company-backends)
-  (push 'company-lsp company-backends))
+                                        ;(require 'company-lsp)
+                                        ;(with-eval-after-load 'company
+                                        ;                                        ; missing (push 'company-robe company-backends)
+                                        ;  (push 'company-lsp company-backends));  broken
 
 (require 'vlf-setup) ; very large files
 
