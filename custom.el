@@ -2605,8 +2605,25 @@ This function is called by `org-babel-execute-src-block'."
 (add-hook 'emms-browser-mode-hook 'tab-line-mode)
 (defun my-emms-browser-setup-toolbar ()
   "Add emms-browser-specific items to the global toolbar for `emms-browser-mode'."
+
+  (easy-menu-define emms-browser-mode-menu emms-browser-mode-map
+    "Menu for emms-browser"
+    '("Emms browser"
+      ["Browse by album" emms-browse-by-album :help "Browse by album"]
+      ["Browse by year" emms-browse-by-year :help "Browse by year"]
+      ["Browse by genre" emms-browse-by-genre :help "Browse by genre"]
+      ["Browse by artist" emms-browse-by-artist :help "Browse by artist"]
+      ["Browse by composer" emms-browse-by-composer :help "Browse by composer"]
+      ["Browse by performer" emms-browse-by-performer :help "Browse by performer"]
+      ["Add tracks" emms-browse-add-tracks :help "Add tracks at point"]
+      ["Add tracks and play" emms-add-tracks-and-play :help "Add tracks at point and play"]
+      ["Collapse all" emms-browser-collapse-all :help "Collapse all nodes"]
+      ["Expand all" emms-browser-expand-all :help "Expand all nodes"]
+
+                                        ;["Do Other Thing" your-mode-do-other-thing :enable (buffer-modified-p) :help "Does another thing"]
+      ))
+
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
-    (tool-bar-local-item nil 'emms-browse-by-album 'emms-browse-by-album my-tool-bar-map :label "Browse by album" :help "Browse by album")
     (tool-bar-local-item "mpc/add" 'emms-browser-add-tracks-and-play 'emms-browser-add-tracks-and-play my-tool-bar-map 'emms-browser-add-tracks-and-play :label "Add and play" :help "Add tracks and play")
     ;; Making a buffer local
     (setq-local tool-bar-map my-tool-bar-map)))
@@ -2618,15 +2635,14 @@ This function is called by `org-babel-execute-src-block'."
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
     ;;; TODO: emms-playlist-mode-kill-track
     ;;; TODO: emms-playlist-mode-shift-track-up
-    ;;; TODO: RET emms-playlist-mode-play-smart
-    ;;; emms-playlist-mode-shift-track-down
-    ;;; emms-playlist-mode-kill
+    ;;; TODO: emms-playlist-mode-shift-track-down
+    ;;; TODO: emms-playlist-mode-kill
     ;;; TODO: emms-playlist-mode-kill-track
-    ;;; emms-playlist-mode-yank
-    ;;; emms-playlist-mode-undo
-    ;;; SPC scroll-up
-    ;;; emms-volume-raise
-    ;;; emms-volume-lower
+    ;;; TODO: emms-playlist-mode-yank
+    ;;; TODO: emms-playlist-mode-undo
+    ;;; TODO: SPC scroll-up
+    ;;; TODO: emms-volume-raise
+    ;;; TODO: emms-volume-lower
 
     ;;; icons: add.pbm
 
