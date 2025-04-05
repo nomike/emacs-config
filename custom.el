@@ -2653,7 +2653,7 @@ This function is called by `org-babel-execute-src-block'."
     (tool-bar-local-item "mpc/prev" 'emms-previous 'emms-previous my-tool-bar-map :label "Previous track" :help "Go to previous track")
     (tool-bar-local-item "mpc/next" 'emms-next 'emms-next my-tool-bar-map :label "Next track" :help "Go to next track")
     (tool-bar-local-item "mpc/stop" 'emms-stop 'emms-stop my-tool-bar-map :label "Stop playing" :help "Stop playing")
-    ;; TODO: emms-random !!!
+    ;;; TODO: emms-random !!!
 
     ;;; TODO: emms-show -> "currently playing X" in mode-line
 
