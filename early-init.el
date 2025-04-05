@@ -75,6 +75,11 @@
   [menu-bar tools emms]
   '("Play music..." . emms))
 
+;; TODO: Report bug with emms upstream that this is missing.
+(define-key global-map
+  [menu-bar tools emms-smart-browse]
+  '("Browse music" . emms-smart-browse))
+
 ;; TODO: Report bug with wttrin upstream that this is missing.
 (define-key global-map
   [menu-bar tools wttrin]
