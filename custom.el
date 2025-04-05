@@ -2602,9 +2602,19 @@ This function is called by `org-babel-execute-src-block'."
      (warning "?" compilation-warning)
      (note "i" compilation-info))))
 
+(add-hook 'emms-browser-mode-hook 'tab-line-mode)
+(defun my-emms-browser-setup-toolbar ()
+  "Add emms-browser-specific items to the global toolbar for `emms-browser-mode'."
+  (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
+    (tool-bar-local-item nil 'emms-browse-by-album 'emms-browse-by-album my-tool-bar-map :label "Browse by album" :help "Browse by album")
+    (tool-bar-local-item "mpc/add" 'emms-browser-add-tracks-and-play 'emms-browser-add-tracks-and-play my-tool-bar-map 'emms-browser-add-tracks-and-play :label "Add and play" :help "Add tracks and play")
+    ;; Making a buffer local
+    (setq-local tool-bar-map my-tool-bar-map)))
+(add-hook 'emms-browser-mode-hook #'my-emms-browser-setup-toolbar)
+
 (add-hook 'emms-playlist-mode-hook 'tab-line-mode)
 (defun my-emms-playlist-setup-toolbar ()
-  "Add mu4e-specific items to the global toolbar for `emms-playlist-mode'."
+  "Add emms-playlist-specific items to the global toolbar for `emms-playlist-mode'."
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
     ;;; TODO: emms-playlist-mode-kill-track
     ;;; TODO: emms-playlist-mode-shift-track-up
