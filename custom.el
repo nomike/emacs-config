@@ -1436,6 +1436,10 @@ argument is given.  Choose a file name based on any document
   (require 'emms-setup)
   (emms-all)
   (setq emms-player-list '(emms-player-mpv))
+                                        ;(setq emms-browser-info-title-format "%i%n %cM")
+                                        ;(setq emms-browser-playlist-info-title-format emms-browser-info-title-format)
+  (setq emms-browser-covers #'emms-browser-cache-thumbnail)
+
   (require 'org-emms)
   (add-hook 'after-init-hook
             (lambda ()
