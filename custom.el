@@ -1431,11 +1431,15 @@ argument is given.  Choose a file name based on any document
 (require 'shr-tag-math)
                                         ;(add-hook 'nov-mode-hook #'xenops-mode) ; so we render <math>; unfortunately, that fucks up all the other formatting. Also, the size of the rendered images is much too big here.
 
-(require 'emms-setup)
-(emms-all)
-(setq emms-player-list '(emms-player-mpv))
-(emms-add-directory-tree "~/Music")
-(require 'org-emms)
+(use-package emms
+  :config
+  (require 'emms-setup)
+  (emms-all)
+  (setq emms-player-list '(emms-player-mpv))
+  (require 'org-emms)
+  (add-hook 'after-init-hook
+            (lambda ()
+              (emms-add-directory-tree "~/Music"))))
 
 (defun elfeed-search-print-entry (entry)
   "Print ENTRY to the buffer."
@@ -2597,3 +2601,69 @@ This function is called by `org-babel-execute-src-block'."
    `((error "!" compilation-error)
      (warning "?" compilation-warning)
      (note "i" compilation-info))))
+
+(add-hook 'emms-playlist-mode-hook 'tab-line-mode)
+(defun my-emms-playlist-setup-toolbar ()
+  "Add mu4e-specific items to the global toolbar for `emms-playlist-mode'."
+  (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
+    ;; TODO: emms-playlist-mode-kill-track
+    ;; TODO: emms-playlist-mode-shift-track-up
+    ;; TODO: RET emms-playlist-mode-play-smart
+    ;; emms-playlist-mode-shift-track-down
+    ;; emms-playlist-mode-kill
+    ;; TODO: emms-playlist-mode-kill-track
+    ;; emms-playlist-mode-yank
+    ;; emms-playlist-mode-undo
+    ;; SPC scroll-up
+    ;; emms-volume-raise
+    ;; emms-volume-lower
+
+    ; icons: add.pbm  play.pbm  play.xpm  rewind.pbm  rewind.xpm
+
+    ;(tool-bar-local-item "mpc/?" 'emms-seek-backward 'emms-seek-backward my-tool-bar-map :label "Seek backward" :help "Seek backward in track")
+    (tool-bar-local-item "mpc/ffwd" 'emms-seek-forward 'emms-seek-forward my-tool-bar-map :label "Seek forward" :help "Seek forward in track")
+    (tool-bar-local-item "mpc/pause" 'emms-pause 'emms-pause my-tool-bar-map :label "Pause" :help "Pause playing")
+    (tool-bar-local-item "mpc/prev" 'emms-previous 'emms-previous my-tool-bar-map :label "Previous track" :help "Go to previous track")
+    (tool-bar-local-item "mpc/next" 'emms-next 'emms-next my-tool-bar-map :label "Next track" :help "Go to next track")
+    (tool-bar-local-item "mpc/stop" 'emms-stop 'emms-stop my-tool-bar-map :label "Stop playing" :help "Stop playing")
+    ;; TODO: emms-random !!!
+
+    ;;; TODO: emms-show -> "currently playing X" in mode-line
+
+    ;;; TODO: emms-tag-editor-edit
+    ;;; TODO: emms-tag-editor-rename
+
+    ;;; TODO: emms-playlist-mode-current-kill
+    ;;; TODO: emms-playlist-clear
+    ;;; TODO: emms-playlist-mode-add-contents
+    ;;; TODO: emms-playlist-set-playlist-buffer
+    ;;; TODO: emms-playlist-mode-center-current
+    ;;; TODO: emms-playlist-mode-goto-dired-at-point
+    ;;; TODO: emms-playlist-playlist-insert-track
+    ;;; TODO: emms-playlist-mode-bury-buffer
+    ;;; TODO: emms-playlist-mode-undo
+    ;;;	TODO: emms-playlist-mode-play-current-track (mouse-2)
+    ;;; TODO: emms-playlist-limit-to-all
+    ;;; TODO: emms-playlist-limit-to-info-albumartist
+    ;;; TODO: emms-playlist-limit-to-info-note
+    ;;; TODO: emms-playlist-limit-to-info-artist
+    ;;; TODO: emms-playlist-limit-to-info-album
+    ;;; [...]
+    ;;; TODO: emms-playlist-sort-by-info-albumartist
+    ;;; [...]
+    ;;; TODO: emms-playlist-mode-first
+    ;;; TODO: emms-playlist-mode-last
+    ;;; TODO: emms-playlist-mode-next
+    ;;; TODO: emms-playlist-mode-previous
+    ;;; TODO: emms-playlist-mode-yank-pop
+    ;;; TODO: emms-playlist-save
+    ;;; TODO: emms-playlist-mode-undo
+
+    ;; Making a buffer local
+    (setq-local tool-bar-map my-tool-bar-map)))
+
+(add-hook 'emms-playlist-mode-hook #'my-emms-playlist-setup-toolbar)
+
+; emms-playlist-mode-go
+; switch-to-buffer emms-playlist-buffer
+; emms-playlist-mode-add-contents setq emms-playlist-buffer emms-playlist-set-playlist-buffer (emms-playlist-new
