@@ -189,7 +189,7 @@
 
 ;; Custom "e" command in eshell
 (defun eshell/e (&rest args)
-  "Open one or more files in Emacs, similar to the 'find-file' function."
+  "Open one or more files in Emacs, similar to the `find-file' function.  ARGS will be evaluated by eshell."
   (eshell-eval-using-options
    "e" args
    '((?f "file" nil nil "file")
@@ -263,7 +263,7 @@ Warn if the directory already exists.  ARGS will be evaluated by eshell."
 (global-set-key (kbd "M-<f3>") 'ff-get-other-file)
 
 (defun define-debug-key (mode-map key gud-command &optional dap-command)
-  "Bind KEY to GUD-COMMAND when GUD is active, or DAP-COMMAND when DAP is active.
+  "In MODE-MAP, bind KEY to GUD-COMMAND when GUD is active, or DAP-COMMAND when DAP is active.
 KEY should be like (key \"<f8>\").
 GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
   (define-key mode-map key
