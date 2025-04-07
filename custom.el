@@ -1445,6 +1445,25 @@ argument is given.  Choose a file name based on any document
             (lambda ()
               (emms-add-directory-tree "~/Music"))))
 
+(use-package mediainfo-mode
+  :config
+  (require 'emms)
+  (setq mediainfo-mode-open-method #'emms-play-file)
+  (defun my-mediainfo-setup-toolbar ()
+    "Add mediainfo-specific items to the global toolbar for `mediainfo-mode'."
+    (easy-menu-define mediainfo-mode-menu mediainfo-mode-map
+      "Menu for mediainfo"
+      '("Mediainfo"
+        ["Play" mediainfo-mode-open :help "Play"]
+        ))
+    (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
+      (tool-bar-local-item "mpc/play" 'mediainfo-mode-open 'mediainfo-mode-open my-tool-bar-map :label "Play" :help "Play")
+    ;; Making a buffer local
+    (setq-local tool-bar-map my-tool-bar-map)))
+  (add-hook 'mediainfo-mode-hook #'my-mediainfo-setup-toolbar)
+
+  )
+
 (defun elfeed-search-print-entry (entry)
   "Print ENTRY to the buffer."
   (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
