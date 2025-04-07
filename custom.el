@@ -1438,6 +1438,13 @@ argument is given.  Choose a file name based on any document
   (setq emms-player-list '(emms-player-mpv))
                                         ;(setq emms-browser-info-title-format "%i%n %cM")
                                         ;(setq emms-browser-playlist-info-title-format emms-browser-info-title-format)
+  (setq emms-tag-editor-pipe-config
+   '(("mid3iconv <file>"
+      :command "mid3iconv"
+      :arguments (name))))
+  (require 'emms-info-libtag)
+  (setq emms-info-functions '(emms-info-libtag))
+
   (setq emms-browser-covers #'emms-browser-cache-thumbnail)
 
   (require 'org-emms)
