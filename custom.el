@@ -2675,6 +2675,8 @@ This function is called by `org-babel-execute-src-block'."
       ["Previous track" emms-previous :help "Go to previous track"]
       ["Next track" emms-next :help "Go to next track"]
       ["Stop" emms-stop :help "Stop playing"]
+      ["Edit tag..." emms-tag-editor-edit :help "Edit ID3 tag"]
+      ["Pipe tag editor..." emms-tag-editor-pipe :help "Pipe to a more complicated (configured) tag editor"]
       ))
 
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
