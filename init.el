@@ -21,12 +21,7 @@
 ;; Note: Major modes and minor modes are allowed to locally change the indent-tabs-mode variable, and a lot of them do.
                                         ;(setq-default indent-tabs-mode nil)
 
-(setq column-number-mode t)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-doc-show-with-mouse t)
 (setq tab-always-indent 'complete)
-(setq rust-format-on-save t)
-(setq lsp-enable-suggest-server-download nil)
                                         ; <https://github.com/thread314/intuitive-tab-line-mode>
 (global-tab-line-mode 1)
 
@@ -34,15 +29,7 @@
 
 (tool-bar-mode -1)
 
-(projectile-mode +1)
-
-(setq inhibit-startup-message t)    ;; Hide the startup message
 (global-prettify-symbols-mode 1)
-
-(use-package pyvenv
-  :ensure nil
-  :config
-  (pyvenv-mode nil))
 
 ;;; CUA mode
 
@@ -60,6 +47,19 @@
 
 (require 'package)
 (package-initialize)
+
+(use-package rust-mode
+  :custom
+  (rust-format-on-save t))
+
+(use-package projectile
+  :config
+  (projectile-mode +1))
+
+(use-package pyvenv
+  :ensure nil
+  :config
+  (pyvenv-mode nil))
 
 ;;; Magit "git-commit-* unavailable"
 
@@ -98,6 +98,7 @@
  '(buffer-env-safe-files
    '(("/home/dannym/src/guix/manifest.scm" . "0b387290e9851813debd81b6e3aa5099f0f17fad1fade821ca1f0928262e56c4")
      ("/home/dannym/src/latex-ex/manifest.scm" . "5200b8ce405410acc7ad0e4baf5bfaa85b0160bff5815265a305bdc9a7fb70ed")))
+ '(column-number-mode t)
  '(debbugs-browse-url-regexp
    "^https?://\\(debbugs\\.gnu\\.org\\|bugs\\.gnu\\.org\\|issues.guix.gnu.org\\)/\\(cgi/bugreport\\.cgi\\?bug=\\)?\\([[:digit:]]+\\)$")
  '(delete-by-moving-to-trash t)
@@ -167,6 +168,7 @@
      (geiser-guile-binary "guix" "repl")
      (geiser-insert-actual-lambda)))
  '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
  '(kiwix-default-browser-function 'eww-browse-url)
  '(kiwix-server-type 'kiwix-serve-local)
  '(kiwix-zim-dir "~/.local/zim")
@@ -423,9 +425,9 @@
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-parameter-hints nil)
   (lsp-rust-analyzer-display-reborrow-hints nil)
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-
+  (lsp-enable-suggest-server-download nil)
   :config
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
                                         ; <https://github.com/emacs-lsp/lsp-mode/issues/2583>
@@ -439,7 +441,8 @@
   :custom
   (lsp-ui-peek-always-show t)
   (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable nil))
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-show-with-mouse t))
 
 (use-package company
   :ensure nil
