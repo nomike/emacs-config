@@ -2276,12 +2276,12 @@ later form of vector is passed return 0."
   :config
   (defun my-debbugs-setup-toolbar ()
     (easy-menu-define debbugs-org-mode-menu debbugs-org-mode-map
-    "Menu for debbugs"
-    '("Debbugs"
-      ["Change bug status..." debbugs-gnu-send-control-message :help "Send control message"]
-      ["Display bug status" debbugs-gnu-display-status :help "Display bug status"])))
+      "Menu for debbugs"
+      '("Debbugs"
+        ["Change bug status..." debbugs-gnu-send-control-message :help "Send control message"]
+        ["Display bug status" debbugs-gnu-display-status :help "Display bug status"])))
   (add-hook 'debbugs-org-mode-hook #'my-debbugs-setup-toolbar))
-  
+
 (require 'debbugs)
 (require 'bug-reference)
 
