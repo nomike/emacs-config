@@ -2753,7 +2753,7 @@ This function is called by `org-babel-execute-src-block'."
 ; switch-to-buffer emms-playlist-buffer
 ; emms-playlist-mode-add-contents setq emms-playlist-buffer emms-playlist-set-playlist-buffer (emms-playlist-new
 (defun my/substitute-unnecessary-latex ()
-  "Substitute \[ \\n \\text{STUFF} \\n \] with STUFF in the current buffer."
+  "Substitute \\[ \\n \\text{STUFF} \\n \\] with STUFF in the current buffer."
   (interactive)
   (save-excursion
     (goto-char (point-min))
