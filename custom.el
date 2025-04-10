@@ -1296,6 +1296,8 @@ argument is given.  Choose a file name based on any document
                                         ; (tramp-cleanup-all-connections)
                                         ; check tramp/foo* and debug tramp/foo*
 
+)
+
 (setq org-src-tab-acts-natively t)
 (add-hook 'org-mode-hook #'mixed-pitch-mode)
 
