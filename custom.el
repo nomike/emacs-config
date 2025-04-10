@@ -1228,76 +1228,76 @@ argument is given.  Choose a file name based on any document
   :config
   (org-node-cache-mode)
 
-(keymap-set global-map "C-<Search>" #'org-node-find)
-(keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
+  (keymap-set global-map "C-<Search>" #'org-node-find)
+  (keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
 
-(add-hook 'org-mode-hook #'org-node-backlink-mode)
-(setq org-node-creation-fn #'org-capture)
-(setq org-node-alter-candidates t)
+  (add-hook 'org-mode-hook #'org-node-backlink-mode)
+  (setq org-node-creation-fn #'org-capture)
+  (setq org-node-alter-candidates t)
 
-;; Prefer visiting node with URL in ROAM_REFS property instead of opening URL in web browser.
-(add-hook 'org-open-at-point-functions
-          #'org-node-try-visit-ref-node)
+  ;; Prefer visiting node with URL in ROAM_REFS property instead of opening URL in web browser.
+  (add-hook 'org-open-at-point-functions
+            #'org-node-try-visit-ref-node)
 
-(setq org-directory "~/doc/org")
-(setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-directory "~/doc/org")
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
 
 
                                         ;        "~/Syncthing/"
 
-(setq org-node-extra-id-dirs
-      '("~/doc/org-roam/"))
+  (setq org-node-extra-id-dirs
+        '("~/doc/org-roam/"))
                                         ;Do a M-x org-node-reset and see if it can find your notes now.
                                         ; Then org-id-update-id-locations
 
-(setq org-node-series-defs
-      (list
-       '("d" :name "Daily-files"
-         :version 2
-         :classifier (lambda (node)
-                       (let ((path (org-node-get-file-path node)))
-                         (when (string-search "~/doc/org/daily" path)
-                           (let ((ymd (org-node-helper-filename->ymd path)))
-                             (when ymd
-                               (cons ymd path))))))
-         :whereami (lambda ()
-                     (org-node-helper-filename->ymd buffer-file-name))
-         :prompter (lambda (key)
-                     (let ((org-node-series-that-marks-calendar key))
-                       (org-read-date)))
-         :try-goto (lambda (item)
-                     (org-node-helper-try-visit-file (cdr item)))
-         :creator (lambda (sortstr key)
-                    (let ((org-node-datestamp-format "")
-                          (org-node-ask-directory "~/doc/org/daily"))
-                      (org-node-create sortstr (org-id-new) key))))
+  (setq org-node-series-defs
+        (list
+         '("d" :name "Daily-files"
+           :version 2
+           :classifier (lambda (node)
+                         (let ((path (org-node-get-file-path node)))
+                           (when (string-search "~/doc/org/daily" path)
+                             (let ((ymd (org-node-helper-filename->ymd path)))
+                               (when ymd
+                                 (cons ymd path))))))
+           :whereami (lambda ()
+                       (org-node-helper-filename->ymd buffer-file-name))
+           :prompter (lambda (key)
+                       (let ((org-node-series-that-marks-calendar key))
+                         (org-read-date)))
+           :try-goto (lambda (item)
+                       (org-node-helper-try-visit-file (cdr item)))
+           :creator (lambda (sortstr key)
+                      (let ((org-node-datestamp-format "")
+                            (org-node-ask-directory "~/doc/org/daily"))
+                        (org-node-create sortstr (org-id-new) key))))
 
-       ;; Obviously, this series works best if you have `org-node-put-created' on
-       ;; `org-node-creation-hook'.
-       '("a" :name "All ID-nodes by property :CREATED:"
-         :version 2
-         :capture "n"
-         :classifier (lambda (node)
-                       (let ((time (cdr (assoc "CREATED" (org-node-get-props node)))))
-                         (when (and time (not (string-blank-p time)))
-                           (cons time (org-node-get-id node)))))
-         :whereami (lambda ()
-                     (let ((time (org-entry-get nil "CREATED" t)))
-                       (and time (not (string-blank-p time)) time)))
-         :prompter (lambda (key)
-                     (let ((series (cdr (assoc key org-node-built-series))))
-                       (completing-read "Go to: " (plist-get series :sorted-items))))
-         :try-goto (lambda (item)
-                     (when (org-node-helper-try-goto-id (cdr item))
-                       t))
-         :creator (lambda (sortstr key)
-                    (org-node-create sortstr (org-id-new) key)))))
+         ;; Obviously, this series works best if you have `org-node-put-created' on
+         ;; `org-node-creation-hook'.
+         '("a" :name "All ID-nodes by property :CREATED:"
+           :version 2
+           :capture "n"
+           :classifier (lambda (node)
+                         (let ((time (cdr (assoc "CREATED" (org-node-get-props node)))))
+                           (when (and time (not (string-blank-p time)))
+                             (cons time (org-node-get-id node)))))
+           :whereami (lambda ()
+                       (let ((time (org-entry-get nil "CREATED" t)))
+                         (and time (not (string-blank-p time)) time)))
+           :prompter (lambda (key)
+                       (let ((series (cdr (assoc key org-node-built-series))))
+                         (completing-read "Go to: " (plist-get series :sorted-items))))
+           :try-goto (lambda (item)
+                       (when (org-node-helper-try-goto-id (cdr item))
+                         t))
+           :creator (lambda (sortstr key)
+                      (org-node-create sortstr (org-id-new) key)))))
 
                                         ;(setq tramp-verbose 9)
                                         ; (tramp-cleanup-all-connections)
                                         ; check tramp/foo* and debug tramp/foo*
 
-)
+  )
 
 (setq org-src-tab-acts-natively t)
 (add-hook 'org-mode-hook #'mixed-pitch-mode)
@@ -1442,9 +1442,9 @@ argument is given.  Choose a file name based on any document
                                         ;(setq emms-browser-info-title-format "%i%n %cM")
                                         ;(setq emms-browser-playlist-info-title-format emms-browser-info-title-format)
   (setq emms-tag-editor-pipe-config
-   '(("mid3iconv <file>"
-      :command "mid3iconv"
-      :arguments (name))))
+        '(("mid3iconv <file>"
+           :command "mid3iconv"
+           :arguments (name))))
   (require 'emms-info-libtag)
   (setq emms-info-functions '(emms-info-libtag))
 
@@ -1468,8 +1468,8 @@ argument is given.  Choose a file name based on any document
         ))
     (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
       (tool-bar-local-item "mpc/play" 'mediainfo-mode-open 'mediainfo-mode-open my-tool-bar-map :label "Play" :help "Play")
-    ;; Making a buffer local
-    (setq-local tool-bar-map my-tool-bar-map)))
+      ;; Making a buffer local
+      (setq-local tool-bar-map my-tool-bar-map)))
   (add-hook 'mediainfo-mode-hook #'my-mediainfo-setup-toolbar)
 
   )
