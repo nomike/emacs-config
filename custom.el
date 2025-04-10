@@ -2665,10 +2665,8 @@ This function is called by `org-babel-execute-src-block'."
       ["Add tracks and play" emms-add-tracks-and-play :help "Add tracks at point and play"]
       ["Collapse all" emms-browser-collapse-all :help "Collapse all nodes"]
       ["Expand all" emms-browser-expand-all :help "Expand all nodes"]
-
                                         ;["Do Other Thing" your-mode-do-other-thing :enable (buffer-modified-p) :help "Does another thing"]
       ))
-
   (let ((my-tool-bar-map (copy-keymap tool-bar-map)))  ; Start with copy of global toolbar
     (tool-bar-local-item "mpc/add" 'emms-browser-add-tracks-and-play 'emms-browser-add-tracks-and-play my-tool-bar-map 'emms-browser-add-tracks-and-play :label "Add and play" :help "Add tracks and play")
     ;; Making a buffer local
@@ -2748,7 +2746,6 @@ This function is called by `org-babel-execute-src-block'."
 
     ;; Making a buffer local
     (setq-local tool-bar-map my-tool-bar-map)))
-
 (add-hook 'emms-playlist-mode-hook #'my-emms-playlist-setup-toolbar)
 (add-hook 'emms-playlist-mode-hook #'variable-pitch-mode)
 
