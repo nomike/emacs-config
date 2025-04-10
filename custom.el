@@ -2752,3 +2752,10 @@ This function is called by `org-babel-execute-src-block'."
 ; emms-playlist-mode-go
 ; switch-to-buffer emms-playlist-buffer
 ; emms-playlist-mode-add-contents setq emms-playlist-buffer emms-playlist-set-playlist-buffer (emms-playlist-new
+(defun my/substitute-unnecessary-latex ()
+  "Substitute \[ \\n \\text{STUFF} \\n \] with STUFF in the current buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\\[\\([[:space:]]*\\)\\(\n\\)[[:space:]]*\\\\text{\\([a-zA-Zäöü:,.[:space:]]*\\)[[:space:]]*}[[:space:]]*\\(\n\\)[[:space:]]*\\\\]")
+      (replace-match "\\3" nil nil))))
