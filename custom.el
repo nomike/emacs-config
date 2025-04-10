@@ -2633,8 +2633,8 @@ This function is called by `org-babel-execute-src-block'."
   (proced-filter 'user)
   :config
   (add-hook 'proced-mode-hook
-    (lambda ()
-      (proced-toggle-auto-update 1))))
+            (lambda ()
+              (proced-toggle-auto-update 1))))
 
 (use-package flymake
   :defer t
