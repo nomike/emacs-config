@@ -1220,12 +1220,13 @@ argument is given.  Choose a file name based on any document
 
 (setq buffer-env-script-name '("manifest.scm" ".envrc"))
 
-(use-package org-node
-  :after org
-  :config (org-node-cache-mode))
-
 ;; Original wakib binding would save and quit emacs (using save-buffers-kill-terminal).  Who wants that?
 (keymap-set wakib-keys-overriding-map "C-q" #'quoted-insert)
+
+(use-package org-node
+  :after org
+  :config
+  (org-node-cache-mode)
 
 (keymap-set global-map "C-<Search>" #'org-node-find)
 (keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
