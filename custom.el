@@ -2309,29 +2309,6 @@ later form of vector is passed return 0."
   (setq trashed-sort-key '("Date deleted" . t))
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
-;; <https://github.com/meedstrom/el-job/issues/1>
-(defun el-job--disable (job)
-  "Kill processes in JOB and their process buffers.
-
-This does not deregister the job ID.  That means the next launch with
-same ID still has the benchmarks table and possibly queued input."
-  (el-job--with job (.id .busy .ready .stderr .poll-timer)
-    (cancel-timer .poll-timer)
-    (dolist (proc (append .busy .ready))
-      (let ((buf (process-buffer proc)))
-        (delete-process proc)
-        ;; Why can BUF be nil?  And why is `kill-buffer' so unsafe? can we
-        ;; upstream a `kill-buffer-safe' that errors when given nil argument?
-        (if (buffer-live-p buf)
-            (when (= 0 el-job--debug-level)
-              (kill-buffer buf))
-          (el-job--dbg 1 "Process had no buffer: %s" proc))))
-    (and (= 0 el-job--debug-level)
-         (buffer-live-p .stderr)
-         (kill-buffer .stderr))
-    (setf .busy nil)
-    (setf .ready nil)))
-
 (setq el-job--debug-level 1)
 
 (defun org-babel-execute:ditaa (body params)
