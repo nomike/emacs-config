@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
                                         ;(customize-set-variable 'lsp-treemacs-theme "Iconless")
-(add-to-list 'load-path "~/.emacs.d/elfeed/")
+; (add-to-list 'load-path "~/.emacs.d/elfeed/")
 
 (require 'nerd-icons)
                                         ; Gtk 3
@@ -51,7 +51,7 @@
 (add-hook 'css-mode-hook 'variable-pitch-mode)
 (add-hook 'html-mode-hook 'variable-pitch-mode)
 (add-hook 'mhtml-mode-hook 'variable-pitch-mode)
-(add-hook 'python-mode-hook 'variable-pitch-mode)
+; (add-hook 'python-mode-hook 'variable-pitch-mode)
                                         ;(dolist (mode '(scheme-mode-hook term-mode-hook))  ; org-mode-hook term-mode-hook eshell-mode-hook treemacs-mode-hook
                                         ;  (add-hook mode
                                         ;    (lambda ()
@@ -83,14 +83,14 @@
 (setq inhibit-startup-message t)    ;; Hide the startup message
 (global-prettify-symbols-mode 1)
 
-(use-package pyvenv
-  :ensure nil
-  :config
-  (pyvenv-mode nil))
+; (use-package pyvenv
+;   :ensure nil
+;   :config
+;   (pyvenv-mode nil))
 
 ;;; CUA mode
 
-(cua-mode t) ; replaced by wakib-keys
+(cua-mode t) ; don't forget wakib-keys
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
 (transient-mark-mode 1) ;; No region when it is not highlighted
 (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
@@ -291,83 +291,85 @@
   ;;
   ;;  M-x customize-group RET combobulate RET
   ;;
-  (use-package combobulate
-    ;; Optional, but recommended.
-    ;;
-    ;; You can manually enable Combobulate with `M-x
-    ;; combobulate-mode'.
-    :commands combobulate-mode ; XXX
-    :hook ( ;(python-ts-mode . combobulate-mode)
-           (js-ts-mode . combobulate-mode)
-           (css-ts-mode . combobulate-mode)
-					;(html-ts-mode . combobulate-mode)
-           (yaml-ts-mode . combobulate-mode)
-           (typescript-ts-mode . combobulate-mode)
-           (tsx-ts-mode . combobulate-mode)
-           (rust . combobulate-mode))
-    ;; Amend this to the directory where you keep Combobulate's source
-    ;; code.
-    :load-path ("~/.emacs.d/combobulate")))
+  ; (use-package combobulate
+  ;   ;; Optional, but recommended.
+  ;   ;;
+  ;   ;; You can manually enable Combobulate with `M-x
+  ;   ;; combobulate-mode'.
+  ;   :commands combobulate-mode ; XXX
+  ;   :hook ( ;(python-ts-mode . combobulate-mode)
+  ;          (js-ts-mode . combobulate-mode)
+  ;          (css-ts-mode . combobulate-mode)
+	; 				;(html-ts-mode . combobulate-mode)
+  ;          (yaml-ts-mode . combobulate-mode)
+  ;          (typescript-ts-mode . combobulate-mode)
+  ;          (tsx-ts-mode . combobulate-mode)
+  ;          (rust . combobulate-mode))
+  ;   ;; Amend this to the directory where you keep Combobulate's source
+  ;   ;; code.
+  ;   :load-path ("~/.emacs.d/combobulate"))
+  )
 
-(add-hook 'scheme-mode-hook
-          (lambda ()
-            "Prettify Guile"
-            (push '("lambda*" . "λ*") prettify-symbols-alist)
-            (push '("lambda" . "λ") prettify-symbols-alist)
-            ))
+; (add-hook 'scheme-mode-hook
+;           (lambda ()
+;             "Prettify Guile"
+;             (push '("lambda*" . "λ*") prettify-symbols-alist)
+;             (push '("lambda" . "λ") prettify-symbols-alist)
+;             ))
 
-(add-hook 'python-mode-hook
-          (lambda ()
-            "Prettify Python"
-            (push '("in" . "∈") prettify-symbols-alist)
-            (push '("True" . "⊨") prettify-symbols-alist)
-            (push '("False" . "⊭") prettify-symbols-alist)
-            (push '("is" . "≡") prettify-symbols-alist)
-            (push '("is not" . "≢") prettify-symbols-alist)
-            (push '("__add__" . "+") prettify-symbols-alist)
-            (push '("__sub__" . "-") prettify-symbols-alist)
-            (push '("__mul__" . "*") prettify-symbols-alist)
-            (push '("__mod__" . "%") prettify-symbols-alist)
-            (push '("__truediv__" . "/") prettify-symbols-alist)
-            (push '("__floordiv__" . "//") prettify-symbols-alist)
-            (push '("__gt__" . ">") prettify-symbols-alist)
-            (push '("__ge__" . ">=") prettify-symbols-alist)
-            (push '("__lt__" . "<") prettify-symbols-alist)
-            (push '("__le__" . "<=") prettify-symbols-alist)
-            (push '("__eq__" . "==") prettify-symbols-alist)
-            (push '("__ne__" . "!=") prettify-symbols-alist)
-            (push '("issubset" . "⊆") prettify-symbols-alist)
-            (push '("issuperset" . "⊇") prettify-symbols-alist)
-					; U+2264 less than or equal ≤
-					; U+2265 greater than or equal ≥
-					; U+2216 set minus ∖
-					; U+2229 intersection ∩
-					; U+222A union ∪
-					; TODO __or__ __pos__ __pow__ __r*__ __trunc__ __lshift__
-					; TODO __xor__ __and__ __or__
-					; TOOD __neg__
-            ))
+; (add-hook 'python-mode-hook
+;           (lambda ()
+;             "Prettify Python"
+;             (push '("in" . "∈") prettify-symbols-alist)
+;             (push '("True" . "⊨") prettify-symbols-alist)
+;             (push '("False" . "⊭") prettify-symbols-alist)
+;             (push '("is" . "≡") prettify-symbols-alist)
+;             (push '("is not" . "≢") prettify-symbols-alist)
+;             (push '("__add__" . "+") prettify-symbols-alist)
+;             (push '("__sub__" . "-") prettify-symbols-alist)
+;             (push '("__mul__" . "*") prettify-symbols-alist)
+;             (push '("__mod__" . "%") prettify-symbols-alist)
+;             (push '("__truediv__" . "/") prettify-symbols-alist)
+;             (push '("__floordiv__" . "//") prettify-symbols-alist)
+;             (push '("__gt__" . ">") prettify-symbols-alist)
+;             (push '("__ge__" . ">=") prettify-symbols-alist)
+;             (push '("__lt__" . "<") prettify-symbols-alist)
+;             (push '("__le__" . "<=") prettify-symbols-alist)
+;             (push '("__eq__" . "==") prettify-symbols-alist)
+;             (push '("__ne__" . "!=") prettify-symbols-alist)
+;             (push '("issubset" . "⊆") prettify-symbols-alist)
+;             (push '("issuperset" . "⊇") prettify-symbols-alist)
+; 					; U+2264 less than or equal ≤
+; 					; U+2265 greater than or equal ≥
+; 					; U+2216 set minus ∖
+; 					; U+2229 intersection ∩
+; 					; U+222A union ∪
+; 					; TODO __or__ __pos__ __pow__ __r*__ __trunc__ __lshift__
+; 					; TODO __xor__ __and__ __or__
+; 					; TOOD __neg__
+;             )
+;             )
 
 					; rust-format-buffer C-c C-f
 					;(setq rust-format-on-save t)
 
 					; TODO: html-mode-hook which un-awfuls <mi> etc
-(add-hook 'rust-mode-hook
-          (lambda ()
-            "Prettify Rust"
-            (push '("add" . "+") prettify-symbols-alist)
-            (push '("sub" . "-") prettify-symbols-alist)
-            (push '("mul" . "*") prettify-symbols-alist)
-            (push '("div" . "/") prettify-symbols-alist)
-            (push '("not" . "!") prettify-symbols-alist)
-            (push '("gt" . ">") prettify-symbols-alist)
-            (push '("ge" . ">=") prettify-symbols-alist)
-            (push '("lt" . "<") prettify-symbols-alist)
-            (push '("le" . "<=") prettify-symbols-alist)
-            (push '("eq" . "==") prettify-symbols-alist)
-            (push '("ne" . "!=") prettify-symbols-alist)
-					;(prettify-symbols-mode t)
-            ))
+; (add-hook 'rust-mode-hook
+;           (lambda ()
+;             "Prettify Rust"
+;             (push '("add" . "+") prettify-symbols-alist)
+;             (push '("sub" . "-") prettify-symbols-alist)
+;             (push '("mul" . "*") prettify-symbols-alist)
+;             (push '("div" . "/") prettify-symbols-alist)
+;             (push '("not" . "!") prettify-symbols-alist)
+;             (push '("gt" . ">") prettify-symbols-alist)
+;             (push '("ge" . ">=") prettify-symbols-alist)
+;             (push '("lt" . "<") prettify-symbols-alist)
+;             (push '("le" . "<=") prettify-symbols-alist)
+;             (push '("eq" . "==") prettify-symbols-alist)
+;             (push '("ne" . "!=") prettify-symbols-alist)
+; 					;(prettify-symbols-mode t)
+;             ))
 
 					;C-c C-c C-u rust-compile
 					;C-c C-c C-k rust-check
@@ -423,7 +425,7 @@
 (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ixx\\'" . c++-ts-mode))
 
-(require 'dap-python)
+; (require 'dap-python)
                                         ;(elpy-enable)
 
 (use-package lsp-mode
@@ -538,7 +540,7 @@
 
 
 (setq solarized-termcolors 256)
-(set-terminal-parameter nil 'background-mode 'light)
+(set-terminal-parameter nil 'background-mode 'dark)
                                         ;(require 'solarized-theme)
                                         ; wrong solarized :P
                                         ;(solarized-create-theme-file-with-palette 'light 'solarized-solarized-light
@@ -560,7 +562,7 @@
 (setq treemacs-width 25) ; Adjust the width of the treemacs window as needed
 
                                         ; bad
-(setq doc-view-resolution 300)
+; (setq doc-view-resolution 300)
 (require 'pdf-tools)
 
 ;; Die, Doc-View-mode! die!
@@ -689,12 +691,12 @@
                                         ;(load "preview-latex.el" nil t t)
 (require 'auctex)
 
-(autoload 'maxima-mode "maxima" "Maxima mode" t)
-(autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
-(autoload 'maxima "maxima" "Maxima interaction" t)
-(autoload 'imath-mode "imath" "Imath mode for math formula input" t)
-(setq imaxima-use-maxima-mode-flag t)
-(add-to-list 'auto-mode-alist '("\\.ma[cx]\\'" . maxima-mode))
+; (autoload 'maxima-mode "maxima" "Maxima mode" t)
+; (autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
+; (autoload 'maxima "maxima" "Maxima interaction" t)
+; (autoload 'imath-mode "imath" "Imath mode for math formula input" t)
+; (setq imaxima-use-maxima-mode-flag t)
+; (add-to-list 'auto-mode-alist '("\\.ma[cx]\\'" . maxima-mode))
 
 ;; Avoid problems with our shell
 (with-eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
