@@ -2,6 +2,9 @@
 
 (spacious-padding-mode 1)
 
+;; maximize emacs on startup
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (require 'eshell)
 (require 'em-unix)
 
@@ -73,13 +76,13 @@ Warn if the directory already exists."
 (global-set-key (kbd "<Launch1>") 'project-compile)
 
 
-(global-set-key (kbd "<f2>") 'save-buffer)
+(global-set-key (kbd "C-s") 'save-buffer)
                                         ; TODO: restart
                                         ;(global-set-key (kbd "C-<f2>") ')
 
 (global-set-key (kbd "<f3>") 'counsel-find-file)
-(global-set-key (kbd "C-<f3>") 'find-file-at-point)
-(global-set-key (kbd "M-<f3>") 'ff-get-other-file)
+                                        ; (global-set-key (kbd "C-<f3>") 'find-file-at-point)
+                                        ; (global-set-key (kbd "M-<f3>") 'ff-get-other-file)
 
 (defun define-debug-key (mode-map key gud-command &optional dap-command)
   "Bind KEY to GUD-COMMAND when GUD is active, or DAP-COMMAND when DAP is active.
@@ -257,7 +260,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 (global-set-key (kbd "<C-M-prior>") 'backward-page) ; Ctrl+Alt+PageUp
 (global-set-key (kbd "<C-M-next>") 'forward-page)   ; Ctrl+Alt+PageDown
 
-(keymap-set global-map "C-M-s" #'org-node-series-dispatch)
+(keymap-set global-map "C-M-s" #'org-node-seq-dispatch)
 
 ;; Those conflict with move to previous word, move to next word, respectively.
 ;; They have alternative bindings anyway--so kill these here.
@@ -303,14 +306,14 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          )
         ))
 
-(require 'mh-e) ; mail
+                                        ; (require 'mh-e) ; mail
 
 (add-to-list 'treesit-extra-load-path "/home/dannym/.guix-home/profile/lib/tree-sitter/")
 
-(setq send-mail-function    'smtpmail-send-it
-      smtpmail-smtp-server  "w0062d1b.kasserver.com"
-      smtpmail-stream-type  'starttls
-      smtpmail-smtp-service 587)
+                                        ; (setq send-mail-function    'smtpmail-send-it
+                                        ;       smtpmail-smtp-server  "w0062d1b.kasserver.com"
+                                        ;       smtpmail-stream-type  'starttls
+                                        ;       smtpmail-smtp-service 587)
 
                                         ; argh
 (setq python-shell-completion-native-disabled-interpreters '("python3" "pypy3"))
@@ -330,14 +333,14 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (setq visible-bell t)
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(load "~/.emacs.d/lisp/unbreak.el")
-(load "modern-fringes.el")
+                                        ; (add-to-list 'load-path "~/.emacs.d/lisp/")
+                                        ; (load "~/.emacs.d/lisp/unbreak.el")
+                                        ; (load "modern-fringes.el")
 
                                         ; Vendored from https://raw.githubusercontent.com/Alexander-Miller/treemacs/master/src/extra/treemacs-projectile.el
 (require 'treemacs-projectile)
 
-(add-hook 'scheme-mode-hook 'guix-devel-mode)
+                                        ; (add-hook 'scheme-mode-hook 'guix-devel-mode)
 
                                         ;(straight-use-package
                                         ;  '(nano :type git :host github :repo "rougier/nano-emacs"))
@@ -368,7 +371,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
   (add-to-list 'tempel-path "~/src/guix/etc/snippets/tempel/*"))
 
 ;; Assuming the Guix checkout is in ~/src/guix.
-(load-file "~/src/guix/etc/copyright.el")
+                                        ; (load-file "~/src/guix/etc/copyright.el")
 
                                         ; super-g
 (global-set-key (kbd "s-g") 'guix)
@@ -376,9 +379,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; Doesn't work.
                                         ;(add-hook 'shell-mode-hook 'guix-prettify-mode)
                                         ;(add-hook 'dired-mode-hook 'guix-prettify-mode)
-
-(add-to-list 'load-path "~/.emacs.d/combobulate/")
-(load "combobulate.el")
 
 ;; Free version; see also https://github.com/WebFreak001/code-debug supports both gdb and lldb in case someone is interested.
                                         ; "gdb -i dap" is enough for DAP mode so no idea what all this is for here.
@@ -392,14 +392,14 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;;(load "dap-mode.el")
                                         ;(require 'dap-cpptools)
 
-(add-to-list 'load-path "~/.emacs.d/bar-cursor/")
-;;(load "dap-mode.el")
+                                        ; (add-to-list 'load-path "~/.emacs.d/bar-cursor/")
+                                        ; ;;(load "dap-mode.el")
 (require 'bar-cursor)
 (bar-cursor-mode 1)
 
-(add-to-list 'load-path "~/.emacs.d/elfeed-tube/")
-(require 'elfeed-tube)
-(require 'elfeed-tube-mpv)
+                                        ; (add-to-list 'load-path "~/.emacs.d/elfeed-tube/")
+                                        ; (require 'elfeed-tube)
+                                        ; (require 'elfeed-tube-mpv)
 
                                         ; Scheme IDE
 
@@ -421,66 +421,16 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 (require 'wakib-keys)
 (wakib-keys 1)
 
-(load "~/.emacs.d/lisp/copilot.el")
+                                        ; Fix escape key
+(wakib-define-keys wakib-keys-overriding-map `(("<escape>" . ,#'keyboard-escape-quit)))
+
+                                        ; (load "~/.emacs.d/lisp/copilot.el")
 (global-set-key (kbd "C-.") 'gptel-send)
 
-(require 'opascal)
+                                        ; (require 'opascal)
 
                                         ; TODO: Python ∈
-
-(add-hook 'c-ts-mode-hook
-          (lambda ()
-            "Prettify C"
-            (push '("<=" . ?≤) prettify-symbols-alist)
-            (push '(">=" . ?≥) prettify-symbols-alist)
-            (push '("==" . "⩵") prettify-symbols-alist) ; or ≟
-            (push '("=" . "≝") prettify-symbols-alist) ; or ≔
-            (push '("&&" . "∧") prettify-symbols-alist)
-            (push '("||" . "∨") prettify-symbols-alist)
-            (push '("!" . "¬") prettify-symbols-alist)
-            (push '("!=" . "≠") prettify-symbols-alist)
-            (push '("void" . "⊥") prettify-symbols-alist)
-            (push '("->" . "→") prettify-symbols-alist)
-                                        ;(push '("for" . "∀") prettify-symbols-alist)
-            (push '("*" . "·") prettify-symbols-alist)))
-
-(add-hook 'c++-ts-mode-hook
-          (lambda ()
-            "Prettify C++"
-            (push '("<=" . ?≤) prettify-symbols-alist)
-            (push '(">=" . ?≥) prettify-symbols-alist)
-            (push '("==" . "⩵") prettify-symbols-alist)
-            (push '("=" . "≝") prettify-symbols-alist) ; or ≔
-            (push '("&&" . "∧") prettify-symbols-alist)
-            (push '("||" . "∨") prettify-symbols-alist)
-            (push '("!" . "¬") prettify-symbols-alist)
-            (push '("void" . "⊥") prettify-symbols-alist)
-            (push '("->" . "→") prettify-symbols-alist)
-                                        ;(push '("for" . "∀") prettify-symbols-alist)
-            (push '("*" . "·") prettify-symbols-alist)))
-
-(add-hook 'opascal-mode-hook
-          (lambda ()
-            "Prettify Object Pascal"
-            (push '("begin" . ?{) prettify-symbols-alist)
-            (push '("end" . ?}) prettify-symbols-alist)
-            (push '(":=" . "≝") prettify-symbols-alist) ; or ≔
-            ))
-
-(add-hook 'rust-mode-hook
-          (lambda ()
-            "Prettify Rust more"
-            (push '("==" . "⩵") prettify-symbols-alist) ; or ≟
-            (push '("=" . "≝") prettify-symbols-alist) ; or ≔
-            (push '("&&" . "∧") prettify-symbols-alist)
-            (push '("||" . "∨") prettify-symbols-alist)
-            (push '("!" . "¬") prettify-symbols-alist)
-            (push '("!=" . "≠") prettify-symbols-alist)
-                                        ;(push '("->" . "→") prettify-symbols-alist)
-                                        ;(push '("for" . "∀") prettify-symbols-alist)
-            (push '("*" . "·") prettify-symbols-alist)))
-
-(require 'python-django)
+                                        ; (require 'python-django)
 
                                         ; requires markchars.el which is not in Guix
                                         ;(markchars-global-mode)
@@ -490,7 +440,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;  :group 'markchars)
 
 ;; Must do this so the agenda knows where to look for my files
-(setq org-agenda-files '("~/doc/org"))
+(setq org-agenda-files '("~/org-mode"))
                                         ;(setq org-agenda-deadline-lead-time 7) ;; Notify 7 days before deadlines
                                         ;(setq org-agenda-scheduled-lead-time 1) ;; Notify 1 day before scheduled items
                                         ;   <2021-07-14 Wed 14:40 -1d>  with lead time; https://github.com/orgzly/orgzly-android/issues/636
@@ -507,7 +457,8 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; Make the indentation look nicer
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'org-sticky-header-mode)
-
+(add-hook 'org-mode-hook #'org-modern-mode)
+(add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
 
 ;; Shortcuts for storing links, viewing the agenda, and starting a capture
 (define-key global-map "\C-cl" 'org-store-link)
@@ -528,7 +479,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;(defun org-roam-update-recent-nodes ()
                                         ;  "Update the list of recent nodes in the org-roam recent.org file."
                                         ;  (interactive)
-                                        ;  (with-temp-file "~/doc/org-roam/recent.org"
+                                        ;  (with-temp-file "~/org-mode/recent.org"
                                         ;    (insert "#+title: Recent Nodes\n\n")
                                         ;    (dolist (node (org-roam-node-list))
                                         ;      (insert (format "- [[node:%s][%s]]\n"
@@ -539,10 +490,10 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;(defun org-roam-open-index ()
                                         ;  "Open the org-roam index file."
                                         ;  (interactive)
-                                        ;  (find-file "~/doc/org-roam/org-roam-index.org"))
+                                        ;  (find-file "~/org-mode/org-roam-index.org"))
                                         ;(global-set-key (kbd "C-c i") 'org-roam-open-index)
 
-                                        ;(setq org-roam-index-file "~/doc/org-roam/org-roam-index.org")
+                                        ;(setq org-roam-index-file "~/org-mode/org-roam-index.org")
 
                                         ;(add-hook 'after-init-hook 'org-roam-open-index) ; Automatically open org-roam index when you open emacs (yeah, right--we'll see)
 
@@ -584,51 +535,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;(use-package org-roam
                                         ;  :ensure f
                                         ;  :custom
-                                        ;  (org-roam-directory "~/doc/org-roam")
+                                        ;  (org-roam-directory "~/org-mode")
                                         ;  :bind (("C-c n l" . org-roam-buffer-toggle)
                                         ;         ("C-c n f" . org-roam-node-find)
                                         ;         ("C-c n i" . org-roam-node-insert))
                                         ;  :config
                                         ;  (org-roam-setup))
-                                        ;(org-roam-db-autosync-mode)
-
-;;; Make elfeed store-link store the link to the ORIGINAL article, not to the feed.
-
-(org-link-set-parameters "elfeed"
-                         :follow #'elfeed-link-open
-                         :store #'elfeed-link-store-link
-                         :export #'elfeed-link-export-link)
-
-(defun elfeed-link-export-link (link desc format _protocol)
-  "Export `org-mode' `elfeed' LINK with DESC for FORMAT."
-  (if (string-match "\\([^#]+\\)#\\(.+\\)" link)
-      (if-let* ((entry
-                 (elfeed-db-get-entry
-                  (cons (match-string 1 link)
-                        (match-string 2 link))))
-                (url
-                 (elfeed-entry-link entry))
-                (title
-                 (elfeed-entry-title entry)))
-          (pcase format
-            ('html (format "<a href=\"%s\">%s</a>" url desc))
-            ('md (format "[%s](%s)" desc url))
-            ('latex (format "\\href{%s}{%s}" url desc))
-            ('texinfo (format "@uref{%s,%s}" url desc))
-            (_ (format "%s (%s)" desc url)))
-        (format "%s (%s)" desc url))
-    (format "%s (%s)" desc link)))
-
-;;; Pandoc
-
-(setq pandoc-data-dir "~/.emacs.d/etc/pandoc/")
-
-(defun efe/export-to-docx ()
-  "Output to docx using pandoc-mode"
-  (interactive)
-  (pandoc-mode)
-  (execute-kbd-macro (kbd "C-c / O W d b b r"))
-  (setq pandoc-mode nil))
 
 (defun insert-html-blog-template ()
   "Inserts HTML_HEAD lines at the first empty line and html code at the end of the buffer."
@@ -696,16 +608,16 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
         (google-search-first-result word)
       (message "No word found at point."))))
 
-(setq scroll-preserve-screen-position nil)
+                                        ; (setq scroll-preserve-screen-position nil)
 
-                                        ; Unbreak image scrolling
+                                        ;                                         ; Unbreak image scrolling
 
-(add-to-list 'load-path "~/.emacs.d/iscroll/")
-(require 'iscroll)
-                                        ; Note: Only enable in text modes, not prog modes
-                                        ;(iscroll-mode)
+                                        ; (add-to-list 'load-path "~/.emacs.d/iscroll/")
+                                        ; (require 'iscroll)
+                                        ;                                         ; Note: Only enable in text modes, not prog modes
+                                        ;                                         ;(iscroll-mode)
 
-(add-hook 'elfeed-show-mode-hook 'iscroll-mode)
+                                        ; (add-hook 'elfeed-show-mode-hook 'iscroll-mode)
 
 ;;; Org mode
 
@@ -724,6 +636,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          ,my-org-header
          :empty-lines-after 1)
 
+
         ("j" "Jump to ID node"
          plain (function org-node-capture-target)
          ,my-org-header
@@ -738,23 +651,23 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          :immediate-finish t)
 
         ("w" "Work Log Entry"
-         entry (file+datetree "~/doc/org/work-log.org")
+         entry (file+datetree "~/org-mode/work-log.org")
          "* %?"
          :empty-lines 0)
         ("n" "Note"
-         entry (file+headline "~/doc/org/notes.org" "Random Notes")
+         entry (file+headline "~/org-mode/notes.org" "Random Notes")
          "** %?"
          :empty-lines 0)
         ("g" "General To-Do"
-         entry (file+headline "~/doc/org/todos.org" "General Tasks")
+         entry (file+headline "~/org-mode/todos.org" "General Tasks")
          "* TODO [#B] %?\n:Created: %T\n "
          :empty-lines 0)
         ("c" "Code To-Do" ; execute this on the line of code you want to link it to
-         entry (file+headline "~/doc/org/todos.org" "Code Related Tasks")
+         entry (file+headline "~/org-mode/todos.org" "Code Related Tasks")
          "* TODO [#B] %?\n:Created: %T\n%i\n%a\nProposed Solution: "
          :empty-lines 0)
         ("m" "Meeting"
-         entry (file+datetree "~/doc/org/meetings.org")
+         entry (file+datetree "~/org-mode/meetings.org")
          "* %? :meeting:%^g \n:Created: %T\n** Attendees\n*** \n** Notes\n** Action Items\n*** TODO [#A] "
          :tree-type week
          :clock-in t
@@ -896,21 +809,20 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; But then, most of the REPLs you start up don't notice the PATH change. That means that you will have the wrong Julia.
 ;; Therefore, every time buffer process environment is changed we update the REPL executable names.
 
-(defun update-repl-executable-from-env (repl-config)
-  "Update the REPL executable based on the current `process-environment'.
-REPL-CONFIG is a cons cell where the car is the local variable and
-the cdr is the executable name."
-  (let ((variable-name (car repl-config))
-        (executable-name (cdr repl-config)))
-    (make-local-variable variable-name)
-                                        ;(message (executable-find executable-name))
-    (set variable-name (or (executable-find executable-name) executable-name))))
+                                        ; (defun update-repl-executable-from-env (repl-config)
+                                        ;   "Update the REPL executable based on the current `process-environment'.
+                                        ; REPL-CONFIG is a cons cell where the car is the local variable and
+                                        ; the cdr is the executable name."
+                                        ;   (let ((variable-name (car repl-config))
+                                        ;         (executable-name (cdr repl-config)))
+                                        ;     (make-local-variable variable-name)
+                                        ;                                         ;(message (executable-find executable-name))
+                                        ;     (set variable-name (or (executable-find executable-name) executable-name))))
 
                                         ; TODO inferior-js-program-command ?
                                         ; TODO could also intercept (make-comint comint-program-command) and change comint-program-command there--but that's maybe a little magical.
 (defvar repl-env-configurations
-  '((julia-snail-executable . "julia")
-    (inferior-lisp-program . "sbcl")
+  '((inferior-lisp-program . "sbcl")
     (python-shell-interpreter . "python3")
     (geiser-guile-binary . "guile")
     (geiser-racket-binary . "racket")
@@ -971,27 +883,6 @@ the name of the executable program to search for (searched-for in PATH).")
 ;; envrc-allow also allows `guix shell' to do its thing
 (advice-add 'envrc-allow :before #'update-guix-shell-authorized)
 
-(defun my-notdeft-import-web-page (url &optional ask-dir)
-  "Import the web page at URL into NotDeft.
-Query for the target directory if ASK-DIR is non-nil.
-Interactively, query for a URL, and set ASK-DIR if a prefix
-argument is given. Choose a file name based on any document
-<title>, or generate some unique name."
-  (interactive "sPage URL: \nP")
-  (let* ((s (shell-command-to-string
-             (concat "curl --silent " (shell-quote-argument url) " | "
-                     "pandoc" " -f html-native_divs-native_spans"
-                     " -t org"
-                     " --wrap=none --smart --normalize --standalone")))
-         (title
-          (and
-           (string-match "^#\\+TITLE:[[:space:]]+\\(.+\\)$" s)
-           (match-string 1 s))))
-    (notdeft-create-file
-     (and ask-dir 'ask)
-     (and title `(title, title))
-     "org" s)))
-
                                         ; TODO: https://tero.hasu.is/blog/transient-directories-in-notdeft/
 
 (setq buffer-env-script-name '("manifest.scm" ".envrc"))
@@ -1003,8 +894,8 @@ argument is given. Choose a file name based on any document
 ;; Original wakib binding would save and quit emacs (using save-buffers-kill-terminal).  Who wants that?
 (keymap-set wakib-keys-overriding-map "C-q" #'quoted-insert)
 
-(keymap-set global-map "C-<Search>" #'org-node-find)
-(keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
+                                        ; (keymap-set global-map "C-<Search>" #'org-node-find)
+                                        ; (keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
                                         ;(global-set-key (kbd "C-c l") 'org-store-link)
                                         ;(global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -1017,24 +908,24 @@ argument is given. Choose a file name based on any document
 (add-hook 'org-open-at-point-functions
           #'org-node-try-visit-ref-node)
 
-(setq org-directory "~/doc/org")
+(setq org-directory "~/org-mode")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 
 
                                         ;        "~/Syncthing/"
 
-(setq org-node-extra-id-dirs
-      '("~/doc/org-roam/"))
-                                        ;Do a M-x org-node-reset and see if it can find your notes now.
-                                        ; Then org-id-update-id-locations
+                                        ; (setq org-node-extra-id-dirs
+                                        ;       '("~/org-mode/"))
+                                        ;                                         ;Do a M-x org-node-reset and see if it can find your notes now.
+                                        ;                                         ; Then org-id-update-id-locations
 
-(setq org-node-series-defs
+(setq org-node-seq-defs
       (list
        '("d" :name "Daily-files"
          :version 2
          :classifier (lambda (node)
                        (let ((path (org-node-get-file-path node)))
-                         (when (string-search "~/doc/org/daily" path)
+                         (when (string-search "~/org-mode/daily" path)
                            (let ((ymd (org-node-helper-filename->ymd path)))
                              (when ymd
                                (cons ymd path))))))
@@ -1047,7 +938,7 @@ argument is given. Choose a file name based on any document
                      (org-node-helper-try-visit-file (cdr item)))
          :creator (lambda (sortstr key)
                     (let ((org-node-datestamp-format "")
-                          (org-node-ask-directory "~/doc/org/daily"))
+                          (org-node-ask-directory "~/org-mode/daily"))
                       (org-node-create sortstr (org-id-new) key))))
 
        ;; Obviously, this series works best if you have `org-node-put-created' on
@@ -1084,9 +975,9 @@ argument is given. Choose a file name based on any document
 
 ;; TODO: Add to Guix.
 
-(add-to-list 'load-path "~/.emacs.d/org-notify/")
-(require 'org-notify)
-(org-notify-start)
+                                        ; (add-to-list 'load-path "~/.emacs.d/org-notify/")
+                                        ; (require 'org-notify)
+                                        ; (org-notify-start)
 
                                         ; Autoinsert
 
@@ -1177,10 +1068,10 @@ argument is given. Choose a file name based on any document
     "(specifications->manifest" \n
     " (list \"gcc-toolchain\" \"texlive-minted\" \"texlive-latex-bin\" \"dvisvgm\" \"python-lsp-server\" \"emacs-ediprolog\"))" \n))
 
-(add-to-list 'load-path "~/.emacs.d/kiwix.el")
-(require 'kiwix)
+                                        ; (add-to-list 'load-path "~/.emacs.d/kiwix.el")
+                                        ; (require 'kiwix)
                                         ; duplicate
-(setq kiwix-default-browser-function 'eww-browse-url)
+                                        ; (setq kiwix-default-browser-function 'eww-browse-url)
 
                                         ; TODO: Use which-key instead.
                                         ;(require 'discover-my-major)
@@ -1192,39 +1083,39 @@ argument is given. Choose a file name based on any document
 (require 'shr-tag-math)
                                         ;(add-hook 'nov-mode-hook #'xenops-mode) ; so we render <math>; unfortunately, that fucks up all the other formatting. Also, the size of the rendered images is much too big here.
 
-(require 'emms-setup)
-(emms-all)
-(setq emms-player-list '(emms-player-mpv))
-(emms-add-directory-tree "~/Music")
+                                        ; (require 'emms-setup)
+                                        ; (emms-all)
+                                        ; (setq emms-player-list '(emms-player-mpv))
+                                        ; (emms-add-directory-tree "~/Music")
 
-(defun elfeed-search-print-entry (entry)
-  "Print ENTRY to the buffer."
-  (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
-         (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
-         (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
-         (feed (elfeed-entry-feed entry))
-         (feed-title
-          (when feed
-            (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
-         (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
-         (tags-str (mapconcat
-                    (lambda (s) (propertize s 'face 'elfeed-search-tag-face))
-                    tags ","))
-         (title-width (- (window-width) 10 elfeed-search-trailing-width))
-         (title-column (elfeed-format-column
-                        title (elfeed-clamp
-                               elfeed-search-title-min-width
-                               title-width
-                               elfeed-search-title-max-width)
-                        :left)))
-    (insert (propertize date 'face 'elfeed-search-date-face) " ")
-    (insert (propertize title-column 'face title-faces 'kbd-help title) "\t")
-    (when feed-title
-      (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))
-    (when tags
-      (insert "(" tags-str ")"))))
+                                        ; (defun elfeed-search-print-entry (entry)
+                                        ;   "Print ENTRY to the buffer."
+                                        ;   (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+                                        ;          (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+                                        ;          (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+                                        ;          (feed (elfeed-entry-feed entry))
+                                        ;          (feed-title
+                                        ;           (when feed
+                                        ;             (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+                                        ;          (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
+                                        ;          (tags-str (mapconcat
+                                        ;                     (lambda (s) (propertize s 'face 'elfeed-search-tag-face))
+                                        ;                     tags ","))
+                                        ;          (title-width (- (window-width) 10 elfeed-search-trailing-width))
+                                        ;          (title-column (elfeed-format-column
+                                        ;                         title (elfeed-clamp
+                                        ;                                elfeed-search-title-min-width
+                                        ;                                title-width
+                                        ;                                elfeed-search-title-max-width)
+                                        ;                         :left)))
+                                        ;     (insert (propertize date 'face 'elfeed-search-date-face) " ")
+                                        ;     (insert (propertize title-column 'face title-faces 'kbd-help title) "\t")
+                                        ;     (when feed-title
+                                        ;       (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))
+                                        ;     (when tags
+                                        ;       (insert "(" tags-str ")"))))
 
-(setq elfeed-search-print-entry-function #'elfeed-search-print-entry)
+                                        ; (setq elfeed-search-print-entry-function #'elfeed-search-print-entry)
 
 (setq gptel-backend
       (gptel-make-openai "llama-cpp"
@@ -1282,8 +1173,42 @@ argument is given. Choose a file name based on any document
                (allow-no-window . t)))
 
 (use-package vertico
-  :ensure nil
-  :hook (after-init . vertico-mode))
+  :custom
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Emacs minibuffer configurations.
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
 
 (use-package marginalia
   :ensure nil
@@ -1315,16 +1240,16 @@ argument is given. Choose a file name based on any document
                                         ;          :justMyCode t
                                         ;          :console "integratedTerminal")))
 
-(with-eval-after-load 'dap-mode
-  (dap-register-debug-template "Python :: Attach via port 5678"
-                               (list :type "python"
-                                     :request "attach"
-                                     :name "Python :: Attach to Running"
-                                     :hostName "127.0.0.1"  ;; Address of the Python process
-                                     :port 5678             ;; Port that debugpy is listening on
-                                        ; :justMyCode t          ;; Optional: Only debug your code, not external libraries
-                                     :env (list (cons "PYTHONPATH" "${workspaceFolder}"))
-                                     :console "integratedTerminal")))
+                                        ; (with-eval-after-load 'dap-mode
+                                        ;   (dap-register-debug-template "Python :: Attach via port 5678"
+                                        ;                                (list :type "python"
+                                        ;                                      :request "attach"
+                                        ;                                      :name "Python :: Attach to Running"
+                                        ;                                      :hostName "127.0.0.1"  ;; Address of the Python process
+                                        ;                                      :port 5678             ;; Port that debugpy is listening on
+                                        ;                                         ; :justMyCode t          ;; Optional: Only debug your code, not external libraries
+                                        ;                                      :env (list (cons "PYTHONPATH" "${workspaceFolder}"))
+                                        ;                                      :console "integratedTerminal")))
 
                                         ;(which-key-setup-side-window-right-bottom)
 (which-key-setup-side-window-bottom)
@@ -1351,9 +1276,8 @@ argument is given. Choose a file name based on any document
 
                                         ;(setq dired-launch-default-launcher '("xdg-open"))
 (setf dired-launch-extensions-map
-      '(("xlsx" ("libreofficedev5.3"))
-        ("odt" ("libreofficedev5.3" "abiword"))
-        ("jvx" ("/home/dannym/src/mcphas/wrapper/javaview"))))
+      '(("xlsx" ("libreoffice"))
+        ("odt" ("libreoffice" "abiword"))))
 
 (add-hook 'python-mode-hook 'eglot-ensure)
 ;; Tab Completion: Use company-mode for completion, integrating company-capf with eglot.
@@ -1364,7 +1288,7 @@ argument is given. Choose a file name based on any document
 
 (require 'company-lsp)
 (with-eval-after-load 'company
-  (push 'company-robe company-backends)
+                                        ; (push 'company-robe company-backends)
   (push 'company-lsp company-backends))
 
 (require 'vlf-setup) ; very large files
@@ -1385,7 +1309,7 @@ argument is given. Choose a file name based on any document
                                   :test-dir "spec/"
                                   :test-suffix "_spec")
 
-(setq org-agenda-files '("~/doc/org-agenda"))
+(setq org-agenda-files '("~/org-mode/agenda"))
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
 
 ;; I'm using org-indent-mode together with form-feed-mode: org-indent-mode interprets the form feed character as part of the previous section and indents it--which is not what I want.  I'm use the form feed for sections. So the form feed should belong to no section.
@@ -1448,25 +1372,25 @@ argument is given. Choose a file name based on any document
                                         ;     (add-to-list 'mmm-mode-ext-classes-alist
                                         ;                  '(rpm-spec-mode "\\.spec\\'" rpm-sh))
 
-(require 'ox-publish)
-(setq org-publish-project-alist
-      '(("friendly-machines.com"
-         :base-directory "~/doc/org-roam/"
-         :publishing-directory "~/friendly-machines.com/www/mirror/public/blog/"
-         :base-extension "org"
-         :recursive t
-         :publishing-function org-html-publish-to-html
-         :html-doctype "html5"
-         :with-toc nil
-         :section-numbers nil
-         :html-head "<link rel=\"stylesheet\" href=\"/css/org.css\" type=\"text/css\"/>"
-         :html-preamble nil
-         :html-postamble nil
-         :exclude ".*-private.org\\|.*-confidential.org\\|.*-internal.org"
-         :select-tags ("public"))))
+                                        ; (require 'ox-publish)
+                                        ; (setq org-publish-project-alist
+                                        ;       '(("friendly-machines.com"
+                                        ;          :base-directory "~/org-mode/"
+                                        ;          :publishing-directory "~/friendly-machines.com/www/mirror/public/blog/"
+                                        ;          :base-extension "org"
+                                        ;          :recursive t
+                                        ;          :publishing-function org-html-publish-to-html
+                                        ;          :html-doctype "html5"
+                                        ;          :with-toc nil
+                                        ;          :section-numbers nil
+                                        ;          :html-head "<link rel=\"stylesheet\" href=\"/css/org.css\" type=\"text/css\"/>"
+                                        ;          :html-preamble nil
+                                        ;          :html-postamble nil
+                                        ;          :exclude ".*-private.org\\|.*-confidential.org\\|.*-internal.org"
+                                        ;          :select-tags ("public"))))
 
 (setq org-src-fontify-natively t)
-(setq org-confirm-babel-evaluate nil)
+                                        ; (setq org-confirm-babel-evaluate nil)
 
 ;; Disambiguate /home/user/project1/main.cpp and /home/user/project2/main.cpp
 (require 'uniquify)
@@ -1482,22 +1406,22 @@ argument is given. Choose a file name based on any document
 
 (keymap-global-set "M-o" 'other-window-mru)
 
-(when (daemonp)
-                                        ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
-                                        ;(define-key global-map [delete-frame] 'handle-delete-frame)
-  (define-key special-event-map [delete-frame]
-              (lambda (event)
-                (interactive "e")
-                (let ((frame (posn-window (event-start event))))
-                  (select-frame frame)
-                  ;; (save-some-buffers) returns t on "q", nil if there's nothing to save. So that's not useful :P
-                  ;; But if I press Esc, it quits and doesn't continue. Good, I guess.
-                  (save-some-buffers)
-                  (dolist (win (window-list frame))
-                    (with-selected-window win
-                      ;; You could (kill-buffer x) instead--but it would have a potential TOCTOU.
-                      (kill-buffer-if-not-modified (current-buffer))))
-                  (delete-frame frame)))))
+                                        ; (when (daemonp)
+                                        ;                                         ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
+                                        ;                                         ;(define-key global-map [delete-frame] 'handle-delete-frame)
+                                        ;   (define-key special-event-map [delete-frame]
+                                        ;               (lambda (event)
+                                        ;                 (interactive "e")
+                                        ;                 (let ((frame (posn-window (event-start event))))
+                                        ;                   (select-frame frame)
+                                        ;                   ;; (save-some-buffers) returns t on "q", nil if there's nothing to save. So that's not useful :P
+                                        ;                   ;; But if I press Esc, it quits and doesn't continue. Good, I guess.
+                                        ;                   (save-some-buffers)
+                                        ;                   (dolist (win (window-list frame))
+                                        ;                     (with-selected-window win
+                                        ;                       ;; You could (kill-buffer x) instead--but it would have a potential TOCTOU.
+                                        ;                       (kill-buffer-if-not-modified (current-buffer))))
+                                        ;                   (delete-frame frame)))))
 
 ;; Align the current prompt with the BOTTOM of the window.
 ;; That way the area before that prompt (which is the previous response) is maximized.
@@ -1563,3 +1487,16 @@ argument is given. Choose a file name based on any document
              ,@(if selected-p '(selected t))
              face ,face
              mouse-face tab-line-highlight))))
+
+;;; Keep unsaved state
+(desktop-save-mode 1)
+(setq desktop-restore-frames t) ; restore window configuration
+(setq desktop-path '("~/.emacs.d/desktop/")) ; where to save desktop files
+(setq desktop-auto-save-timeout 30) ; save desktop automatically every 30 seconds
+(auto-save-visited-mode 1)
+(setq desktop-save t) ; always save without asking
+
+;; keyboard-shortcuts
+
+(define-key global-map (kbd "M-g f" ) #'org-node-find)
+(define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
