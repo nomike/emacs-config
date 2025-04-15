@@ -2736,3 +2736,54 @@ This function is called by `org-babel-execute-src-block'."
     (goto-char (point-min))
     (while (re-search-forward "\\\[\\([[:space:]]*\\)\\(\n\\)[[:space:]]*\\\\text{\\([a-zA-Zäöü:,.[:space:]]*\\)[[:space:]]*}[[:space:]]*\\(\n\\)[[:space:]]*\\\\]")
       (replace-match "\\3" nil nil))))
+;;; org-babel doesn't take into account buffer-env's project environment.
+;;; That's because:
+;;; 1. Its temp files are not within our project.
+;;; 2. buffer-env-update isn't called in time anyway.
+;;;
+;;; We fix both problems here.
+
+(require 'org)
+
+(require 'ob-shell)
+
+(defun my-org-babel-shell-use-local-temp-dir (orig-func &rest args)
+  "Advise `org-babel-execute:shell` to use a local temp subdirectory.
+
+This temporarily rebinds `org-babel-temporary-directory` to a
+subdirectory (e.g., `.ob-temp/`) within the Org file's directory
+for the duration of the shell block execution. Org Babel functions
+like `org-babel-temp-file` will then create files within this
+local subdirectory."
+
+  (let ((org-file-dir default-directory)
+        (local-temp-subdir ".ob-temp"))
+    ;; Construct the full path for the local temporary directory
+    (let* ((local-temp-dir-path (expand-file-name local-temp-subdir org-file-dir))
+           ;; Store the original value to restore if needed (though `let` handles this)
+           (original-ob-temp-dir org-babel-temporary-directory))
+      ;; Ensure the local temporary directory exists
+      (unless (file-directory-p local-temp-dir-path)
+        (make-directory local-temp-dir-path t))
+      ;; Lexically bind `org-babel-temporary-directory` to our local path
+      ;; *only* for the duration of the `apply` call below.
+      (let ((org-babel-temporary-directory local-temp-dir-path))
+        ;(message "[Org Babel Local Temp Advice] Executing with org-babel-temporary-directory=%s" org-babel-temporary-directory)
+
+        ;; Call the original org-babel-execute:shell function with its arguments.
+        ;; Any call to `org-babel-temp-file` (via the `org-babel-temp-directory` macro)
+        ;; *inside* this scope should now use the locally bound directory.
+        (apply orig-func args)))))
+
+(advice-add 'org-babel-execute:shell :around #'my-org-babel-shell-use-local-temp-dir)
+
+(defun my-ob-shell-command-on-region-trigger-buffer-env (command error-buffer) ;; No 'orig-func' argument
+  "Advise `org-babel--shell-command-on-region` to run `buffer-env-update` BEFOREHAND.
+
+Runs *before* the original function calls `process-file`, after the
+temp buffer is set up. Explicitly triggers `buffer-env-update`
+for the current (temporary) buffer."
+  (ignore command error-buffer)
+  (buffer-env-update))
+
+(advice-add 'org-babel--shell-command-on-region :before #'my-ob-shell-command-on-region-trigger-buffer-env)
