@@ -2747,28 +2747,4 @@ This function is called by `org-babel-execute-src-block'."
 (require 'ob-shell)
 (require 'inheritenv)
 
-      ;; Ensure the local temporary directory exists
-      (unless (file-directory-p local-temp-dir-path)
-        (make-directory local-temp-dir-path t))
-      ;; Lexically bind `org-babel-temporary-directory` to our local path
-      ;; *only* for the duration of the `apply` call below.
-      (let ((org-babel-temporary-directory local-temp-dir-path))
-        ;(message "[Org Babel Local Temp Advice] Executing with org-babel-temporary-directory=%s" org-babel-temporary-directory)
-
-        ;; Call the original org-babel-execute:shell function with its arguments.
-        ;; Any call to `org-babel-temp-file` (via the `org-babel-temp-directory` macro)
-        ;; *inside* this scope should now use the locally bound directory.
-        (apply orig-func args)))))
-
-(advice-add 'org-babel-execute:shell :around #'my-org-babel-shell-use-local-temp-dir)
-
-(defun my-ob-shell-command-on-region-trigger-buffer-env (command error-buffer) ;; No 'orig-func' argument
-  "Advise `org-babel--shell-command-on-region` to run `buffer-env-update` BEFOREHAND.
-
-Runs *before* the original function calls `process-file`, after the
-temp buffer is set up. Explicitly triggers `buffer-env-update`
-for the current (temporary) buffer."
-  (ignore command error-buffer)
-  (buffer-env-update))
-
-(advice-add 'org-babel--shell-command-on-region :before #'my-ob-shell-command-on-region-trigger-buffer-env)
+(advice-add 'org-babel-execute:shell :around #'inheritenv-apply)
