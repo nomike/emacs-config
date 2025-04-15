@@ -2744,24 +2744,9 @@ This function is called by `org-babel-execute-src-block'."
 ;;; We fix both problems here.
 
 (require 'org)
-
 (require 'ob-shell)
+(require 'inheritenv)
 
-(defun my-org-babel-shell-use-local-temp-dir (orig-func &rest args)
-  "Advise `org-babel-execute:shell` to use a local temp subdirectory.
-
-This temporarily rebinds `org-babel-temporary-directory` to a
-subdirectory (e.g., `.ob-temp/`) within the Org file's directory
-for the duration of the shell block execution. Org Babel functions
-like `org-babel-temp-file` will then create files within this
-local subdirectory."
-
-  (let ((org-file-dir default-directory)
-        (local-temp-subdir ".ob-temp"))
-    ;; Construct the full path for the local temporary directory
-    (let* ((local-temp-dir-path (expand-file-name local-temp-subdir org-file-dir))
-           ;; Store the original value to restore if needed (though `let` handles this)
-           (original-ob-temp-dir org-babel-temporary-directory))
       ;; Ensure the local temporary directory exists
       (unless (file-directory-p local-temp-dir-path)
         (make-directory local-temp-dir-path t))
