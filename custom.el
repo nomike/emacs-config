@@ -2747,4 +2747,5 @@ This function is called by `org-babel-execute-src-block'."
 (require 'ob-shell)
 (require 'inheritenv)
 
-(advice-add 'org-babel-execute:shell :around #'inheritenv-apply)
+(advice-add 'org-babel-execute-src-block :around #'inheritenv-apply)
+;(advice-add 'org-babel-execute:shell :around #'inheritenv-apply)
