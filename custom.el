@@ -2354,9 +2354,13 @@ This function is called by `org-babel-execute-src-block'."
   :config
   (setq org-books-file "~/doc/org/books.org"))
 
+;; TODO: emacs-lisp r sql ruby js perl c c++ java haskell scala octave[!] maxima awk ditaa dot gnuplot plantuml latex ledger picolisp ocaml sed go julia sage[!] mathematica scheme sass fortran lua coq[!] d
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((ditaa . t)
+ '((shell . t)
+   (ditaa . t)
+   (python . t)
+   (jupyter . t)
    (dot . t)
    (gnuplot . t)
    (plantuml . t)))
