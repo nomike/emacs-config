@@ -2776,11 +2776,12 @@ This function is called by `org-babel-execute-src-block'."
 
 ;; I already set mediainfo-mode-file-regexp--but apparently, that's not enough.
 
-(add-to-list
- 'file-name-handler-alist
- (cons (rx "." (or "jpg" "jpeg" "gif" "png")
-           eos)
-       'mediainfo-mode--file-handler))
+; If I add that then album mode of emms-smart doesn't work anymore.
+;(add-to-list
+; 'file-name-handler-alist
+; (cons (rx "." (or "jpg" "jpeg" "gif" "png")
+;           eos)
+;       'mediainfo-mode--file-handler))
 
 (add-to-list
  'auto-mode-alist
