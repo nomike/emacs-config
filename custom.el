@@ -2763,7 +2763,8 @@ This function is called by `org-babel-execute-src-block'."
   :config
   (defvar magit-status-mode-tool-bar-map
     (let ((tool-bar-map (make-sparse-keymap)))
-      (tool-bar-local-item-from-menu 'magit-pull "refresh" tool-bar-map magit-status-mode-map)
+      (tool-bar-local-item-from-menu 'magit-fetch "refresh" tool-bar-map magit-status-mode-map)
+      (tool-bar-local-item-from-menu 'magit-pull "custom/down" tool-bar-map magit-status-mode-map)
       (tool-bar-local-item-from-menu 'magit-push "up-arrow" tool-bar-map magit-status-mode-map)
       (tool-bar-local-item-from-menu 'magit-commit "data-save" tool-bar-map magit-status-mode-map)
       ;(tool-bar-local-item-from-menu 'magit-init "attach" tool-bar-map magit-status-mode-map) ; well yeah--but how do I reach it?
