@@ -2759,6 +2759,21 @@ This function is called by `org-babel-execute-src-block'."
     (goto-char (point-min))
     (while (re-search-forward "\\\[\\([[:space:]]*\\)\\(\n\\)[[:space:]]*\\\\text{\\([a-zA-Zäöü:,.[:space:]]*\\)[[:space:]]*}[[:space:]]*\\(\n\\)[[:space:]]*\\\\]")
       (replace-match "\\3" nil nil))))
+(use-package magit
+  :config
+  (defvar magit-status-mode-tool-bar-map
+    (let ((tool-bar-map (make-sparse-keymap)))
+      (tool-bar-local-item-from-menu 'magit-pull "refresh" tool-bar-map magit-status-mode-map)
+      (tool-bar-local-item-from-menu 'magit-push "up-arrow" tool-bar-map magit-status-mode-map)
+      (tool-bar-local-item-from-menu 'magit-commit "data-save" tool-bar-map magit-status-mode-map)
+      ;(tool-bar-local-item-from-menu 'magit-init "attach" tool-bar-map magit-status-mode-map) ; well yeah--but how do I reach it?
+      ; magit-clone ; well yeah--but how do I reach it?
+      tool-bar-map))
+  (defun my-magit-status-mode-setup-toolbar ()
+    "Set up the toolbar for `magit-status-mode'."
+    (setq-local tool-bar-map magit-status-mode-tool-bar-map))
+  (add-hook 'magit-status-mode-hook #'my-magit-status-mode-setup-toolbar))
+
 ;; I already set mediainfo-mode-file-regexp--but apparently, that's not enough.
 
 (add-to-list
