@@ -2786,3 +2786,18 @@ This function is called by `org-babel-execute-src-block'."
 
 (advice-add 'org-babel-execute-src-block :around #'inheritenv-apply)
 ;(advice-add 'org-babel-execute:shell :around #'inheritenv-apply)
+;; Tools menu is too big.
+(defun my-remove-tools-menu-items ()
+  "Remove unwanted items from the Tools menu."
+  (interactive) ; Good practice, though not strictly needed for the hook
+
+  (define-key global-map [menu-bar tools rgrep] nil) ; removed in favor of ripgrep
+  (define-key global-map [menu-bar tools ede] nil) ; removed in favor of projectile, treemacs and lsp-mode
+  (define-key global-map [menu-bar tools semantic] nil) ; removed in favor of LSP
+  (define-key global-map [menu-bar tools directory-search] nil) ; outdated
+  (define-key global-map [menu-bar tools simple-calculator] nil) ; there's a scientific one anyway
+  (define-key global-map [menu-bar tools games] nil) ; I'm just out of space in the menu
+  ;(easy-menu-remove-item '("Tools" "Project:"))
+  )
+
+(add-hook 'emacs-startup-hook #'my-remove-tools-menu-items)
