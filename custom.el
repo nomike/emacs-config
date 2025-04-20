@@ -2593,6 +2593,8 @@ This function is called by `org-babel-execute-src-block'."
 
   (add-hook 'gnus-summary-mode-hook #'my-gnus-summary-mode-setup-toolbar))
 
+(add-hook 'git-commit-setup-hook #'my/generate-lisp-commit-message)
+
 ;; wakib has keyboard-quit on <escape> via wakib-keys-overriding-map (see simple.el)
 ;; but apparently there's a minibuffer-keyboard-quit we don't use, except on C-g, where delsel.el defines it.
 ;;(define-key minibuffer-local-map (kbd "<Escape>") 'minibuffer-keyboard-quit)
