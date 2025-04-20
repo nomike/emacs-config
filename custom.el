@@ -2759,6 +2759,20 @@ This function is called by `org-babel-execute-src-block'."
     (goto-char (point-min))
     (while (re-search-forward "\\\[\\([[:space:]]*\\)\\(\n\\)[[:space:]]*\\\\text{\\([a-zA-Zäöü:,.[:space:]]*\\)[[:space:]]*}[[:space:]]*\\(\n\\)[[:space:]]*\\\\]")
       (replace-match "\\3" nil nil))))
+;; I already set mediainfo-mode-file-regexp--but apparently, that's not enough.
+
+(add-to-list
+ 'file-name-handler-alist
+ (cons (rx "." (or "jpg" "jpeg" "gif" "png")
+           eos)
+       'mediainfo-mode--file-handler))
+
+(add-to-list
+ 'auto-mode-alist
+ (cons (rx "." (or "jpg" "jpeg" "gif" "png")
+           eos)
+       'mediainfo-mode))
+
 ;;; org-babel doesn't take into account buffer-env's project environment.
 ;;; That's because:
 ;;; 1. Its temp files are not within our project.
