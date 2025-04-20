@@ -2531,6 +2531,23 @@ This function is called by `org-babel-execute-src-block'."
     (define-key map (kbd "C-M-p") #'gnus-summary-prev-group)
     (define-key map (kbd "C-M-^") #'gnus-summary-refer-thread))
 
+  (defvar message-mode-tool-bar-map
+    (let ((tool-bar-map (make-sparse-keymap)))
+      (tool-bar-local-item-from-menu 'mml-attach-file "attach" tool-bar-map message-mode-map)
+      (tool-bar-local-item-from-menu 'ispell-message "spell" tool-bar-map message-mode-map)
+      (tool-bar-local-item-from-menu 'message-send-and-exit "gnus/mail-send" tool-bar-map message-mode-map)
+      ;; (tool-bar-local-item-from-menu 'message-dont-send "gnus/save-draft" tool-bar-map message-mode-map)
+      (tool-bar-local-item-from-menu 'message-kill-buffer "gnus/kill-group" tool-bar-map message-mode-map)
+;       :label "Reply to all"
+;       :help "Reply to all recipients"
+      tool-bar-map))
+
+  (defun my-message-mode-setup-toolbar () ; FIXME: maybe that's also used for mu4e ?! That might not be so great.
+    "Set up the toolbar for `message-mode'."
+    (setq-local tool-bar-map message-mode-tool-bar-map))
+
+  (add-hook 'message-mode-hook #'my-message-mode-setup-toolbar)
+
   (defvar gnus-article-mode-tool-bar-map
     (let ((tool-bar-map (make-sparse-keymap)))
       (tool-bar-local-item "mail/reply-all" 'gnus-summary-wide-reply 'gnus-summary-wide-reply tool-bar-map :label "Reply to all" :help "Reply to all recipients")
