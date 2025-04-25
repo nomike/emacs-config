@@ -178,19 +178,22 @@ index 0000001..1234567
 
 (defun my/guix-split-variable-name (text)
   "Split a text of the form <package-name>-<package-version> into `(,package-name ,package-version).
-Assumes versions start with a digit."
-  (let* ((parts (split-string text "-"))
-         (version-part nil)
-         (name-part parts))
-    (pcase (length parts)
-      (0 '(nil nil))
-      (1 `(,text))
-      (_
-       (let ((last-part (car (last parts))))
-         (when (string-match "^[0-9][0-9.]*" last-part)
-           (setq version-part last-part)
-           (setq name-part (butlast parts))))))
-    (list (mapconcat 'identity name-part "-") version-part)))
+Assumes versions start with a digit.  If in doubt, returns the symbol 'nil (because actual nil seems
+to be impossible to put in a list)."
+  (if (null text)
+      `(nil nil)
+    (let* ((parts (split-string text "-"))
+           (version-part nil)
+           (name-part parts))
+      (pcase (length parts)
+        (0 '(nil nil))
+        (1 `(,text))
+        (_
+         (let ((last-part (car (last parts))))
+           (when (string-match "^[0-9][0-9.]*" last-part)
+             (setq version-part last-part)
+             (setq name-part (butlast parts))))))
+      (list (mapconcat 'identity name-part "-") version-part))))
 
 (ert-deftest my/test-guix-split-variable-name ()
   "Test the my/guix-split-variable-name function."
@@ -224,19 +227,21 @@ Assumes versions start with a digit."
                  (and (string-match "^(define-public \\([a-z0-9*?.-]+\\)" block-string)
                       (match-string 1 block-string))))
             (pcase (my/guix-split-variable-name package-name-version)
-              (`(,package-name ,package-version)
-               (message "STAGED YES5")
-               (save-excursion
-                 (goto-char (point-min))
-                 (delete-region (point-min) (point-max)) ;; Clear the buffer (... we shouldn't need that)
-                 (insert (format "gnu: Add %s.
+              (`(nil nil)
+               nil)
+              `(,package-name ,package-version)
+              (message "STAGED YES5")
+              (save-excursion
+                (goto-char (point-min))
+                (delete-region (point-min) (point-max)) ;; Clear the buffer (... we shouldn't need that)
+                (insert (format "gnu: Add %s.
 
 * %s (%s-%s): New variable."
-                                 package-name
-                                 (my/strip-prefix "c/" (car files))
-                                 package-name
-                                 package-version))
-                 (buffer-string))))))))))
+                                package-name
+                                (my/strip-prefix "c/" (car files))
+                                package-name
+                                package-version))
+                (buffer-string)))))))))
 
 (defun my/test-generate-lisp-commit-message-setup (diff-content)
   "Helper function to set up the buffer with diff content and to mock magit-git-string."
