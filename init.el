@@ -23,7 +23,7 @@
 
 (setq tab-always-indent 'complete)
                                         ; <https://github.com/thread314/intuitive-tab-line-mode>
-(global-tab-line-mode 1)
+;(global-tab-line-mode 1)
 
 (require 'lsp-treemacs)
 
