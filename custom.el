@@ -1416,7 +1416,8 @@ argument is given.  Choose a file name based on any document
 
 (defun video-url-p (url)
   "Return t if URL points to YouTube."
-  (string-match-p ".*[.]mp4" url))
+  (or (string-match-p ".*[.]mp4" url)
+      (string-match-p ".*[.]wmv" url)))
 
 (defun browse-video-url-with-mpv (url &optional new-window)
   "Open URL using mpv."
