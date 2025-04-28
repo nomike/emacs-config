@@ -2933,3 +2933,29 @@ This function is called by `org-babel-execute-src-block'."
   ; tab-line-new-button-show nil
   ; tab-line-close-button-show nil)
    )
+;; One color per project
+
+(require 'project)
+(require 'color)
+
+(defun project-color-background ()
+  "Return a background color for the project containing this directory"
+  (let* ((project (project-current))
+         (dirhash (sxhash (if project (project-root project) default-directory)))
+         (hue (/ (mod dirhash 1000) 1000.0))
+         (saturation (+ 0.3 (* 0.1 (mod (/ dirhash 1000) 3))))
+         (lightness (+ 0.4 (* 0.05 (mod (/ (/ dirhash 1000) 3) 4))))
+         (rgb (color-hsl-to-rgb hue saturation lightness)))
+    (color-rgb-to-hex (nth 0 rgb) (nth 1 rgb) (nth 2 rgb) 2)))
+
+(defun amitp/set-modeline-color ()
+  "Set mode line color based on current buffer's project"
+  (let ((color (project-color-background)))
+    ;(face-remap-add-relative 'tab-line-tab-current :background color :foreground "white")
+    (face-remap-add-relative 'mode-line-active :background color :foreground "white")
+    (face-remap-add-relative 'line-number-current-line :background color :foreground "white")))
+
+(add-hook 'find-file-hook #'amitp/set-modeline-color)
+(add-hook 'dired-mode-hook #'amitp/set-modeline-color)
+(add-hook 'change-major-mode-hook #'amitp/set-modeline-color)
+(add-hook 'temp-buffer-setup-hook #'amitp/set-modeline-color)
