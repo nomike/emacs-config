@@ -2959,3 +2959,33 @@ This function is called by `org-babel-execute-src-block'."
 (add-hook 'dired-mode-hook #'amitp/set-modeline-color)
 (add-hook 'change-major-mode-hook #'amitp/set-modeline-color)
 (add-hook 'temp-buffer-setup-hook #'amitp/set-modeline-color)
+(use-package xenops
+  :config
+  (setq xenops-math-latex-process-alist
+  '((dvipng
+     :programs ("latex" "dvipng")
+     :description "dvi > png"
+     :message "you need to install the programs: latex and dvipng."
+     :image-input-type "dvi"
+     :image-output-type "png"
+     :image-size-adjust (1.0 . 1.0)
+     :latex-compiler ("lualatex -interaction nonstopmode -shell-escape -output-format dvi -output-directory %o %f")
+     :image-converter ("dvipng -D %D -T tight -o %O %f"))
+    (dvisvgm
+     :programs ("latex" "dvisvgm")
+     :description "dvi > svg"
+     :message "you need to install the programs: latex and dvisvgm."
+     :image-input-type "dvi"
+     :image-output-type "svg"
+     :image-size-adjust (1.7 . 1.5)
+     :latex-compiler ("lualatex -interaction nonstopmode -shell-escape -output-format dvi -output-directory %o %f")
+     :image-converter ("dvisvgm %f -n -b %B -c %S -o %O"))
+    (imagemagick
+     :programs ("latex" "convert")
+     :description "pdf > png"
+     :message "you need to install the programs: latex and imagemagick."
+     :image-input-type "pdf"
+     :image-output-type "png"
+     :image-size-adjust (1.0 . 1.0)
+     :latex-compiler ("pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f")
+     :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O")))))
