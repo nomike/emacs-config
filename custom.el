@@ -236,7 +236,7 @@ Warn if the directory already exists.  ARGS will be evaluated by eshell."
   (define-key nov-mode-map (kbd "M-<Right>") #'nov-history-forward))
 
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
-(global-set-key (kbd "<Search>") 'swiper-isearch)
+(global-set-key (kbd "<Search>") 'consult-line)
 (with-eval-after-load 'pdf-tools
   (define-key pdf-view-mode-map (kbd "<Search>") #'pdf-occur)
   ;; Will probably not work again:
@@ -1930,7 +1930,7 @@ it acts on the current project."
      (let ((org-noter-insert-note-no-questions (if toggle-no-questions
                                                    (not org-noter-insert-note-no-questions)
                                                  org-noter-insert-note-no-questions))
-           (org-pdftools-use-isearch-link t) ; FIXME swiper here
+           (org-pdftools-use-isearch-link t) ; FIXME: consult-line
            (org-pdftools-use-freepointer-annot t))
        (org-noter-insert-note (org-noter--get-precise-info)))))
 
