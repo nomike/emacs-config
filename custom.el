@@ -621,7 +621,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (require 'wakib-keys)
 (wakib-keys 1)
-(define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
+(define-key wakib-keys-overriding-map (kbd "C-f") #'consult-line) ; Note: someone overwrites this.
 
 (load "~/.emacs.d/lisp/copilot.el")
 (global-set-key (kbd "C-.") 'gptel-send)
