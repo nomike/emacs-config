@@ -182,6 +182,7 @@
  '(lsp-treemacs-theme "Iconless")
  '(mediainfo-mode-file-regexp
    "\\.\\(?:3gp\\|a\\(?:iff\\|vi\\)\\|flac\\|jpg\\|jpeg\\|png\\|gif\\|m\\(?:4a\\|kv\\|ov\\|p[34g]\\)\\|o\\(?:gg\\|pus\\)\\|vob\\|w\\(?:av\\|ebm\\|mv\\)\\)\\'")
+ '(mouse-autoselect-window t)
  '(mu4e-compose-switch nil)
  '(org-export-exclude-tags '("confidential"))
  '(org-export-select-tags '("public"))
