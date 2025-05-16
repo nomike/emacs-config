@@ -536,7 +536,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; Vendored from https://raw.githubusercontent.com/Alexander-Miller/treemacs/master/src/extra/treemacs-projectile.el
 (require 'treemacs-projectile)
 
-(add-hook 'scheme-mode-hook 'guix-devel-mode)
+;(add-hook 'scheme-mode-hook 'guix-devel-mode)
 
                                         ;(straight-use-package
                                         ;  '(nano :type git :host github :repo "rougier/nano-emacs"))
