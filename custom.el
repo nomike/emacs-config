@@ -1216,6 +1216,21 @@ argument is given.  Choose a file name based on any document
      (and title `(title, title))
      "org" s)))
 
+
+(defun wrap-with-global-env (func-symbol)
+  "Wrap function named by FUNC-SYMBOL to ensure it uses global environment values."
+  (let* ((original-func (symbol-function func-symbol))
+         (is-interactive (commandp original-func))
+         (interactive-form (and is-interactive (interactive-form original-func)))
+         (new-func
+          `(lambda (&rest args)
+             ,@(when interactive-form
+                 (list interactive-form))
+             (let ((process-environment (default-value 'process-environment))
+                   (exec-path (default-value 'exec-path)))
+               (apply ',original-func args)))))
+    (fset func-symbol (eval new-func))))
+
                                         ; TODO: https://tero.hasu.is/blog/transient-directories-in-notdeft/
 
 (setq buffer-env-script-name '("manifest.scm" ".envrc"))
