@@ -2559,6 +2559,9 @@ This function is called by `org-babel-execute-src-block'."
     (let ((tool-bar-map (make-sparse-keymap)))
       (tool-bar-local-item-from-menu 'mml-attach-file "attach" tool-bar-map message-mode-map)
       (tool-bar-local-item-from-menu 'ispell-message "spell" tool-bar-map message-mode-map)
+      (tool-bar-local-item-from-menu 'mml-secure-message-sign "lock" tool-bar-map message-mode-map)
+      (tool-bar-local-item-from-menu 'mml-secure-message-encrypt "locked-encrypted" tool-bar-map message-mode-map)
+      
       (tool-bar-local-item-from-menu 'message-send-and-exit "gnus/mail-send" tool-bar-map message-mode-map)
       ;; (tool-bar-local-item-from-menu 'message-dont-send "gnus/save-draft" tool-bar-map message-mode-map)
       (tool-bar-local-item-from-menu 'message-kill-buffer "gnus/kill-group" tool-bar-map message-mode-map)
