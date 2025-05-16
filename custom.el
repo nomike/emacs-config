@@ -1317,7 +1317,10 @@ argument is given.  Choose a file name based on any document
                                         ; (tramp-cleanup-all-connections)
                                         ; check tramp/foo* and debug tramp/foo*
 
-  )
+
+  (wrap-with-global-env #'el-job-launch)
+  (wrap-with-global-env #'org-node-find)
+)
 
 (setq org-src-tab-acts-natively t)
 (add-hook 'org-mode-hook #'mixed-pitch-mode)
