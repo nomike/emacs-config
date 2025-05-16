@@ -1238,6 +1238,11 @@ argument is given.  Choose a file name based on any document
 ;; Original wakib binding would save and quit emacs (using save-buffers-kill-terminal).  Who wants that?
 (keymap-set wakib-keys-overriding-map "C-q" #'quoted-insert)
 
+(use-package org-notify
+  :after org
+  :config
+  (wrap-with-global-env #'org-notify-process))
+
 (use-package org-node
   :after org
   :config
