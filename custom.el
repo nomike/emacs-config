@@ -3015,3 +3015,6 @@ This function is called by `org-babel-execute-src-block'."
      :image-size-adjust (1.0 . 1.0)
      :latex-compiler ("pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f")
      :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O")))))
+
+(load (locate-user-emacs-file "guix-build-failure3.el")
+      :no-error-if-file-is-missing)
