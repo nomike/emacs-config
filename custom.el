@@ -80,7 +80,7 @@ Warn if the directory already exists."
                                         ; TODO: restart
                                         ;(global-set-key (kbd "C-<f2>") ')
 
-(global-set-key (kbd "<f3>") 'counsel-find-file)
+(global-set-key (kbd "<f3>") 'find-file)
                                         ; (global-set-key (kbd "C-<f3>") 'find-file-at-point)
                                         ; (global-set-key (kbd "M-<f3>") 'ff-get-other-file)
 
@@ -299,6 +299,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          (display-buffer-in-side-window)
          (window-width . 0.25) ;; Side window takes up 1/4th of the screen
          (side . right))
+        ("\\*.*[Ss]hell.*\\*" ; especially "*Async Shell Command*"
+         (display-buffer-in-side-window)
+         (window-height . 0.20) ;; Side window takes up 1/4th of the screen
+         (side . bottom)
+         (reusable-frames . visible))
         ("\\*Warnings.*"
          (display-buffer-reuse-window display-buffer-in-side-window)
          (window-width . 0.25) ;; Side window takes up 1/4th of the screen
@@ -622,7 +627,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;;; Org mode
 
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "PLANNING(p)" "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)"  "|" "DONE(d!)" "OBE(o@!)" "WONT-DO(w@/!)" )))
+      '((sequence "TODO(t)" "PLANNING(p)" "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)" "ON-HOLD (h)" "WAITING (w)" "|" "DONE(d!)" "OBE(o@!)" "WONT-DO(n@/!)" )))
 
 (setq my-org-header (concat "#+DATE: %<%Y-%m-%d>
 #+AUTHOR: " user-full-name "
@@ -1500,3 +1505,827 @@ the name of the executable program to search for (searched-for in PATH).")
 
 (define-key global-map (kbd "M-g f" ) #'org-node-find)
 (define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
+(define-key global-map (kbd "M-g t") (lambda () (interactive) (
+                                                               find-file "~/org-mode/todo.org")))
+
+(define-key global-map (kbd "C-f" ) #'swiper)
+(define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
+
+(add-hook 'git-commit-setup-hook #'my/generate-lisp-commit-message)
+
+(keymap-set global-map "C-<f5>" `eval-region)
+(keymap-set global-map "C-S-<escape>" `eshell)
+(keymap-set global-map "C-<F5>" `eval-buffer)
+(keymap-set wakib-keys-overriding-map "C-w" `bury-buffer)
+
+(require 'minimap)
+(require 'buffer-move)
+
+-backend
+(gptel-make-openai "llama-cpp"
+  :stream t
+  :protocol "http"
+  :host "localhost:8080"
+  :models '(llama))  ; Any names, doesn't matter for Llama
+
+(setq gptel-model 'llama)
+(setq gptel-default-mode 'org-mode)
+
+                                        ; see also org-disputed-keys for CUA mode.
+                                        ;(setq org-replace-disputed-keys t)
+
+(setq-default line-spacing 0.2) ; compromise between Rust source code and org mode
+;; TODO: Scala; PHP; C++; Kotlin; Swift
+(add-hook 'perl-mode-hook #'form-feed-mode)
+(add-hook 'python-mode-hook #'form-feed-mode)
+(add-hook 'python-ts-mode-hook #'form-feed-mode)
+(add-hook 'scheme-mode-hook #'form-feed-mode)
+(add-hook 'lisp-mode-hook #'form-feed-mode)
+(add-hook 'fortran-mode-hook #'form-feed-mode)
+                                        ;(add-hook 'js-mode-hook #'form-feed-mode)
+                                        ;(add-hook 'js-ts-mode-hook #'form-feed-mode)
+(add-hook 'js-base-mode-hook #'form-feed-mode)
+(add-hook 'c-ts-base-mode-hook #'form-feed-mode)
+(add-hook 'ruby-mode-hook #'form-feed-mode)
+(add-hook 'ruby-ts-mode-hook #'form-feed-mode)
+(add-hook 'typescript-mode-hook #'form-feed-mode)
+(add-hook 'typescript-ts-mode-hook #'form-feed-mode)
+(add-hook 'java-mode-hook #'form-feed-mode)
+(add-hook 'go-mode-hook #'form-feed-mode)
+(add-hook 'go-ts-mode-hook #'form-feed-mode)
+(add-hook 'go-mod-ts-mode-hook #'form-feed-mode)
+(add-hook 'haskell-mode-hook #'form-feed-mode)
+(add-hook 'csharp-mode-hook #'form-feed-mode)
+(add-hook 'csharp-ts-mode-hook #'form-feed-mode)
+(add-hook 'bash-ts-mode-hook #'form-feed-mode)
+(add-hook 'objc-mode-hook #'form-feed-mode)
+(add-hook 'rustic-mode-hook #'form-feed-mode)
+(add-hook 'rust-mode-hook #'form-feed-mode)
+(add-hook 'julia-mode-hook #'form-feed-mode)
+(add-hook 'org-mode-hook #'form-feed-mode) ; looks weird and sometimes disappears on save
+(add-hook 'elisp-mode-hook #'paredit-mode)
+(add-hook 'scheme-mode-hook #'paredit-mode)
+
+(use-package savehist
+  :ensure nil ; it is built-in
+  :hook (after-init . savehist-mode))
+
+;; Don't bother user with emacs warnings
+(add-to-list 'display-buffer-alist
+             '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
+               (display-buffer-no-window)
+               (allow-no-window . t)))
+
+(use-package vertico
+  :custom
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Emacs minibuffer configurations.
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+
+(use-package marginalia
+  :ensure nil
+  :hook (after-init . marginalia-mode))
+
+;; Apparently doesn't do anything
+(use-package orderless
+  :ensure f
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrride nil))
+
+(global-set-key (kbd "C-c r") 'gptel-rewrite-menu)
+                                        ; gptel-add-file	 C-u gptel-send	 transient menu
+
+                                        ;(add-hook 'vala-mode-hook #'lsp)  ;; Enable LSP for Vala mode
+                                        ;(add-hook 'vala-mode-hook #'lsp-mode) ; disconnects immediately
+
+;; DAP Python Configuration
+                                        ;(with-eval-after-load 'dap-mode
+                                        ;  (dap-register-debug-template "Python :: Uvicorn (FastAPI)"
+                                        ;    (list :type "python"
+                                        ;          :request "launch"
+                                        ;          :name "Python :: Uvicorn (FastAPI)"
+                                        ;          :program "${workspaceFolder}/main.py"  ;; Path to your FastAPI app
+                                        ;          :args ["run" "main:app" "--reload" "--host" "127.0.0.1" "--port" "8000"]
+                                        ;          :env (list (cons "PYTHONPATH" "${workspaceFolder}"))
+                                        ;          :justMyCode t
+                                        ;          :console "integratedTerminal")))
+
+                                        ; (with-eval-after-load 'dap-mode
+                                        ;   (dap-register-debug-template "Python :: Attach via port 5678"
+                                        ;                                (list :type "python"
+                                        ;                                      :request "attach"
+                                        ;                                      :name "Python :: Attach to Running"
+                                        ;                                      :hostName "127.0.0.1"  ;; Address of the Python process
+                                        ;                                      :port 5678             ;; Port that debugpy is listening on
+                                        ;                                         ; :justMyCode t          ;; Optional: Only debug your code, not external libraries
+                                        ;                                      :env (list (cons "PYTHONPATH" "${workspaceFolder}"))
+                                        ;                                      :console "integratedTerminal")))
+
+                                        ;(which-key-setup-side-window-right-bottom)
+(which-key-setup-side-window-bottom)
+
+
+;; Display which-key keybindings in the right margin
+                                        ;(setq which-key-side-window-location 'right) ; Set position to right margin
+                                        ;(setq which-key-side-window-max-width 0.25)  ; Set maximum width of the side window (25% of the frame width)
+                                        ; what? (setq which-key-side-window-slot -10)        ; Slot for side window
+                                        ;(setq which-key-show-early-on-C-h t)         ; Show key hints when pressing C-h
+                                        ;(setq which-key-idle-delay 0.5)              ; Delay before the keybindings show up
+                                        ;(setq which-key-idle-secondary-delay 0.05)   ; Delay for showing secondary hints
+;; Allow the margin window to take up multiple lines
+                                        ;(setq which-key-side-window-multi-line-p t)   ; Allow multi-line keybindings
+                                        ;(setq which-key-side-window-max-height 0.5)    ; Max height of the side window (50% of the frame height)
+
+                                        ;(custom-set-faces
+                                        ; '(which-key-key-face ((t (:foreground "yellow")))) ; Key face color
+                                        ; '(which-key-command-description-face ((t (:foreground "green")))) ; Command description color
+                                        ; '(which-key-group-description-face ((t (:foreground "cyan"))))) ; Group description color
+
+                                        ; Eventually provided by manifest.scm
+(setq lsp-clients-clangd-executable "ccls")
+
+                                        ;(setq dired-launch-default-launcher '("xdg-open"))
+(setf dired-launch-extensions-map
+      '(("xlsx" ("libreoffice"))
+        ("odt" ("libreoffice" "abiword"))))
+
+(add-hook 'python-mode-hook 'eglot-ensure)
+;; Tab Completion: Use company-mode for completion, integrating company-capf with eglot.
+;; elpy or something.
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-hook 'python-mode-hook 'flycheck-mode)
+                                        ;(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
+
+(require 'company-lsp)
+(with-eval-after-load 'company
+                                        ; (push 'company-robe company-backends)
+  (push 'company-lsp company-backends))
+
+(require 'vlf-setup) ; very large files
+
+(projectile-register-project-type 'npm '("package.json")
+                                  :project-file "package.json"
+				  :compile "npm run build" ; or "npm install" or something
+				  :test "npm test"
+				  :run "npm start"
+				  :test-suffix ".test")
+
+;; Rails & RSpec
+(projectile-register-project-type 'rails-rspec '("Gemfile") ; "app" "lib" "db" "config" "spec"
+                                  :project-file "Gemfile"
+                                  :compile "bundle exec rails server"
+                                  :src-dir "lib/"
+                                  :test "bundle exec rspec"
+                                  :test-dir "spec/"
+                                  :test-suffix "_spec")
+
+(setq org-agenda-files '("~/org-mode/agenda"))
+(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
+
+;; I'm using org-indent-mode together with form-feed-mode: org-indent-mode interprets the form feed character as part of the previous section and indents it--which is not what I want.  I'm use the form feed for sections. So the form feed should belong to no section.
+(defun fix-org-indent-form-feed ()
+  (setq-local org-outline-regexp "\\*+ \\|\\(^\f$\\)"))
+(add-hook 'org-mode-hook #'fix-org-indent-form-feed)
+
+;; Doesn't work. Sigh.
+                                        ;(defun fix-org-indent-form-feed ()
+                                        ;  (setq-local org-heading-regexp "^\\(\f?\\*+\\)\\(?: +\\(.*?\\)\\)?[ 	]*$"))
+                                        ;(add-hook 'org-mode-hook #'fix-org-indent-form-feed)
+
+;; Skip flyspell on code blocks
+
+                                        ; See https://endlessparentheses.com/ispell-and-org-mode.html
+(defun endless/org-ispell ()
+  "Configure `ispell-skip-region-alist' for `org-mode'."
+  (make-local-variable 'ispell-skip-region-alist)
+  (add-to-list 'ispell-skip-region-alist '(org-property-drawer-re))
+  (add-to-list 'ispell-skip-region-alist '("~" "~"))
+  (add-to-list 'ispell-skip-region-alist '("=" "="))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
+(add-hook 'org-mode-hook #'endless/org-ispell)
+
+(with-eval-after-load 'org
+  '(progn
+     (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
+     (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
+     (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
+     (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
+     (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
+     ;; When you want to change the level of an org item, use SMR
+     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
+
+(defun unset-line-move-visual ()
+  (define-key org-mode-map [remap move-beginning-of-line] nil)
+  (define-key org-mode-map [remap move-end-of-line] nil)
+  (setq line-move-visual nil))
+
+(add-hook 'org-mode-hook #'unset-line-move-visual)
+
+                                        ;(with-eval-after-load 'web-mode ...)
+(require 'lsp-mode)
+(require 'lsp-volar)
+(require 'lsp-vetur)
+                                        ;(add-hook 'web-mode-hook #'lsp-vue-mmm-enable) ; missing.
+
+(require 'web-mode)
+(define-derived-mode genehack-vue-mode web-mode "ghVue"
+  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
+                                        ;(add-hook 'genehack-vue-mode-hook #'eglot-ensure)
+(add-hook 'genehack-vue-mode-hook #'lsp)
+
+(require 'mmm-auto)
+(setq mmm-global-mode 'maybe)
+(mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
+                                        ; (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'html-js) ; maybe automatic?
+                                        ;just modify mmm-mode-ext-classes-alist directly
+                                        ;     (add-to-list 'mmm-mode-ext-classes-alist
+                                        ;                  '(rpm-spec-mode "\\.spec\\'" rpm-sh))
+
+                                        ; (require 'ox-publish)
+                                        ; (setq org-publish-project-alist
+                                        ;       '(("friendly-machines.com"
+                                        ;          :base-directory "~/org-mode/"
+                                        ;          :publishing-directory "~/friendly-machines.com/www/mirror/public/blog/"
+                                        ;          :base-extension "org"
+                                        ;          :recursive t
+                                        ;          :publishing-function org-html-publish-to-html
+                                        ;          :html-doctype "html5"
+                                        ;          :with-toc nil
+                                        ;          :section-numbers nil
+                                        ;          :html-head "<link rel=\"stylesheet\" href=\"/css/org.css\" type=\"text/css\"/>"
+                                        ;          :html-preamble nil
+                                        ;          :html-postamble nil
+                                        ;          :exclude ".*-private.org\\|.*-confidential.org\\|.*-internal.org"
+                                        ;          :select-tags ("public"))))
+
+(setq org-src-fontify-natively t)
+                                        ; (setq org-confirm-babel-evaluate nil)
+
+;; Disambiguate /home/user/project1/main.cpp and /home/user/project2/main.cpp
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
+(defun other-window-mru ()
+  "Select the most recently used window on this frame."
+  (interactive)
+  (when-let ((mru-window
+              (get-mru-window
+               nil nil 'not-this-one-dummy)))
+    (select-window mru-window)))
+
+(keymap-global-set "M-o" 'other-window-mru)
+
+                                        ; (when (daemonp)
+                                        ;                                         ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
+                                        ;                                         ;(define-key global-map [delete-frame] 'handle-delete-frame)
+                                        ;   (define-key special-event-map [delete-frame]
+                                        ;               (lambda (event)
+                                        ;                 (interactive "e")
+                                        ;                 (let ((frame (posn-window (event-start event))))
+                                        ;                   (select-frame frame)
+                                        ;                   ;; (save-some-buffers) returns t on "q", nil if there's nothing to save. So that's not useful :P
+                                        ;                   ;; But if I press Esc, it quits and doesn't continue. Good, I guess.
+                                        ;                   (save-some-buffers)
+                                        ;                   (dolist (win (window-list frame))
+                                        ;                     (with-selected-window win
+                                        ;                       ;; You could (kill-buffer x) instead--but it would have a potential TOCTOU.
+                                        ;                       (kill-buffer-if-not-modified (current-buffer))))
+                                        ;                   (delete-frame frame)))))
+
+;; Align the current prompt with the BOTTOM of the window.
+;; That way the area before that prompt (which is the previous response) is maximized.
+                                        ;(setq eshell-show-maximum-output t)
+
+                                        ; better maybe: Add eshell-smart to eshell-modules-list
+                                        ; that assumes that you keep editing existing commands because you got them wrong. I really don't. (add-to-list 'eshell-modules-list 'eshell-smart)
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer
+        (delq (current-buffer)
+              (remove-if-not 'buffer-file-name (buffer-list)))))
+
+;; Stop asking "Autosave file on local temporary directory, do you want to continue? (yes or no)" for files on remote hosts owned by root
+;; This will just put the autosave files on that same host instead of localhost.
+(setq auto-save-file-name-transforms nil)
+                                        ; (setq tramp-auto-save-directory "~/emacs/tramp-autosave")
+
+;; This is an lsp-ui workaround for <https://github.com/emacs-lsp/lsp-ui/issues/607>.
+(let ((areas '("mode-line" "left-margin" "left-fringe" "right-fringe" "header-line" "vertical-scroll-bar" "tool-bar" "menu-bar"))
+      loc)
+  (while areas
+    (setq loc (pop areas))
+    (global-set-key
+     (kbd (concat "<" loc "> <mouse-movement>")) #'ignore)))
+
+;; Make the tab tooltip show the buffer file name.
+(defun tab-line-tab-name-format-default (tab tabs)
+  "Default function to use as `tab-line-tab-name-format-function', which see."
+  (let* ((buffer-p (bufferp tab))
+         (selected-p (if buffer-p
+                         (eq tab (window-buffer))
+                       (cdr (assq 'selected tab))))
+         (name (if buffer-p
+                   (funcall tab-line-tab-name-function tab tabs)
+                 (cdr (assq 'name tab))))
+         (face (if selected-p
+                   (if (mode-line-window-selected-p)
+                       'tab-line-tab-current
+                     'tab-line-tab)
+                 'tab-line-tab-inactive)))
+    (dolist (fn tab-line-tab-face-functions)
+      (setf face (funcall fn tab tabs face buffer-p selected-p)))
+    (apply 'propertize
+           (concat (propertize (string-replace "%" "%%" name) ;; (bug#57848)
+                               'keymap tab-line-tab-map
+                               'help-echo (let ((buffer (if buffer-p tab (cdr (assq 'buffer tab)))))
+                                            (if selected-p
+                                                (buffer-file-name buffer)
+                                              (buffer-file-name buffer)))
+                               ;; Don't turn mouse-1 into mouse-2 (bug#49247)
+                               'follow-link 'ignore)
+                   (or (and (or buffer-p (assq 'buffer tab) (assq 'close tab))
+                            tab-line-close-button-show
+                            (not (eq tab-line-close-button-show
+                                     (if selected-p 'non-selected 'selected)))
+                            tab-line-close-button)
+                       ""))
+           `(
+             tab ,tab
+             ,@(if selected-p '(selected t))
+             face ,face
+             mouse-face tab-line-highlight))))
+
+;;; Keep unsaved state
+(desktop-save-mode 1)
+(setq desktop-restore-frames t) ; restore window configuration
+(setq desktop-path '("~/.emacs.d/desktop/")) ; where to save desktop files
+(setq desktop-auto-save-timeout 30) ; save desktop automatically every 30 seconds
+(auto-save-visited-mode 1)
+(setq desktop-save t) ; always save without asking
+
+;; keyboard-shortcuts
+
+(define-key global-map (kbd "M-g f" ) #'org-node-find)
+(define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
+(define-key global-map (kbd "M-g t") (lambda () (interactive) (
+                                                               find-file "~/org-mode/todo.org")))
+
+(define-key global-map (kbd "C-f" ) #'swiper)
+(define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
+
+(add-hook 'git-commit-setup-hook #'my/generate-lisp-commit-message)
+
+(keymap-set global-map "C-<f5>" `eval-region)
+(keymap-set global-map "C-S-<escape>" `eshell)
+(keymap-set global-map "C-<F5>" `eval-buffer)
+(keymap-set wakib-keys-overriding-map "C-w" `bury-buffer)
+
+(require 'minimap)
+(require 'buffer-move)
+
+-backend
+(gptel-make-openai "llama-cpp"
+  :stream t
+  :protocol "http"
+  :host "localhost:8080"
+  :models '(llama))  ; Any names, doesn't matter for Llama
+
+(setq gptel-model 'llama)
+(setq gptel-default-mode 'org-mode)
+
+                                        ; see also org-disputed-keys for CUA mode.
+                                        ;(setq org-replace-disputed-keys t)
+
+(setq-default line-spacing 0.2) ; compromise between Rust source code and org mode
+;; TODO: Scala; PHP; C++; Kotlin; Swift
+(add-hook 'perl-mode-hook #'form-feed-mode)
+(add-hook 'python-mode-hook #'form-feed-mode)
+(add-hook 'python-ts-mode-hook #'form-feed-mode)
+(add-hook 'scheme-mode-hook #'form-feed-mode)
+(add-hook 'lisp-mode-hook #'form-feed-mode)
+(add-hook 'fortran-mode-hook #'form-feed-mode)
+                                        ;(add-hook 'js-mode-hook #'form-feed-mode)
+                                        ;(add-hook 'js-ts-mode-hook #'form-feed-mode)
+(add-hook 'js-base-mode-hook #'form-feed-mode)
+(add-hook 'c-ts-base-mode-hook #'form-feed-mode)
+(add-hook 'ruby-mode-hook #'form-feed-mode)
+(add-hook 'ruby-ts-mode-hook #'form-feed-mode)
+(add-hook 'typescript-mode-hook #'form-feed-mode)
+(add-hook 'typescript-ts-mode-hook #'form-feed-mode)
+(add-hook 'java-mode-hook #'form-feed-mode)
+(add-hook 'go-mode-hook #'form-feed-mode)
+(add-hook 'go-ts-mode-hook #'form-feed-mode)
+(add-hook 'go-mod-ts-mode-hook #'form-feed-mode)
+(add-hook 'haskell-mode-hook #'form-feed-mode)
+(add-hook 'csharp-mode-hook #'form-feed-mode)
+(add-hook 'csharp-ts-mode-hook #'form-feed-mode)
+(add-hook 'bash-ts-mode-hook #'form-feed-mode)
+(add-hook 'objc-mode-hook #'form-feed-mode)
+(add-hook 'rustic-mode-hook #'form-feed-mode)
+(add-hook 'rust-mode-hook #'form-feed-mode)
+(add-hook 'julia-mode-hook #'form-feed-mode)
+(add-hook 'org-mode-hook #'form-feed-mode) ; looks weird and sometimes disappears on save
+(add-hook 'elisp-mode-hook #'paredit-mode)
+(add-hook 'scheme-mode-hook #'paredit-mode)
+
+(use-package savehist
+  :ensure nil ; it is built-in
+  :hook (after-init . savehist-mode))
+
+;; Don't bother user with emacs warnings
+(add-to-list 'display-buffer-alist
+             '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
+               (display-buffer-no-window)
+               (allow-no-window . t)))
+
+(use-package vertico
+  :custom
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Emacs minibuffer configurations.
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+
+(use-package marginalia
+  :ensure nil
+  :hook (after-init . marginalia-mode))
+
+;; Apparently doesn't do anything
+(use-package orderless
+  :ensure f
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrride nil))
+
+(global-set-key (kbd "C-c r") 'gptel-rewrite-menu)
+                                        ; gptel-add-file	 C-u gptel-send	 transient menu
+
+                                        ;(add-hook 'vala-mode-hook #'lsp)  ;; Enable LSP for Vala mode
+                                        ;(add-hook 'vala-mode-hook #'lsp-mode) ; disconnects immediately
+
+;; DAP Python Configuration
+                                        ;(with-eval-after-load 'dap-mode
+                                        ;  (dap-register-debug-template "Python :: Uvicorn (FastAPI)"
+                                        ;    (list :type "python"
+                                        ;          :request "launch"
+                                        ;          :name "Python :: Uvicorn (FastAPI)"
+                                        ;          :program "${workspaceFolder}/main.py"  ;; Path to your FastAPI app
+                                        ;          :args ["run" "main:app" "--reload" "--host" "127.0.0.1" "--port" "8000"]
+                                        ;          :env (list (cons "PYTHONPATH" "${workspaceFolder}"))
+                                        ;          :justMyCode t
+                                        ;          :console "integratedTerminal")))
+
+                                        ; (with-eval-after-load 'dap-mode
+                                        ;   (dap-register-debug-template "Python :: Attach via port 5678"
+                                        ;                                (list :type "python"
+                                        ;                                      :request "attach"
+                                        ;                                      :name "Python :: Attach to Running"
+                                        ;                                      :hostName "127.0.0.1"  ;; Address of the Python process
+                                        ;                                      :port 5678             ;; Port that debugpy is listening on
+                                        ;                                         ; :justMyCode t          ;; Optional: Only debug your code, not external libraries
+                                        ;                                      :env (list (cons "PYTHONPATH" "${workspaceFolder}"))
+                                        ;                                      :console "integratedTerminal")))
+
+                                        ;(which-key-setup-side-window-right-bottom)
+(which-key-setup-side-window-bottom)
+
+
+;; Display which-key keybindings in the right margin
+                                        ;(setq which-key-side-window-location 'right) ; Set position to right margin
+                                        ;(setq which-key-side-window-max-width 0.25)  ; Set maximum width of the side window (25% of the frame width)
+                                        ; what? (setq which-key-side-window-slot -10)        ; Slot for side window
+                                        ;(setq which-key-show-early-on-C-h t)         ; Show key hints when pressing C-h
+                                        ;(setq which-key-idle-delay 0.5)              ; Delay before the keybindings show up
+                                        ;(setq which-key-idle-secondary-delay 0.05)   ; Delay for showing secondary hints
+;; Allow the margin window to take up multiple lines
+                                        ;(setq which-key-side-window-multi-line-p t)   ; Allow multi-line keybindings
+                                        ;(setq which-key-side-window-max-height 0.5)    ; Max height of the side window (50% of the frame height)
+
+                                        ;(custom-set-faces
+                                        ; '(which-key-key-face ((t (:foreground "yellow")))) ; Key face color
+                                        ; '(which-key-command-description-face ((t (:foreground "green")))) ; Command description color
+                                        ; '(which-key-group-description-face ((t (:foreground "cyan"))))) ; Group description color
+
+                                        ; Eventually provided by manifest.scm
+(setq lsp-clients-clangd-executable "ccls")
+
+                                        ;(setq dired-launch-default-launcher '("xdg-open"))
+(setf dired-launch-extensions-map
+      '(("xlsx" ("libreoffice"))
+        ("odt" ("libreoffice" "abiword"))))
+
+(add-hook 'python-mode-hook 'eglot-ensure)
+;; Tab Completion: Use company-mode for completion, integrating company-capf with eglot.
+;; elpy or something.
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-hook 'python-mode-hook 'flycheck-mode)
+                                        ;(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
+
+(require 'company-lsp)
+(with-eval-after-load 'company
+                                        ; (push 'company-robe company-backends)
+  (push 'company-lsp company-backends))
+
+(require 'vlf-setup) ; very large files
+
+(projectile-register-project-type 'npm '("package.json")
+                                  :project-file "package.json"
+				  :compile "npm run build" ; or "npm install" or something
+				  :test "npm test"
+				  :run "npm start"
+				  :test-suffix ".test")
+
+;; Rails & RSpec
+(projectile-register-project-type 'rails-rspec '("Gemfile") ; "app" "lib" "db" "config" "spec"
+                                  :project-file "Gemfile"
+                                  :compile "bundle exec rails server"
+                                  :src-dir "lib/"
+                                  :test "bundle exec rspec"
+                                  :test-dir "spec/"
+                                  :test-suffix "_spec")
+
+(setq org-agenda-files '("~/org-mode/agenda"))
+(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
+
+;; I'm using org-indent-mode together with form-feed-mode: org-indent-mode interprets the form feed character as part of the previous section and indents it--which is not what I want.  I'm use the form feed for sections. So the form feed should belong to no section.
+(defun fix-org-indent-form-feed ()
+  (setq-local org-outline-regexp "\\*+ \\|\\(^\f$\\)"))
+(add-hook 'org-mode-hook #'fix-org-indent-form-feed)
+
+;; Doesn't work. Sigh.
+                                        ;(defun fix-org-indent-form-feed ()
+                                        ;  (setq-local org-heading-regexp "^\\(\f?\\*+\\)\\(?: +\\(.*?\\)\\)?[ 	]*$"))
+                                        ;(add-hook 'org-mode-hook #'fix-org-indent-form-feed)
+
+;; Skip flyspell on code blocks
+
+                                        ; See https://endlessparentheses.com/ispell-and-org-mode.html
+(defun endless/org-ispell ()
+  "Configure `ispell-skip-region-alist' for `org-mode'."
+  (make-local-variable 'ispell-skip-region-alist)
+  (add-to-list 'ispell-skip-region-alist '(org-property-drawer-re))
+  (add-to-list 'ispell-skip-region-alist '("~" "~"))
+  (add-to-list 'ispell-skip-region-alist '("=" "="))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
+(add-hook 'org-mode-hook #'endless/org-ispell)
+
+(with-eval-after-load 'org
+  '(progn
+     (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
+     (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
+     (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
+     (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
+     (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
+     ;; When you want to change the level of an org item, use SMR
+     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
+
+(defun unset-line-move-visual ()
+  (define-key org-mode-map [remap move-beginning-of-line] nil)
+  (define-key org-mode-map [remap move-end-of-line] nil)
+  (setq line-move-visual nil))
+
+(add-hook 'org-mode-hook #'unset-line-move-visual)
+
+                                        ;(with-eval-after-load 'web-mode ...)
+(require 'lsp-mode)
+(require 'lsp-volar)
+(require 'lsp-vetur)
+                                        ;(add-hook 'web-mode-hook #'lsp-vue-mmm-enable) ; missing.
+
+(require 'web-mode)
+(define-derived-mode genehack-vue-mode web-mode "ghVue"
+  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
+                                        ;(add-hook 'genehack-vue-mode-hook #'eglot-ensure)
+(add-hook 'genehack-vue-mode-hook #'lsp)
+
+(require 'mmm-auto)
+(setq mmm-global-mode 'maybe)
+(mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
+                                        ; (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'html-js) ; maybe automatic?
+                                        ;just modify mmm-mode-ext-classes-alist directly
+                                        ;     (add-to-list 'mmm-mode-ext-classes-alist
+                                        ;                  '(rpm-spec-mode "\\.spec\\'" rpm-sh))
+
+                                        ; (require 'ox-publish)
+                                        ; (setq org-publish-project-alist
+                                        ;       '(("friendly-machines.com"
+                                        ;          :base-directory "~/org-mode/"
+                                        ;          :publishing-directory "~/friendly-machines.com/www/mirror/public/blog/"
+                                        ;          :base-extension "org"
+                                        ;          :recursive t
+                                        ;          :publishing-function org-html-publish-to-html
+                                        ;          :html-doctype "html5"
+                                        ;          :with-toc nil
+                                        ;          :section-numbers nil
+                                        ;          :html-head "<link rel=\"stylesheet\" href=\"/css/org.css\" type=\"text/css\"/>"
+                                        ;          :html-preamble nil
+                                        ;          :html-postamble nil
+                                        ;          :exclude ".*-private.org\\|.*-confidential.org\\|.*-internal.org"
+                                        ;          :select-tags ("public"))))
+
+(setq org-src-fontify-natively t)
+                                        ; (setq org-confirm-babel-evaluate nil)
+
+;; Disambiguate /home/user/project1/main.cpp and /home/user/project2/main.cpp
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
+(defun other-window-mru ()
+  "Select the most recently used window on this frame."
+  (interactive)
+  (when-let ((mru-window
+              (get-mru-window
+               nil nil 'not-this-one-dummy)))
+    (select-window mru-window)))
+
+(keymap-global-set "M-o" 'other-window-mru)
+
+                                        ; (when (daemonp)
+                                        ;                                         ;(global-set-key (kbd "C-d C-c") 'handle-delete-frame-without-kill-emacs)
+                                        ;                                         ;(define-key global-map [delete-frame] 'handle-delete-frame)
+                                        ;   (define-key special-event-map [delete-frame]
+                                        ;               (lambda (event)
+                                        ;                 (interactive "e")
+                                        ;                 (let ((frame (posn-window (event-start event))))
+                                        ;                   (select-frame frame)
+                                        ;                   ;; (save-some-buffers) returns t on "q", nil if there's nothing to save. So that's not useful :P
+                                        ;                   ;; But if I press Esc, it quits and doesn't continue. Good, I guess.
+                                        ;                   (save-some-buffers)
+                                        ;                   (dolist (win (window-list frame))
+                                        ;                     (with-selected-window win
+                                        ;                       ;; You could (kill-buffer x) instead--but it would have a potential TOCTOU.
+                                        ;                       (kill-buffer-if-not-modified (current-buffer))))
+                                        ;                   (delete-frame frame)))))
+
+;; Align the current prompt with the BOTTOM of the window.
+;; That way the area before that prompt (which is the previous response) is maximized.
+                                        ;(setq eshell-show-maximum-output t)
+
+                                        ; better maybe: Add eshell-smart to eshell-modules-list
+                                        ; that assumes that you keep editing existing commands because you got them wrong. I really don't. (add-to-list 'eshell-modules-list 'eshell-smart)
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer
+        (delq (current-buffer)
+              (remove-if-not 'buffer-file-name (buffer-list)))))
+
+;; Stop asking "Autosave file on local temporary directory, do you want to continue? (yes or no)" for files on remote hosts owned by root
+;; This will just put the autosave files on that same host instead of localhost.
+(setq auto-save-file-name-transforms nil)
+                                        ; (setq tramp-auto-save-directory "~/emacs/tramp-autosave")
+
+;; This is an lsp-ui workaround for <https://github.com/emacs-lsp/lsp-ui/issues/607>.
+(let ((areas '("mode-line" "left-margin" "left-fringe" "right-fringe" "header-line" "vertical-scroll-bar" "tool-bar" "menu-bar"))
+      loc)
+  (while areas
+    (setq loc (pop areas))
+    (global-set-key
+     (kbd (concat "<" loc "> <mouse-movement>")) #'ignore)))
+
+;; Make the tab tooltip show the buffer file name.
+(defun tab-line-tab-name-format-default (tab tabs)
+  "Default function to use as `tab-line-tab-name-format-function', which see."
+  (let* ((buffer-p (bufferp tab))
+         (selected-p (if buffer-p
+                         (eq tab (window-buffer))
+                       (cdr (assq 'selected tab))))
+         (name (if buffer-p
+                   (funcall tab-line-tab-name-function tab tabs)
+                 (cdr (assq 'name tab))))
+         (face (if selected-p
+                   (if (mode-line-window-selected-p)
+                       'tab-line-tab-current
+                     'tab-line-tab)
+                 'tab-line-tab-inactive)))
+    (dolist (fn tab-line-tab-face-functions)
+      (setf face (funcall fn tab tabs face buffer-p selected-p)))
+    (apply 'propertize
+           (concat (propertize (string-replace "%" "%%" name) ;; (bug#57848)
+                               'keymap tab-line-tab-map
+                               'help-echo (let ((buffer (if buffer-p tab (cdr (assq 'buffer tab)))))
+                                            (if selected-p
+                                                (buffer-file-name buffer)
+                                              (buffer-file-name buffer)))
+                               ;; Don't turn mouse-1 into mouse-2 (bug#49247)
+                               'follow-link 'ignore)
+                   (or (and (or buffer-p (assq 'buffer tab) (assq 'close tab))
+                            tab-line-close-button-show
+                            (not (eq tab-line-close-button-show
+                                     (if selected-p 'non-selected 'selected)))
+                            tab-line-close-button)
+                       ""))
+           `(
+             tab ,tab
+             ,@(if selected-p '(selected t))
+             face ,face
+             mouse-face tab-line-highlight))))
+
+;;; Keep unsaved state
+(desktop-save-mode 1)
+(setq desktop-restore-frames t) ; restore window configuration
+(setq desktop-path '("~/.emacs.d/desktop/")) ; where to save desktop files
+(setq desktop-auto-save-timeout 30) ; save desktop automatically every 30 seconds
+(auto-save-visited-mode 1)
+(setq desktop-save t) ; always save without asking
+
+;; keyboard-shortcuts
+
+(define-key global-map (kbd "M-g f" ) #'org-node-find)
+(define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
+(define-key global-map (kbd "M-g t") (lambda () (interactive) (
+                                                          find-file "~/org-mode/todo.org")))
+
+(define-key global-map (kbd "C-f" ) #'swiper)
+(define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
+
+(add-hook 'git-commit-setup-hook #'my/generate-lisp-commit-message)
+
+(keymap-set global-map "C-<f5>" `eval-region)
+(keymap-set global-map "C-S-<escape>" `eshell)
+(keymap-set global-map "C-<F5>" `eval-buffer)
+(keymap-set wakib-keys-overriding-map "C-w" `bury-buffer)
+
+(setenv "PATH" (concat "/home/nomike/.config/guix/current/bin:" (getenv "PATH")))
+
+(require 'minimap)
+(require 'buffer-move)
+
+;; OPTIONAL configuration
+(setq gptel-model   'deepseek-reasoner
+      gptel-backend (gptel-make-deepseek "DeepSeek"
+                                         :stream t
+                                         :key "sk-298dadffa5784d0dbd028d247ef81dfe"))
+
+(global-auto-revert-mode 1)
+(setq auto-revert-avoid-polling t)
