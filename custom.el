@@ -2,9 +2,6 @@
 
 (spacious-padding-mode 1)
 
-;; maximize emacs on startup
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
 (require 'eshell)
 (require 'em-unix)
 
@@ -23,7 +20,7 @@
 
 ;; Custom "e" command in eshell
 (defun eshell/e (&rest args)
-  "Open one or more files in Emacs, similar to the 'find-file' function."
+  "Open one or more files in Emacs, similar to the `find-file' function.  ARGS will be evaluated by eshell."
   (eshell-eval-using-options
    "e" args
    '((?f "file" nil nil "file")
@@ -37,7 +34,7 @@
 
 (defun eshell/nd (args)
   "Create a directory (and its parents) if they don't exist.
-Warn if the directory already exists."
+Warn if the directory already exists.  ARGS will be evaluated by eshell."
   (eshell-eval-using-options
    "nd" args
    '((?v "verbose" nil verbose-flag "verbose output")
@@ -70,22 +67,34 @@ Warn if the directory already exists."
   (define-key nov-mode-map (kbd "M-<Right>") #'nov-history-forward))
 
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
-(global-set-key (kbd "<Search>") 'isearch-forward)
-(global-set-key (kbd "<Search>") 'isearch-forward)
+(global-set-key (kbd "<Search>") 'consult-line)
+(with-eval-after-load 'pdf-tools
+  (define-key pdf-view-mode-map (kbd "<Search>") #'pdf-occur)
+  ;; Will probably not work again:
+  (define-key pdf-view-mode-map (kbd "C-f") #'pdf-occur))
+
+                                        ; pixel-scroll-interpolate-down
+                                        ;(define-key isearch-mode-map (kbd "<next>") #'isearch-repeat-forward)
+                                        ; pixel-scroll-interpolate-?
+                                        ;(define-key isearch-mode-map (kbd "<prior>") #'isearch-repeat-backward))
+
+(global-set-key (kbd "M-<Search>") #'consult-ripgrep)
+
+
                                         ;(global-set-key (kbd "<Launch1>") 'async-shell-command)
-(global-set-key (kbd "<Launch1>") 'project-compile)
+(global-set-key (kbd "<Launch1>") 'embark-act)
 
 
 (global-set-key (kbd "C-s") 'save-buffer)
                                         ; TODO: restart
                                         ;(global-set-key (kbd "C-<f2>") ')
 
-(global-set-key (kbd "<f3>") 'find-file)
-                                        ; (global-set-key (kbd "C-<f3>") 'find-file-at-point)
-                                        ; (global-set-key (kbd "M-<f3>") 'ff-get-other-file)
+(global-set-key (kbd "<f3>") 'counsel-find-file)
+(global-set-key (kbd "C-<f3>") 'find-file-at-point)
+(global-set-key (kbd "M-<f3>") 'ff-get-other-file)
 
 (defun define-debug-key (mode-map key gud-command &optional dap-command)
-  "Bind KEY to GUD-COMMAND when GUD is active, or DAP-COMMAND when DAP is active.
+  "In MODE-MAP, bind KEY to GUD-COMMAND when GUD is active, or DAP-COMMAND when DAP is active.
 KEY should be like (key \"<f8>\").
 GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
   (define-key mode-map key
@@ -179,6 +188,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; next sibling; via combobulate
 (global-set-key (kbd "C-M-<down>") 'forward-sexp)
 
+                                        ;(eval-after-load 'emacs-lisp-mode
+                                        ;  '(progn
+;; overwrites down-mouse-1 that would do mouse-buffer-menu
+(define-key emacs-lisp-mode-map (kbd "C-<down-mouse-1>") #'xref-find-definitions-at-mouse)
+                                        ;))
+
 ;; FIXME also C-<f8> maybe
 (global-set-key (kbd "<f5>") 'dap-breakpoint-toggle)
 
@@ -219,9 +234,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
                                         ; https://delphi.fandom.com/wiki/Default_IDE_Shortcut_Keys
                                         ; FIXME: also run under debugger
-(global-set-key (kbd "<f9>") 'project-compile)
+(global-set-key (kbd "<f9>") #'projectile-compile-project)
                                         ; FIXME: Alt+F9 recompile all, Shift-F9 same
-(global-set-key (kbd "C-<f9>") 'compile)
+(global-set-key (kbd "C-<f9>") #'projectile-run-project)
+(global-set-key (kbd "C-S-<f9>") #'projectile-test-project)
+(global-set-key (kbd "M-<f9>") #'compile) ; for mcphas
                                         ; TODO: shift-ctrl-f find in files
                                         ; TODO: ctrl-h search replace
                                         ; Ctrl+Alt+B breakpoint list
@@ -251,8 +268,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; Shift+Ctrl+Alt+F9 deploy project
                                         ; Shift+Ctrl+F9 run without debugger
 
-(global-set-key (kbd "C-f") 'find)
-
 (global-set-key (kbd "C-s") 'save-buffer)
 (global-set-key (kbd "C-S-s") 'save-buffer)
 
@@ -260,16 +275,16 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 (global-set-key (kbd "<C-M-prior>") 'backward-page) ; Ctrl+Alt+PageUp
 (global-set-key (kbd "<C-M-next>") 'forward-page)   ; Ctrl+Alt+PageDown
 
-(keymap-set global-map "C-M-s" #'org-node-seq-dispatch)
+(keymap-set global-map "C-M-s" #'org-node-series-dispatch)
 
 ;; Those conflict with move to previous word, move to next word, respectively.
 ;; They have alternative bindings anyway--so kill these here.
-(eval-after-load "paredit"
-  '(progn
-     (define-key paredit-mode-map (kbd "C-<left>") 'paredit-backward) ; alternative: C-} ; new alternative: M-b
-     (define-key paredit-mode-map (kbd "C-<right>") 'paredit-forward) ; alternative: C-) ; new alternative: M-f
-     (define-key paredit-mode-map (kbd "C-<up>") 'paredit-backward-up)
-     (define-key paredit-mode-map (kbd "C-<down>") 'paredit-backward-down)))
+                                        ;(eval-after-load "paredit"
+                                        ;  '(progn
+                                        ;     (define-key paredit-mode-map (kbd "C-<left>") 'paredit-backward) ; alternative: C-} ; new alternative: M-b
+                                        ;     (define-key paredit-mode-map (kbd "C-<right>") 'paredit-forward) ; alternative: C-) ; new alternative: M-f
+                                        ;     (define-key paredit-mode-map (kbd "C-<up>") 'paredit-backward-up)
+                                        ;     (define-key paredit-mode-map (kbd "C-<down>") 'paredit-backward-down)))
 
 ;;; ======================
 
@@ -281,7 +296,6 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; Improve contrast
 (add-to-list 'default-frame-alist '(foreground-color . "#505050"))
 
-(add-to-list 'load-path "~/.emacs.d/treemacs-nerd-icons/")
 (require 'treemacs-nerd-icons)
 (treemacs-load-theme "nerd-icons")
 
@@ -293,7 +307,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          (side . right)
          )
         ("^\\*Projectile.*"
-         ((display-buffer-reuse-window display-buffer-at-top)
+         ((display-buffer-in-side-window)
           (window-height . 0.25)))
         ("^\\*scratch.*"
          (display-buffer-in-side-window)
@@ -309,16 +323,19 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          (window-width . 0.25) ;; Side window takes up 1/4th of the screen
          (side . right)
          )
+        ("\\*.*[Ss]hell.*\\*" ; especially "*Async Shell Command*"
+         (display-buffer-same-window)
+         (reusable-frames . visible))
         ))
 
                                         ; (require 'mh-e) ; mail
 
 (add-to-list 'treesit-extra-load-path "/home/dannym/.guix-home/profile/lib/tree-sitter/")
 
-                                        ; (setq send-mail-function    'smtpmail-send-it
-                                        ;       smtpmail-smtp-server  "w0062d1b.kasserver.com"
-                                        ;       smtpmail-stream-type  'starttls
-                                        ;       smtpmail-smtp-service 587)
+(setq send-mail-function    'smtpmail-send-it
+      smtpmail-smtp-server  "w0062d1b.kasserver.com"
+      smtpmail-stream-type  'starttls
+      smtpmail-smtp-service 587)
 
                                         ; argh
 (setq python-shell-completion-native-disabled-interpreters '("python3" "pypy3"))
@@ -345,7 +362,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; Vendored from https://raw.githubusercontent.com/Alexander-Miller/treemacs/master/src/extra/treemacs-projectile.el
 (require 'treemacs-projectile)
 
-                                        ; (add-hook 'scheme-mode-hook 'guix-devel-mode)
+(add-hook 'scheme-mode-hook 'guix-devel-mode)
 
                                         ;(straight-use-package
                                         ;  '(nano :type git :host github :repo "rougier/nano-emacs"))
@@ -362,7 +379,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;(setq org-ellipsis "▾")
 
                                         ; See https://magit.vc/manual/ghub/Storing-a-Token.html
-(setq auth-sources '("~/.authinfo"))
+(use-package auth-source
+  :defer t
+  :config
+  (setq auth-sources
+        (list (expand-file-name ".authinfo.gpg" user-emacs-directory))))
 
 ;; Assuming the Guix checkout is in ~/src/guix.
 ;; Yasnippet configuration
@@ -397,8 +418,8 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;;(load "dap-mode.el")
                                         ;(require 'dap-cpptools)
 
-                                        ; (add-to-list 'load-path "~/.emacs.d/bar-cursor/")
-                                        ; ;;(load "dap-mode.el")
+(add-to-list 'load-path "~/.emacs.d/bar-cursor/")
+;;(load "dap-mode.el")
 (require 'bar-cursor)
 (bar-cursor-mode 1)
 
@@ -415,8 +436,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (add-to-list 'load-path "~/.emacs.d/xenops/lisp/")
 (require 'xenops)
+(setq-default xenops-math-image-scale-factor 0.6)
+                                        ; (setq-default xenops-reveal-on-entry t) ; unreveal in org mode is buggy
 (require 'ob-python) ; optional
 (add-hook 'LaTeX-mode-hook #'xenops-mode)
+(add-hook 'org-mode-hook #'xenops-mode)
+
                                         ; (add-hook 'org-mode-hook #'xenops-mode) ; fucks up begin_src and end_src (lowercase) handling maybe
 
                                         ; Undefined
@@ -425,6 +450,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
 (require 'wakib-keys)
 (wakib-keys 1)
+(define-key wakib-keys-overriding-map (kbd "C-f") #'consult-line) ; Note: someone overwrites this.
 
                                         ; Fix escape key
 (wakib-define-keys wakib-keys-overriding-map `(("<escape>" . ,#'keyboard-escape-quit)))
@@ -462,8 +488,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; Make the indentation look nicer
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'org-sticky-header-mode)
-(add-hook 'org-mode-hook #'org-modern-mode)
-(add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+
 
 ;; Shortcuts for storing links, viewing the agenda, and starting a capture
 (define-key global-map "\C-cl" 'org-store-link)
@@ -535,6 +560,10 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 ;; Wrap the lines in org mode so that things are easier to read ; FIXME how to make tables work correctly then?
                                         ;(add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'text-mode-hook #'visual-line-mode)
+(with-current-buffer "*Messages*"
+  (visual-line-mode))
+                                        ;(with-current-buffer "*scratch*"
+                                        ;  (visual-line-mode))
 
                                         ;(setq org-roam-v2-ack t)
                                         ;(use-package org-roam
@@ -546,9 +575,48 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ;         ("C-c n i" . org-roam-node-insert))
                                         ;  :config
                                         ;  (org-roam-setup))
+                                        ;(org-roam-db-autosync-mode)
+
+;;; Make elfeed store-link store the link to the ORIGINAL article, not to the feed.
+
+(org-link-set-parameters "elfeed"
+                         :follow #'elfeed-link-open
+                         :store #'elfeed-link-store-link
+                         :export #'elfeed-link-export-link)
+
+(defun elfeed-link-export-link (link desc format _protocol)
+  "Export `org-mode' `elfeed' LINK with DESC for FORMAT."
+  (if (string-match "\\([^#]+\\)#\\(.+\\)" link)
+      (if-let* ((entry
+                 (elfeed-db-get-entry
+                  (cons (match-string 1 link)
+                        (match-string 2 link))))
+                (url
+                 (elfeed-entry-link entry))
+                (title
+                 (elfeed-entry-title entry)))
+          (pcase format
+            ('html (format "<a href=\"%s\">%s</a>" url desc))
+            ('md (format "[%s](%s)" desc url))
+            ('latex (format "\\href{%s}{%s}" url desc))
+            ('texinfo (format "@uref{%s,%s}" url desc))
+            (_ (format "%s (%s)" desc url)))
+        (format "%s (%s)" desc url))
+    (format "%s (%s)" desc link)))
+
+;;; Pandoc
+
+(setq pandoc-data-dir "~/.emacs.d/etc/pandoc/")
+
+(defun efe/export-to-docx ()
+  "Output to docx using pandoc-mode"
+  (interactive)
+  (pandoc-mode)
+  (execute-kbd-macro (kbd "C-c / O W d b b r"))
+  (setq pandoc-mode nil))
 
 (defun insert-html-blog-template ()
-  "Inserts HTML_HEAD lines at the first empty line and html code at the end of the buffer."
+  "Insert HTML_HEAD lines at the first empty line and html code at the end of the buffer."
   (interactive)
   (save-excursion
     (goto-char (point-min))
@@ -617,12 +685,12 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 
                                         ;                                         ; Unbreak image scrolling
 
-                                        ; (add-to-list 'load-path "~/.emacs.d/iscroll/")
-                                        ; (require 'iscroll)
-                                        ;                                         ; Note: Only enable in text modes, not prog modes
-                                        ;                                         ;(iscroll-mode)
+(add-to-list 'load-path "~/.emacs.d/iscroll/")
+(require 'iscroll)
+                                        ; Note: Only enable in text modes, not prog modes
+                                        ;(iscroll-mode)
 
-                                        ; (add-hook 'elfeed-show-mode-hook 'iscroll-mode)
+(add-hook 'elfeed-show-mode-hook 'iscroll-mode)
 
 ;;; Org mode
 
@@ -634,6 +702,10 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 #+FILETAGS: :internal:
 
 %?"))
+
+(defun transform-square-brackets-to-round-ones (string-to-transform)
+  "Convert `[' into `(' and `]' into `)' of STRING-TO-TRANSFORM.  That's especially for arxiv."
+  (concat (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 
 (setq org-capture-templates
       `(("i" "Capture into ID node"
@@ -656,7 +728,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          :immediate-finish t)
 
         ("w" "Work Log Entry"
-         entry (file+datetree "~/org-mode/work-log.org")
+         entry (file+datetree "~/doc/org/work-log.org")
          "* %?"
          :empty-lines 0)
         ("n" "Note"
@@ -677,7 +749,20 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          :tree-type week
          :clock-in t
          :clock-resume t
-         :empty-lines 0)))
+         :empty-lines 0)
+
+        ;; org-protocol by chrome org-capture extension.
+        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox") ; WTF?
+         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+        ;; org-protocol by chrome org-capture extension.
+        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox") ; WTF?
+         "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\nCaptured On: %U")
+
+        ;; org-protocol-html bookmarklet.
+        ("w" "Web site" entry (file "") ; or (file+olp ,(concat org-directory "inbox.org" "Web"))
+         "* %a :website:\n\n%U %?\n\n%:initial")
+
+        ))
 
 ;; Tags
 (setq org-tag-alist '(
@@ -687,6 +772,11 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                       ("@feature" . ?u)
                       ("@spike" . ?j)
                       (:endgroup . nil)
+
+                      ("WAITING" . ?w)
+                      ("HOLD" . ?h)
+                      ("CANCELLED" . ?c)
+                      ("FLAGGED" . ??)
 
                       ;; Ticket flags
                       ("@write_future_ticket" . ?w)
@@ -722,6 +812,16 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                       ;; Work Log Tags
                       ("accomplishment" . ?a)
                       ))
+
+;; The ones without "t" are cleared..
+(setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 ;; Tag colors
 (setq org-tag-faces
@@ -834,9 +934,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
     (geiser-chicken-binary . "chicken")
     (haskell-process-path-ghci . "ghci")
     (js-comint-program-command . "node"))
-  "A list of REPL environment configurations. Each item is a cons cell where
-the car is the name of the local variable to setq-local, and the cdr is
-the name of the executable program to search for (searched-for in PATH).")
+  "A list of REPL environment configurations.  Each item is (name of the local variable to `setq-local' . name of the executable program to search for (searched-for in PATH)).")
 
 (defun update-repl-commands (&rest _args)
   "Update all REPL executable names for the current `process-environment'."
@@ -851,11 +949,11 @@ the name of the executable program to search for (searched-for in PATH).")
     (projectile-project-root)))
 
 (defun get-builtin-project-root ()
-  "Get the root directory of the project according to Emacs' built-in project.el."
+  "Get the root directory of the project according to Emacs' built-in `project.el'."
   (when-let ((project (project-current)))
     (project-root project)))
 
-(defun ensure-line-in-file (line file-path)
+(defun my/ensure-line-in-file (line file-path)
   "Open FILE-PATH in a buffer and ensure that a specific LINE exists. Does not save the buffer automatically."
   (let* ((file (expand-file-name file-path))
          (buffer (find-file-noselect file)))
@@ -870,67 +968,93 @@ the name of the executable program to search for (searched-for in PATH).")
         (switch-to-buffer-other-window buffer)
         (message "Review the changes and save the buffer if they are correct.")))))
 
-(defun envrc-root-directory ()
+(defun my/envrc-root-directory ()
   "Attempt to get the envrc root directory for the current buffer."
   (when (featurep 'envrc)
     (envrc--find-env-dir)))
 
-(defun update-guix-shell-authorized ()
-  "Ensure the current buffer's project or its directory is listed in
-   '~/.config/guix/shell-authorized-directories'."
-  (let ((project-dir (envrc-root-directory)))
+(defun my/update-guix-shell-authorized ()
+  "Ensure the current buffer's project or its directory is listed in '~/.config/guix/shell-authorized-directories'."
+  (let ((project-dir (my/envrc-root-directory)))
     (when project-dir
       ;; Ensure there's no trailing slash to keep consistency in shell-authorized-directories
       (setq project-dir (directory-file-name project-dir))
-      (ensure-line-in-file project-dir
-                           (expand-file-name "~/.config/guix/shell-authorized-directories")))))
+      (my/ensure-line-in-file project-dir
+                              (expand-file-name "~/.config/guix/shell-authorized-directories")))))
 
 ;; envrc-allow also allows `guix shell' to do its thing
 (advice-add 'envrc-allow :before #'update-guix-shell-authorized)
+
+(defun my-notdeft-import-web-page (url &optional ask-dir)
+  "Import the web page at URL into NotDeft.
+Query for the target directory if ASK-DIR is non-nil.
+Interactively, query for a URL, and set ASK-DIR if a prefix
+argument is given. Choose a file name based on any document
+<title>, or generate some unique name."
+  (interactive "sPage URL: \nP")
+  (let* ((s (shell-command-to-string
+             (concat "curl --silent " (shell-quote-argument url) " | "
+                     "pandoc" " -f html-native_divs-native_spans"
+                     " -t org"
+                     " --wrap=none --smart --normalize --standalone")))
+         (title
+          (and
+           (string-match "^#\\+TITLE:[[:space:]]+\\(.+\\)$" s)
+           (match-string 1 s))))
+    (notdeft-create-file
+     (and ask-dir 'ask)
+     (and title `(title, title))
+     "org" s)))
 
                                         ; TODO: https://tero.hasu.is/blog/transient-directories-in-notdeft/
 
 (setq buffer-env-script-name '("manifest.scm" ".envrc"))
 
-(use-package org-node
-  :after org
-  :config (org-node-cache-mode))
-
 ;; Original wakib binding would save and quit emacs (using save-buffers-kill-terminal).  Who wants that?
 (keymap-set wakib-keys-overriding-map "C-q" #'quoted-insert)
 
-                                        ; (keymap-set global-map "C-<Search>" #'org-node-find)
-                                        ; (keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
+(use-package org-notify
+  :after org
+  :config
+  (wrap-with-global-env #'org-notify-process))
+
+(use-package org-node
+  :after org
+  :config
+  (org-node-cache-mode)
+
+(keymap-set global-map "C-<Search>" #'org-node-find)
+(keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
                                         ;(global-set-key (kbd "C-c l") 'org-store-link)
                                         ;(global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
-(add-hook 'org-mode-hook #'org-node-backlink-mode)
-(setq org-node-creation-fn #'org-capture)
-(setq org-node-alter-candidates t)
+  (add-hook 'org-mode-hook #'org-node-backlink-mode)
+  (setq org-node-creation-fn #'org-capture)
+  (setq org-node-alter-candidates t)
 
-;; Prefer visiting node with URL in ROAM_REFS property instead of opening URL in web browser.
-(add-hook 'org-open-at-point-functions
-          #'org-node-try-visit-ref-node)
+  ;; Prefer visiting node with URL in ROAM_REFS property instead of opening URL in web browser.
+  (add-hook 'org-open-at-point-functions
+            #'org-node-try-visit-ref-node)
 
-(setq org-directory "~/org-mode")
+(setq org-directory "~/doc/org")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 
 
                                         ;        "~/Syncthing/"
 
-                                        ; (setq org-node-extra-id-dirs
-                                        ;       '("~/org-mode/"))
-                                        ;                                         ;Do a M-x org-node-reset and see if it can find your notes now.
-                                        ;                                         ; Then org-id-update-id-locations
+(setq org-node-extra-id-dirs
+      '("~/doc/org-roam/"))
+                                        ;Do a M-x org-node-reset and see if it can find your notes now.
+                                        ; Then org-id-update-id-locations
 
-(setq org-node-seq-defs
+(setq org-node-series-defs
       (list
        '("d" :name "Daily-files"
          :version 2
          :classifier (lambda (node)
                        (let ((path (org-node-get-file-path node)))
-                         (when (string-search "~/org-mode/daily" path)
+                         (when (string-search "~/doc/org/daily" path)
                            (let ((ymd (org-node-helper-filename->ymd path)))
                              (when ymd
                                (cons ymd path))))))
@@ -943,33 +1067,38 @@ the name of the executable program to search for (searched-for in PATH).")
                      (org-node-helper-try-visit-file (cdr item)))
          :creator (lambda (sortstr key)
                     (let ((org-node-datestamp-format "")
-                          (org-node-ask-directory "~/org-mode/daily"))
+                          (org-node-ask-directory "~/doc/org/daily"))
                       (org-node-create sortstr (org-id-new) key))))
 
-       ;; Obviously, this series works best if you have `org-node-put-created' on
-       ;; `org-node-creation-hook'.
-       '("a" :name "All ID-nodes by property :CREATED:"
-         :version 2
-         :capture "n"
-         :classifier (lambda (node)
-                       (let ((time (cdr (assoc "CREATED" (org-node-get-props node)))))
-                         (when (and time (not (string-blank-p time)))
-                           (cons time (org-node-get-id node)))))
-         :whereami (lambda ()
-                     (let ((time (org-entry-get nil "CREATED" t)))
-                       (and time (not (string-blank-p time)) time)))
-         :prompter (lambda (key)
-                     (let ((series (cdr (assoc key org-node-built-series))))
-                       (completing-read "Go to: " (plist-get series :sorted-items))))
-         :try-goto (lambda (item)
-                     (when (org-node-helper-try-goto-id (cdr item))
-                       t))
-         :creator (lambda (sortstr key)
-                    (org-node-create sortstr (org-id-new) key)))))
+         ;; Obviously, this series works best if you have `org-node-put-created' on
+         ;; `org-node-creation-hook'.
+         '("a" :name "All ID-nodes by property :CREATED:"
+           :version 2
+           :capture "n"
+           :classifier (lambda (node)
+                         (let ((time (cdr (assoc "CREATED" (org-node-get-props node)))))
+                           (when (and time (not (string-blank-p time)))
+                             (cons time (org-node-get-id node)))))
+           :whereami (lambda ()
+                       (let ((time (org-entry-get nil "CREATED" t)))
+                         (and time (not (string-blank-p time)) time)))
+           :prompter (lambda (key)
+                       (let ((series (cdr (assoc key org-node-built-series))))
+                         (completing-read "Go to: " (plist-get series :sorted-items))))
+           :try-goto (lambda (item)
+                       (when (org-node-helper-try-goto-id (cdr item))
+                         t))
+           :creator (lambda (sortstr key)
+                      (org-node-create sortstr (org-id-new) key)))))
 
                                         ;(setq tramp-verbose 9)
                                         ; (tramp-cleanup-all-connections)
                                         ; check tramp/foo* and debug tramp/foo*
+
+
+  (wrap-with-global-env #'el-job-launch)
+  (wrap-with-global-env #'org-node-find)
+)
 
 (setq org-src-tab-acts-natively t)
 (add-hook 'org-mode-hook #'mixed-pitch-mode)
@@ -980,9 +1109,9 @@ the name of the executable program to search for (searched-for in PATH).")
 
 ;; TODO: Add to Guix.
 
-                                        ; (add-to-list 'load-path "~/.emacs.d/org-notify/")
-                                        ; (require 'org-notify)
-                                        ; (org-notify-start)
+(add-to-list 'load-path "~/.emacs.d/org-notify/")
+(require 'org-notify)
+(org-notify-start)
 
                                         ; Autoinsert
 
@@ -1069,14 +1198,14 @@ the name of the executable program to search for (searched-for in PATH).")
 ;; Guix Manifest Template
 (define-auto-insert '("manifest\\.scm\\'" . "Guix manifest")
   '("Guix manifest"
-    "; Guix manifest definition." \n
+    ";;; Guix manifest definition." \n
     "(specifications->manifest" \n
-    " (list \"gcc-toolchain\" \"texlive-minted\" \"texlive-latex-bin\" \"dvisvgm\" \"python-lsp-server\" \"emacs-ediprolog\"))" \n))
+    " (list \"rust-analyzer\" \"ccls\" \"ocaml-lsp-server\" \"gcc-toolchain\" \"gdb\" \"rr\" \"texlive-minted\" \"texlive-latex-bin\" \"dvisvgm\" \"python-lsp-server\" \"emacs-ediprolog\" \"tidy-html\"))" \n))
 
                                         ; (add-to-list 'load-path "~/.emacs.d/kiwix.el")
                                         ; (require 'kiwix)
                                         ; duplicate
-                                        ; (setq kiwix-default-browser-function 'eww-browse-url)
+(setq kiwix-default-browser-function 'eww-browse-url)
 
                                         ; TODO: Use which-key instead.
                                         ;(require 'discover-my-major)
@@ -1088,10 +1217,10 @@ the name of the executable program to search for (searched-for in PATH).")
 (require 'shr-tag-math)
                                         ;(add-hook 'nov-mode-hook #'xenops-mode) ; so we render <math>; unfortunately, that fucks up all the other formatting. Also, the size of the rendered images is much too big here.
 
-                                        ; (require 'emms-setup)
-                                        ; (emms-all)
-                                        ; (setq emms-player-list '(emms-player-mpv))
-                                        ; (emms-add-directory-tree "~/Music")
+(require 'emms-setup)
+(emms-all)
+(setq emms-player-list '(emms-player-mpv))
+(emms-add-directory-tree "~/Music")
 
                                         ; (defun elfeed-search-print-entry (entry)
                                         ;   "Print ENTRY to the buffer."
@@ -1164,8 +1293,9 @@ the name of the executable program to search for (searched-for in PATH).")
 (add-hook 'rust-mode-hook #'form-feed-mode)
 (add-hook 'julia-mode-hook #'form-feed-mode)
 (add-hook 'org-mode-hook #'form-feed-mode) ; looks weird and sometimes disappears on save
-(add-hook 'elisp-mode-hook #'paredit-mode)
-(add-hook 'scheme-mode-hook #'paredit-mode)
+(add-hook 'elisp-mode-hook #'form-feed-mode)
+(add-hook 'elisp-mode-hook #'smartparens-mode)
+(add-hook 'scheme-mode-hook #'smartparens-mode)
 
 (use-package savehist
   :ensure nil ; it is built-in
@@ -1614,11 +1744,13 @@ the name of the executable program to search for (searched-for in PATH).")
   (completion-category-overrides '((file (styles partial-completion)))))
 
 
+;;; (setq completion-category-overrides '((file (styles basic))))
+                                        ;(keymap-set vertico-map "<Return>" #'vertico-exit-input)
+
 (use-package marginalia
   :ensure nil
   :hook (after-init . marginalia-mode))
 
-;; Apparently doesn't do anything
 (use-package orderless
   :ensure f
   :config
@@ -1692,7 +1824,7 @@ the name of the executable program to search for (searched-for in PATH).")
 
 (require 'company-lsp)
 (with-eval-after-load 'company
-                                        ; (push 'company-robe company-backends)
+  (push 'company-robe company-backends)
   (push 'company-lsp company-backends))
 
 (require 'vlf-setup) ; very large files
@@ -2115,10 +2247,17 @@ the name of the executable program to search for (searched-for in PATH).")
 (setq org-agenda-files '("~/org-mode/agenda"))
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
 
-;; I'm using org-indent-mode together with form-feed-mode: org-indent-mode interprets the form feed character as part of the previous section and indents it--which is not what I want.  I'm use the form feed for sections. So the form feed should belong to no section.
 (defun fix-org-indent-form-feed ()
+  "I'm using `org-indent-mode' together with `form-feed-mode': `org-indent-mode' interprets the form feed character as part of the previous section and indents it--which is not what I want.  I use the form feed for sections.  So the form feed should belong to no section."
   (setq-local org-outline-regexp "\\*+ \\|\\(^\f$\\)"))
 (add-hook 'org-mode-hook #'fix-org-indent-form-feed)
+
+;; See <https://www.naiquev.in/recurring-checklists-using-org-mode-in-emacs.html>.
+(use-package org-contrib
+  :ensure t
+  :config
+  (require 'org-checklist))
+
 
 ;; Doesn't work. Sigh.
                                         ;(defun fix-org-indent-form-feed ()
@@ -2137,22 +2276,30 @@ the name of the executable program to search for (searched-for in PATH).")
   (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
 (add-hook 'org-mode-hook #'endless/org-ispell)
 
-(with-eval-after-load 'org
-  '(progn
-     (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
-     (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
-     (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
-     (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
-     (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
-     ;; When you want to change the level of an org item, use SMR
-     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
+;;; Shortcuts for storing links, viewing the agenda, and starting a capture should work whereever you are.
 
-(defun unset-line-move-visual ()
+;; "Queues" a link-to-point for later.
+(define-key global-map (kbd "C-c m") 'org-store-link)
+(define-key global-map (kbd "C-c a") 'org-agenda)
+(define-key global-map (kbd "C-c c") 'org-capture)
+                                        ; with-eval-after-load org wouldn't work!
+(progn
+  (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
+  (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
+  (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
+  (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
+  ;; Inserts a link to a queued item into the current doc.
+  (define-key org-mode-map (kbd "C-c l") #'org-insert-link)
+  ;; When you want to change the level of an org item, use SMR
+  (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright))
+
+(defun my/unset-line-move-visual ()
+  "Fix up `org-mode' so it lets me have logical lines."
   (define-key org-mode-map [remap move-beginning-of-line] nil)
   (define-key org-mode-map [remap move-end-of-line] nil)
   (setq line-move-visual nil))
 
-(add-hook 'org-mode-hook #'unset-line-move-visual)
+(add-hook 'org-mode-hook #'my/unset-line-move-visual)
 
                                         ;(with-eval-after-load 'web-mode ...)
 (require 'lsp-mode)
@@ -2162,7 +2309,7 @@ the name of the executable program to search for (searched-for in PATH).")
 
 (require 'web-mode)
 (define-derived-mode genehack-vue-mode web-mode "ghVue"
-  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+  "A major mode derived from `web-mode', for editing .vue files with LSP support.")
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
                                         ;(add-hook 'genehack-vue-mode-hook #'eglot-ensure)
 (add-hook 'genehack-vue-mode-hook #'lsp)
@@ -2253,9 +2400,8 @@ the name of the executable program to search for (searched-for in PATH).")
     (global-set-key
      (kbd (concat "<" loc "> <mouse-movement>")) #'ignore)))
 
-;; Make the tab tooltip show the buffer file name.
 (defun tab-line-tab-name-format-default (tab tabs)
-  "Default function to use as `tab-line-tab-name-format-function', which see."
+  "Default function to use as `tab-line-tab-name-format-function'.  Show a tooltip with the full path if you hover on TAB, and show a window tool bar inside TAB."
   (let* ((buffer-p (bufferp tab))
          (selected-p (if buffer-p
                          (eq tab (window-buffer))
@@ -2279,6 +2425,7 @@ the name of the executable program to search for (searched-for in PATH).")
                                               (buffer-file-name buffer)))
                                ;; Don't turn mouse-1 into mouse-2 (bug#49247)
                                'follow-link 'ignore)
+                   (if selected-p (window-tool-bar-string) "")
                    (or (and (or buffer-p (assq 'buffer tab) (assq 'close tab))
                             tab-line-close-button-show
                             (not (eq tab-line-close-button-show

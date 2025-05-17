@@ -1,19 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
                                         ;(customize-set-variable 'lsp-treemacs-theme "Iconless")
-                                        ; (add-to-list 'load-path "~/.emacs.d/elfeed/")
 
 (require 'nerd-icons)
-                                        ; Gtk 3
-;; XXX test
-                                        ;(save-place-mode 1) ; save cursor position
-                                        ;(desktop-save-mode 1) ; save the desktop session
-                                        ;(savehist-mode 1) ; save history
 
 (pixel-scroll-precision-mode 1)
-
-                                        ; disabled as it seems to cause point jumping around randomly
-                                        ; (global-auto-revert-mode 1) ; revert buffers when the underlying file has changed
+(global-auto-revert-mode 1) ; revert buffers when the underlying file has changed
 
 ;;; disable byte compilation would be: (setq load-suffixes '(".el"))
 
@@ -30,18 +22,11 @@
 ;; Note: Major modes and minor modes are allowed to locally change the indent-tabs-mode variable, and a lot of them do.
                                         ;(setq-default indent-tabs-mode nil)
 
-(setq column-number-mode t)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-doc-show-with-mouse t)
 (setq tab-always-indent 'complete)
-(setq rust-format-on-save t)
-(setq lsp-enable-suggest-server-download nil)
                                         ; <https://github.com/thread314/intuitive-tab-line-mode>
-(global-tab-line-mode 1)
-                                        ;(global-visual-line-mode 1) ; no! Home would be beginning-of-visual-line
+;(global-tab-line-mode 1)
 
 (require 'lsp-treemacs)
-                                        ;(setq lsp-treemacs-theme "Iconless")
 
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 (add-hook 'rustic-mode-hook 'variable-pitch-mode)
@@ -58,31 +43,8 @@
                                         ;  (add-hook mode
                                         ;    (lambda ()
                                         ;      (display-line-numbers-mode 0))))
+(tool-bar-mode -1)
 
-                                        ; Nope. (add-hook 'scheme-mode-hook 'variable-pitch-mode)
-
-                                        ; TODO local; TODO override paragraphs.el forward-paragraph
-                                        ;(global-set-key (kbd "C-<Down>") 'combobulate-navigate-logical-next)
-                                        ;(global-set-key (kbd "C-<Up>") 'combobulate-navigate-logical-previous)
-
-                                        ; (column-number-mode)
-                                        ; (global-display-line-numbers-mode t)
-                                        ;(global-display-line-numbers-mode 1) ; that includes treemacs and that's dumb
-                                        ;(dolist (mode '(org-mode-hook term-mode-hook eshell-mode-hook treemacs-mode-hook))
-                                        ;  (add-hook mode
-                                        ;            (lambda ()
-                                        ;              (display-line-numbers-mode 0))));
-                                        ; Shouldn't those be context-dependent?
-
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(add-hook 'prog-mode-hook 'comment-tags-mode)
-
-(tool-bar-mode 1)
-					;(tool-bar-add-item "my-custom-action" 'my-custom-command "tooltip" 'my-custom-icon)
-
-(projectile-mode +1)
-
-(setq inhibit-startup-message t)    ;; Hide the startup message
 (global-prettify-symbols-mode 1)
 
                                         ; (use-package pyvenv
@@ -96,27 +58,29 @@
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
 (transient-mark-mode 1) ;; No region when it is not highlighted
 (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
-
-;;; Mouse in terminal
-
-					; M-x xterm-mouse-mode
-(xterm-mouse-mode 1)
+(define-key global-map (kbd "C-y") #'undo-redo)
 
 ;;; Virtual word wrapping
 
-					;(add-hook 'text-mode-hook 'visual-line-mode)
 (setq-default word-wrap t)
-					; default: C-a (beginning-of-visual-line) moves to the beginning of the screen line, C-e (end-of-visual-line) moves to the end of the screen line, and C-k (kill-visual-line) kills text to the end of the screen line.
-					;(bind-key* "cursor down" 'next-logical-line)
-					;(bind-key* "cursor up" 'previous-logical-line)
-					; TODO: only in text editor?
-                                        ;(global-set-key (kbd "<down>") 'next-logical-line) ; done by setting line-move-visual
-                                        ;(global-set-key (kbd "<up>") 'previous-logical-line)
 
 ;;; Packages
 
 (require 'package)
 (package-initialize)
+
+(use-package rust-mode
+  :custom
+  (rust-format-on-save t))
+
+(use-package projectile
+  :config
+  (projectile-mode +1))
+
+(use-package pyvenv
+  :ensure nil
+  :config
+  (pyvenv-mode nil))
 
 ;;; Magit "git-commit-* unavailable"
 
@@ -151,6 +115,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(LaTeX-command "lualatex -shell-escape")
+ '(LaTeX-electric-left-right-brace t)
+ '(TeX-engine 'luatex)
+ '(back-button-no-wrap t)
  '(buffer-env-safe-files
    '(("/home/nomike/coding/guix/manifest.scm" . "0b387290e9851813debd81b6e3aa5099f0f17fad1fade821ca1f0928262e56c4")
      ("/home/dannym/src/latex-ex/manifest.scm" . "5200b8ce405410acc7ad0e4baf5bfaa85b0160bff5815265a305bdc9a7fb70ed")))
@@ -165,8 +133,11 @@
  '(format-all-debug nil)
  '(format-all-show-errors 'errors)
  '(frame-background-mode 'light)
+ '(grep-command "rg -nS --no-heading ")
  '(ignored-local-variable-values
-   '((eval progn
+   '((eval with-eval-after-load 'git-commit
+           (add-to-list 'git-commit-trailers "Change-Id"))
+     (eval progn
            (require 'lisp-mode)
            (defun emacs27-lisp-fill-paragraph
                (&optional justify)
@@ -220,6 +191,7 @@
      (geiser-guile-binary "guix" "repl")
      (geiser-insert-actual-lambda)))
  '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
  '(kiwix-default-browser-function 'eww-browse-url)
  '(kiwix-server-type 'kiwix-serve-local)
  '(kiwix-zim-dir "~/.local/zim")
@@ -228,9 +200,33 @@
  '(lsp-rust-analyzer-rustc-source
    "/usr/local/rustup/toolchains/nightly-2024-08-03-x86_64-unknown-linux-musl/lib/rustlib/rustc-src/rust/compiler/rustc/Cargo.toml")
  '(lsp-treemacs-theme "Iconless")
- '(org-format-latex-header
-   "\\documentclass{article}\12\\usepackage[usenames]{color}\\usepackage{unicodeq}\12[DEFAULT-PACKAGES]\12[PACKAGES]\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
+ '(mediainfo-mode-file-regexp
+   "\\.\\(?:3gp\\|a\\(?:iff\\|vi\\)\\|flac\\|jpg\\|jpeg\\|png\\|gif\\|m\\(?:4a\\|kv\\|ov\\|p[34g]\\)\\|o\\(?:gg\\|pus\\)\\|vob\\|w\\(?:av\\|ebm\\|mv\\)\\)\\'")
+ '(mouse-autoselect-window t)
+ '(mu4e-compose-switch nil)
+ '(org-export-exclude-tags '("confidential"))
+ '(org-export-select-tags '("public"))
+ '(org-format-latex-options
+   '(:foreground default :background default :scale 0.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\[")))
+ '(org-id-link-to-org-use-id 'use-existing)
+ '(org-latex-packages-alist
+   '(("" "braket" t nil)
+     ("" "esint" t nil)
+     ("" "units" t nil)
+     ("" "unicode-math" t nil)))
+ '(org-msg-convert-citation t)
+ '(org-msg-greeting-fmt "Hello%s,")
+ '(org-msg-posting-style nil)
+ '(org-noter-always-create-frame nil)
+ '(org-noter-auto-save-last-location t)
+ '(org-noter-notes-search-path '("~/doc/org-roam"))
+ '(org-preview-latex-default-process 'dvisvgm)
  '(org-replace-disputed-keys t)
+ '(org-startup-folded 'content)
+ '(org-startup-with-inline-images t)
+ '(org-sticky-header-always-show-header t)
+ '(org-sticky-header-full-path 'reversed)
  '(org-support-shift-select t)
  '(package-selected-packages
    '(dired-launch lv concurrent org-mime back-button counsel-projectile counsel-tramp magit-popup eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico counsel pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel paredit inheritenv buffer-env ob-async discover-my-major))
@@ -241,16 +237,22 @@
  '(smtpmail-smtp-service 25 t)
  '(spacious-padding-subtle-mode-line t)
  '(spacious-padding-widths
-   '(:internal-border-width 0 :header-line-width 4 :mode-line-width 6 :tab-width 5 :right-divider-width 10 :scroll-bar-width 8 :fringe-width 8)))
+   '(:internal-border-width 0 :header-line-width 4 :mode-line-width 6 :tab-width 5 :right-divider-width 10 :scroll-bar-width 8 :fringe-width 12))
+ '(tab-line-close-tab-function 'kill-buffer)
+ '(tool-bar-style 'image)
+ '(vertico-preselect 'prompt)
+ '(xref-search-program 'ripgrep))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 105 :width normal))))
- '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8)))))
+ '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 110 :width normal))))
+ '(line-number ((t (:inherit default :background "#fdf6e3" :foreground "#c0c0c0"))))
+ '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8))))
+ '(tab-line ((t (:height 0.9 :foreground "black" :background "grey85" :inherit variable-pitch)))))
 
-(set-face-attribute 'default nil :height 105)
+(set-face-attribute 'default nil :height 110)
 (setq tool-bar-button-margin (cons 7 1))
 
 (with-eval-after-load 'treemacs
@@ -276,7 +278,7 @@
                      (go-mode . go-ts-mode) ; doesn't work
                      (go-mod-mode . go-mod-ts-mode) ; doesn't work
 					;((mhtml-mode sgml-mode) . html-ts-mode) ; isn't found
-                     (mhtml-mode . html-ts-mode) ; isn't found
+                     ;(mhtml-mode . html-ts-mode) ; isn't found
                      (java-mode . java-ts-mode)
                      (javascript-mode . js-ts-mode)
                      (js-json-mode . json-ts-mode)
@@ -454,9 +456,9 @@
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-parameter-hints nil)
   (lsp-rust-analyzer-display-reborrow-hints nil)
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-
+  (lsp-enable-suggest-server-download nil)
   :config
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
                                         ; <https://github.com/emacs-lsp/lsp-mode/issues/2583>
@@ -470,7 +472,8 @@
   :custom
   (lsp-ui-peek-always-show t)
   (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable nil))
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-show-with-mouse t))
 
 (use-package company
   :ensure nil
@@ -566,13 +569,18 @@
 					;(require 'treemacs-magit)
 (treemacs-display-current-project-exclusively)
 
-(require 'back-button)
-
 (setq treemacs-width 25) ; Adjust the width of the treemacs window as needed
 
                                         ; bad
                                         ; (setq doc-view-resolution 300)
 (require 'pdf-tools)
+                                        ;(use-package saveplace-pdf-view
+                                        ;  :after pdf-tools
+                                        ;  :config
+                                        ;  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+(require 'bookmark)
+(require 'saveplace-pdf-view)
+(save-place-mode 1)
 
 ;; Die, Doc-View-mode! die!
                                         ;(defalias 'doc-view-mode #'pdf-view-mode)
@@ -676,8 +684,6 @@
   :hook
   (eshell-mode . my/eshell-hook))
 
-(add-hook 'comint-mode-hook #'capf-autosuggest-mode)
-(add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
 
 ;; Match eshell, shell, term and/or vterm buffers
 ;; Usually need both name and major mode
@@ -795,8 +801,24 @@
 (require 'mpv)
                                         ;(require 'howm) ; not right now
 
-(load "~/.emacs.d/custom.el" t)
-(load "~/.emacs.d/git-commit-message.el" t)
+(load (locate-user-emacs-file "custom.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "email.el")
+      :no-error-if-file-is-missing)
+                                        ;(load (locate-user-emacs-file "git-protected-branches.el")
+                                        ;      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "git-commit-message.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "autoresize.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "wolfram.el")
+      :no-error-if-file-is-missing)
+                                        ;(load (locate-user-emacs-file "straico.el")
+                                        ;       :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "mcphas.el")
+      :no-error-if-file-is-missing)
+(load (locate-user-emacs-file "ada.el")
+      :no-error-if-file-is-missing)
 
 ;; Otherwise half the icons are from the wrong set.
 (treemacs-refresh)
