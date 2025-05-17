@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(load-library "~/.emacs.d/secrets.el.gpg")
+
 (spacious-padding-mode 1)
 
 (require 'eshell)
@@ -2472,7 +2474,7 @@ argument is given. Choose a file name based on any document
 (setq gptel-model   'deepseek-reasoner
       gptel-backend (gptel-make-deepseek "DeepSeek"
                                          :stream t
-                                         :key "sk-298dadffa5784d0dbd028d247ef81dfe"))
+                                         :key deepseek-api-key))
 
 (global-auto-revert-mode 1)
 (setq auto-revert-avoid-polling t)
