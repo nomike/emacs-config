@@ -841,5 +841,3 @@
 
 (when (memq window-system '(mac ns x pgtk))
   (exec-path-from-shell-initialize))
-
-(load-theme "modus-vivendi-tinted")
