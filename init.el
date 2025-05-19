@@ -24,7 +24,7 @@
 
 (setq tab-always-indent 'complete)
                                         ; <https://github.com/thread314/intuitive-tab-line-mode>
-;(global-tab-line-mode 1)
+                                        ;(global-tab-line-mode 1)
 
 (require 'lsp-treemacs)
 
@@ -278,7 +278,7 @@
                      (go-mode . go-ts-mode) ; doesn't work
                      (go-mod-mode . go-mod-ts-mode) ; doesn't work
 					;((mhtml-mode sgml-mode) . html-ts-mode) ; isn't found
-                     ;(mhtml-mode . html-ts-mode) ; isn't found
+                                        ;(mhtml-mode . html-ts-mode) ; isn't found
                      (java-mode . java-ts-mode)
                      (javascript-mode . js-ts-mode)
                      (js-json-mode . json-ts-mode)
