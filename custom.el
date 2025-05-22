@@ -1025,11 +1025,11 @@ argument is given. Choose a file name based on any document
   :config
   (org-node-cache-mode)
 
-(keymap-set global-map "C-<Search>" #'org-node-find)
-(keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
+  (keymap-set global-map "C-<Search>" #'org-node-find)
+  (keymap-set global-map "M-<Search>" #'org-node-grep) ; Requires consult
                                         ;(global-set-key (kbd "C-c l") 'org-store-link)
                                         ;(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
+  (global-set-key (kbd "C-c c") 'org-capture)
 
   (add-hook 'org-mode-hook #'org-node-backlink-mode)
   (setq org-node-creation-fn #'org-capture)
@@ -1100,7 +1100,7 @@ argument is given. Choose a file name based on any document
 
   (wrap-with-global-env #'el-job-launch)
   (wrap-with-global-env #'org-node-find)
-)
+  )
 
 (setq org-src-tab-acts-natively t)
 (add-hook 'org-mode-hook #'mixed-pitch-mode)
