@@ -730,7 +730,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
          :immediate-finish t)
 
         ("w" "Work Log Entry"
-         entry (file+datetree "~/doc/org/work-log.org")
+         entry (file+datetree "~/org-mode/work-log.org")
          "* %?"
          :empty-lines 0)
         ("n" "Note"
@@ -1039,38 +1039,38 @@ argument is given. Choose a file name based on any document
   (add-hook 'org-open-at-point-functions
             #'org-node-try-visit-ref-node)
 
-(setq org-directory "~/doc/org")
-(setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-directory "~/org-mode")
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
 
 
                                         ;        "~/Syncthing/"
 
-(setq org-node-extra-id-dirs
-      '("~/doc/org-roam/"))
+  (setq org-node-extra-id-dirs
+        '("~/org-mode-roam/"))
                                         ;Do a M-x org-node-reset and see if it can find your notes now.
                                         ; Then org-id-update-id-locations
 
-(setq org-node-series-defs
-      (list
-       '("d" :name "Daily-files"
-         :version 2
-         :classifier (lambda (node)
-                       (let ((path (org-node-get-file-path node)))
-                         (when (string-search "~/doc/org/daily" path)
-                           (let ((ymd (org-node-helper-filename->ymd path)))
-                             (when ymd
-                               (cons ymd path))))))
-         :whereami (lambda ()
-                     (org-node-helper-filename->ymd buffer-file-name))
-         :prompter (lambda (key)
-                     (let ((org-node-series-that-marks-calendar key))
-                       (org-read-date)))
-         :try-goto (lambda (item)
-                     (org-node-helper-try-visit-file (cdr item)))
-         :creator (lambda (sortstr key)
-                    (let ((org-node-datestamp-format "")
-                          (org-node-ask-directory "~/doc/org/daily"))
-                      (org-node-create sortstr (org-id-new) key))))
+  (setq org-node-series-defs
+        (list
+         '("d" :name "Daily-files"
+           :version 2
+           :classifier (lambda (node)
+                         (let ((path (org-node-get-file-path node)))
+                           (when (string-search "~/org-mode/daily" path)
+                             (let ((ymd (org-node-helper-filename->ymd path)))
+                               (when ymd
+                                 (cons ymd path))))))
+           :whereami (lambda ()
+                       (org-node-helper-filename->ymd buffer-file-name))
+           :prompter (lambda (key)
+                       (let ((org-node-series-that-marks-calendar key))
+                         (org-read-date)))
+           :try-goto (lambda (item)
+                       (org-node-helper-try-visit-file (cdr item)))
+           :creator (lambda (sortstr key)
+                      (let ((org-node-datestamp-format "")
+                            (org-node-ask-directory "~/org-mode/daily"))
+                        (org-node-create sortstr (org-id-new) key))))
 
          ;; Obviously, this series works best if you have `org-node-put-created' on
          ;; `org-node-creation-hook'.
