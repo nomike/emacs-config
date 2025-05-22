@@ -1310,7 +1310,7 @@ argument is given. Choose a file name based on any document
                (allow-no-window . t)))
 
 (use-package vertico
-  :custom
+  ;; :custom
   ;; (vertico-scroll-margin 0) ;; Different scroll margin
   ;; (vertico-count 20) ;; Show more candidates
   ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
