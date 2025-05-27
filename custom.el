@@ -1650,12 +1650,6 @@ argument is given. Choose a file name based on any document
 (keymap-set global-map "C-<F5>" `eval-buffer)
 (keymap-set wakib-keys-overriding-map "C-w" `bury-buffer)
 
-
-(keymap-set global-map "C-<f5>" `eval-region)
-(keymap-set global-map "C-S-<escape>" `eshell)
-(keymap-set global-map "C-<F5>" `eval-buffer)
-(keymap-set wakib-keys-overriding-map "C-w" `bury-buffer)
-
 (keymap-set global-map "M-3" 'delete-window)
 (keymap-set global-map "M-#" `delete-other-windows)
 
