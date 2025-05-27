@@ -1348,6 +1348,9 @@ argument is given. Choose a file name based on any document
   (completion-category-overrides '((file (styles partial-completion)))))
 
 
+;;; (setq completion-category-overrides '((file (styles basic))))
+                                        ;(keymap-set vertico-map "<Return>" #'vertico-exit-input)
+
 (use-package marginalia
   :ensure nil
   :hook (after-init . marginalia-mode))
@@ -1423,10 +1426,10 @@ argument is given. Choose a file name based on any document
 (add-hook 'python-mode-hook 'flycheck-mode)
                                         ;(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 
-(require 'company-lsp)
-(with-eval-after-load 'company
-                                        ; (push 'company-robe company-backends)
-  (push 'company-lsp company-backends))
+;; (require 'company-lsp)
+;; (with-eval-after-load 'company
+;;   (push 'company-robe company-backends)
+;;   (push 'company-lsp company-backends))
 
 (require 'vlf-setup) ; very large files
 
@@ -1511,7 +1514,7 @@ argument is given. Choose a file name based on any document
 
 (require 'web-mode)
 (define-derived-mode genehack-vue-mode web-mode "ghVue"
-  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+  "A major mode derived from `web-mode', for editing .vue files with LSP support.")
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
                                         ;(add-hook 'genehack-vue-mode-hook #'eglot-ensure)
 (add-hook 'genehack-vue-mode-hook #'lsp)
@@ -1602,9 +1605,8 @@ argument is given. Choose a file name based on any document
     (global-set-key
      (kbd (concat "<" loc "> <mouse-movement>")) #'ignore)))
 
-;; Make the tab tooltip show the buffer file name.
 (defun tab-line-tab-name-format-default (tab tabs)
-  "Default function to use as `tab-line-tab-name-format-function', which see."
+  "Default function to use as `tab-line-tab-name-format-function'.  Show a tooltip with the full path if you hover on TAB, and show a window tool bar inside TAB."
   (let* ((buffer-p (bufferp tab))
          (selected-p (if buffer-p
                          (eq tab (window-buffer))
@@ -1628,6 +1630,7 @@ argument is given. Choose a file name based on any document
                                               (buffer-file-name buffer)))
                                ;; Don't turn mouse-1 into mouse-2 (bug#49247)
                                'follow-link 'ignore)
+                   (if selected-p (window-tool-bar-string) "")
                    (or (and (or buffer-p (assq 'buffer tab) (assq 'close tab))
                             tab-line-close-button-show
                             (not (eq tab-line-close-button-show
@@ -1686,8 +1689,8 @@ argument is given. Choose a file name based on any document
 ;; OPTIONAL configuration
 (setq gptel-model   'deepseek-reasoner
       gptel-backend (gptel-make-deepseek "DeepSeek"
-                                         :stream t
-                                         :key deepseek-api-key))
+                      :stream t
+                      :key deepseek-api-key))
 
 (global-auto-revert-mode 1)
 (setq auto-revert-avoid-polling t)
