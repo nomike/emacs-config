@@ -1016,10 +1016,10 @@ argument is given. Choose a file name based on any document
 ;; Original wakib binding would save and quit emacs (using save-buffers-kill-terminal).  Who wants that?
 (keymap-set wakib-keys-overriding-map "C-q" #'quoted-insert)
 
-(use-package org-notify
-  :after org
-  :config
-  (wrap-with-global-env #'org-notify-process))
+;; (use-package org-notify
+;;   :after org
+;;   :config
+;;   (wrap-with-global-env #'org-notify-process))
 
 (use-package org-node
   :after org
@@ -1099,8 +1099,8 @@ argument is given. Choose a file name based on any document
                                         ; check tramp/foo* and debug tramp/foo*
 
 
-  (wrap-with-global-env #'el-job-launch)
-  (wrap-with-global-env #'org-node-find)
+  ;; (wrap-with-global-env #'el-job-launch)
+  ;; (wrap-with-global-env #'org-node-find)
   )
 
 (setq org-src-tab-acts-natively t)
@@ -1352,7 +1352,6 @@ argument is given. Choose a file name based on any document
   :ensure nil
   :hook (after-init . marginalia-mode))
 
-;; Apparently doesn't do anything
 (use-package orderless
   :ensure f
   :config
@@ -1450,10 +1449,17 @@ argument is given. Choose a file name based on any document
 (setq org-agenda-files '("~/org-mode/agenda"))
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'")
 
-;; I'm using org-indent-mode together with form-feed-mode: org-indent-mode interprets the form feed character as part of the previous section and indents it--which is not what I want.  I'm use the form feed for sections. So the form feed should belong to no section.
 (defun fix-org-indent-form-feed ()
+  "I'm using `org-indent-mode' together with `form-feed-mode': `org-indent-mode' interprets the form feed character as part of the previous section and indents it--which is not what I want.  I use the form feed for sections.  So the form feed should belong to no section."
   (setq-local org-outline-regexp "\\*+ \\|\\(^\f$\\)"))
+
 (add-hook 'org-mode-hook #'fix-org-indent-form-feed)
+
+;; See <https://www.naiquev.in/recurring-checklists-using-org-mode-in-emacs.html>.
+(use-package org-contrib
+  :ensure t
+  :config
+  (require 'org-checklist))
 
 ;; Doesn't work. Sigh.
                                         ;(defun fix-org-indent-form-feed ()
@@ -1472,22 +1478,30 @@ argument is given. Choose a file name based on any document
   (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
 (add-hook 'org-mode-hook #'endless/org-ispell)
 
-(with-eval-after-load 'org
-  '(progn
-     (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
-     (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
-     (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
-     (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
-     (define-key org-mode-map (kbd "C-s M-i") #'org-node-insert-link)
-     ;; When you want to change the level of an org item, use SMR
-     (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright)))
+;;; Shortcuts for storing links, viewing the agenda, and starting a capture should work whereever you are.
 
-(defun unset-line-move-visual ()
+;; "Queues" a link-to-point for later.
+(define-key global-map (kbd "C-c m") 'org-store-link)
+(define-key global-map (kbd "C-c a") 'org-agenda)
+(define-key global-map (kbd "C-c c") 'org-capture)
+                                        ; with-eval-after-load org wouldn't work!
+(progn
+  (define-key org-mode-map (kbd "<home>") #'move-beginning-of-line) ; ignored
+  (define-key org-mode-map (kbd "<end>") #'move-end-of-line)
+  (define-key org-mode-map (kbd "C-c <up>") #'org-priority-up)
+  (define-key org-mode-map (kbd "C-c <down>") #'org-priority-down)
+  ;; Inserts a link to a queued item into the current doc.
+  (define-key org-mode-map (kbd "C-c l") #'org-insert-link)
+  ;; When you want to change the level of an org item, use SMR
+  (define-key org-mode-map (kbd "C-c C-g C-r") #'org-shiftmetaright))
+
+(defun my/unset-line-move-visual ()
+  "Fix up `org-mode' so it lets me have logical lines."
   (define-key org-mode-map [remap move-beginning-of-line] nil)
   (define-key org-mode-map [remap move-end-of-line] nil)
   (setq line-move-visual nil))
 
-(add-hook 'org-mode-hook #'unset-line-move-visual)
+(add-hook 'org-mode-hook #'my/unset-line-move-visual)
 
                                         ;(with-eval-after-load 'web-mode ...)
 (require 'lsp-mode)
@@ -1647,7 +1661,7 @@ argument is given. Choose a file name based on any document
 (define-key global-map (kbd "M-g f" ) #'org-node-find)
 (define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
 (define-key global-map (kbd "M-g t") (lambda () (interactive) (
-                                                               find-file "~/org-mode/todo.org")))
+                                                          find-file "~/org-mode/todo.org")))
 
 (define-key global-map (kbd "C-f" ) #'swiper)
 (define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
