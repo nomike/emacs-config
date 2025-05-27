@@ -297,7 +297,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
 (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
 
 ;; Improve contrast
-(add-to-list 'default-frame-alist '(foreground-color . "#505050"))
+;; (add-to-list 'default-frame-alist '(foreground-color . "#505050"))
 
 (require 'treemacs-nerd-icons)
 (treemacs-load-theme "nerd-icons")
