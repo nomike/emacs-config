@@ -5,6 +5,7 @@
 (spacious-padding-mode 1)
 
 (require 'eshell)
+(require 'move-text)
 (require 'em-unix)
 
 ;; You've GOT to be kidding me: "If initial-buffer-choice is non-nil, then if you specify any files on the command line, Emacs still visits them, but does not display them initially."
@@ -1634,6 +1635,14 @@ argument is given. Choose a file name based on any document
 (setq desktop-save t) ; always save without asking
 
 ;; keyboard-shortcuts
+
+(define-key global-map (kbd "M-<up>" ) #'move-text-up)
+(define-key global-map (kbd "M-<down>" ) #'move-text-down)
+
+;; broken
+;; (define-key paredit-mode-map (kbd "M-<up>" ) #'move-text-up)
+;; (define-key paredit-mode-map (kbd "M-<down>" ) #'move-text-down)
+
 
 (define-key global-map (kbd "M-g f" ) #'org-node-find)
 (define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
