@@ -1678,7 +1678,6 @@ argument is given. Choose a file name based on any document
 
 (keymap-set global-map "M-3" 'delete-window)
 (keymap-set global-map "M-#" `delete-other-windows)
-(keymap-set wakib-keys-overriding-map "C-w" `kill-current-buffer)
 
 (keymap-set global-map "C-<f5>" `eval-region)
 
