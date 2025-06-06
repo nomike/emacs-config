@@ -4,6 +4,10 @@
 
 (require 'nerd-icons)
 
+;; TODO: Fixme
+;; Commented out as this breaks magit and others
+;; Error message: *ERROR*: Symbol’s value as variable is void: tab-bar-history-mode
+
 ;; ;; Disable tab-bar
 ;; (tab-bar-mode -1)
 ;; (keymap-set ctl-x-map "t" nil)
