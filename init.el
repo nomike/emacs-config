@@ -4,6 +4,59 @@
 
 (require 'nerd-icons)
 
+;; ;; Disable tab-bar
+;; (tab-bar-mode -1)
+;; (keymap-set ctl-x-map "t" nil)
+;; (setq tab-prefix-map nil)
+;; (makunbound 'tab-prefix-map)
+;; (unload-feature 'tab-bar)
+
+;; configure tab-line (see https://amitp.blogspot.com/2020/06/emacs-prettier-tab-line.html)
+
+(set-face-attribute 'tab-line nil ;; background behind tabs
+                    :background "gray40"
+                    :foreground "gray60" :distant-foreground "gray50"
+                    :family "Fira Sans Condensed" :height 1.0 :box nil)
+(set-face-attribute 'tab-line-tab nil ;; active tab in another window                    :inherit 'tab-line
+                    :foreground "gray70" :background "gray90" :box nil)
+(set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
+                    :background "#b34cb3" :foreground "white" :box nil)
+(set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
+                    :background "gray80" :foreground "black" :box nil)
+(set-face-attribute 'tab-line-highlight nil ;; mouseover
+                    :background "white" :foreground 'unspecified)
+
+(require 'powerline)
+(defvar my/tab-height 22)
+(defvar my/tab-left (powerline-wave-right 'tab-line nil my/tab-height))
+(defvar my/tab-right (powerline-wave-left nil 'tab-line my/tab-height))
+
+(defun my/tab-line-tab-name-buffer (buffer &optional _buffers)
+  (powerline-render (list my/tab-left
+                          (format " %s  " (buffer-name buffer))
+                          my/tab-right)))
+(setq tab-line-tab-name-function #'my/tab-line-tab-name-buffer)
+(setq tab-line-new-button-show nil)
+(setq tab-line-close-button-show nil)
+
+(set-face-attribute 'tab-line nil ;; background behind tabs
+                    :background "gray40"
+                    :foreground "gray60" :distant-foreground "gray50"
+                    :family "Fira Sans Condensed" :height 1.0 :box nil)
+(set-face-attribute 'tab-line-tab nil ;; active tab in another window
+                    :inherit 'tab-line
+                    :foreground "gray70" :background "gray90" :box nil)
+(set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
+                    :background "#b34cb3" :foreground "white" :box nil)
+(set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
+                    :background "gray80" :foreground "black" :box nil)
+(set-face-attribute 'tab-line-highlight nil ;; mouseover
+                    :background "white" :foreground 'unspecified)
+
+;; end configure tab-bar
+;; TODO: Replace end-mark with proper title for next sectionk
+
+
 (pixel-scroll-precision-mode 1)
 (global-auto-revert-mode 1) ; revert buffers when the underlying file has changed
 
