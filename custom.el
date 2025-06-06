@@ -1,6 +1,19 @@
 ;; -*- lexical-binding: t -*-
 
-(load-library "~/.emacs.d/secrets.el.gpg")
+;; Three attempts for loading secrets.el
+(ignore-errors
+  (load-library "~/.emacs.d/secrets.el.gpg"))
+(ignore-errors
+  (load-library "~/.emacs.d/secrets.el.gpg"))
+(ignore-errors
+  (load-library "~/.emacs.d/secrets.el.gpg"))
+
+
+(when (boundp 'deepseek-api-key)
+  (setq gptel-model   'deepseek-reasoner
+        gptel-backend (gptel-make-deepseek "DeepSeek"
+                        :stream t
+                        :key deepseek-api-key)))
 
 (spacious-padding-mode 1)
 
@@ -1685,12 +1698,6 @@ argument is given. Choose a file name based on any document
 
 (require 'minimap)
 (require 'buffer-move)
-
-;; OPTIONAL configuration
-(setq gptel-model   'deepseek-reasoner
-      gptel-backend (gptel-make-deepseek "DeepSeek"
-                      :stream t
-                      :key deepseek-api-key))
 
 (global-auto-revert-mode 1)
 (setq auto-revert-avoid-polling t)
