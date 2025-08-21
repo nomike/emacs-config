@@ -376,7 +376,7 @@ GUD-COMMAND and DAP-COMMAND should be quoted command symbols."
                                         ; (load "modern-fringes.el")
 
                                         ; Vendored from https://raw.githubusercontent.com/Alexander-Miller/treemacs/master/src/extra/treemacs-projectile.el
-(require 'treemacs-projectile)
+                                        ;(require 'treemacs-projectile)
 
 (add-hook 'scheme-mode-hook 'guix-devel-mode)
 
@@ -1677,7 +1677,7 @@ argument is given. Choose a file name based on any document
 (define-key global-map (kbd "M-g f" ) #'org-node-find)
 (define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
 (define-key global-map (kbd "M-g t") (lambda () (interactive) (
-                                                          find-file "~/org-mode/todo.org")))
+                                                               find-file "~/org-mode/todo.org")))
 
 (define-key global-map (kbd "C-f" ) #'swiper)
 (define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
@@ -1711,3 +1711,10 @@ argument is given. Choose a file name based on any document
             (require 'server)
             (unless (server-running-p)
               (server-start))))
+
+(defun my-comment-sexp ()
+  "Comment out the sexp at point."
+  (interactive)
+  (save-excursion
+    (mark-sexp)
+    (paredit-comment-dwim)))
