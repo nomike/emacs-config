@@ -1677,7 +1677,7 @@ argument is given. Choose a file name based on any document
 (define-key global-map (kbd "M-g f" ) #'org-node-find)
 (define-key org-mode-map (kbd "M-g M-l" ) #'org-node-insert-link)
 (define-key global-map (kbd "M-g t") (lambda () (interactive) (
-                                                          find-file "~/org-mode/todo.org")))
+                                                               find-file "~/org-mode/todo.org")))
 
 (define-key global-map (kbd "C-f" ) #'swiper)
 (define-key wakib-keys-overriding-map (kbd "C-f") #'swiper-isearch) ; Note: someone overwrites this.
