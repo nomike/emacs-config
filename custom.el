@@ -1705,3 +1705,9 @@ argument is given. Choose a file name based on any document
 (load (locate-user-emacs-file "guix-add-missing-modules-for-package-inputs.el")
       ;; :no-error-if-file-is-missing
       )
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (require 'server)
+            (unless (server-running-p)
+              (server-start))))
