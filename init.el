@@ -177,16 +177,34 @@
  '(TeX-engine 'luatex)
  '(back-button-no-wrap t)
  '(buffer-env-safe-files
-   '(("/home/nomike/coding/guix/manifest.scm" . "0b387290e9851813debd81b6e3aa5099f0f17fad1fade821ca1f0928262e56c4")
-     ("/home/dannym/src/latex-ex/manifest.scm" . "5200b8ce405410acc7ad0e4baf5bfaa85b0160bff5815265a305bdc9a7fb70ed")))
+   '(("/home/nomike/coding/guix/manifest.scm"
+      . "0b387290e9851813debd81b6e3aa5099f0f17fad1fade821ca1f0928262e56c4")
+     ("/home/dannym/src/latex-ex/manifest.scm"
+      . "5200b8ce405410acc7ad0e4baf5bfaa85b0160bff5815265a305bdc9a7fb70ed")))
  '(custom-enabled-themes '(modus-vivendi-tinted))
  '(custom-safe-themes
-   '("937401a2e532f2c8c881b6b3f20d9d4b6b9405bccf72ea6289c9d3f4507eb1ab" "a75aff58f0d5bbf230e5d1a02169ac2fbf45c930f816f3a21563304d5140d245" "7b602fe4a324dc18877dde647eb6f2ff9352566ce16d0b888bfcb870d0abfd70" "d41229b2ff1e9929d0ea3b4fde9ed4c1e0775993df9d998a3cdf37f2358d386b" "712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" "fbf73690320aa26f8daffdd1210ef234ed1b0c59f3d001f342b9c0bbf49f531c" "faf642d1511fb0cb9b8634b2070a097656bdb5d88522657370eeeb11baea4a1c" "2e7dc2838b7941ab9cabaa3b6793286e5134f583c04bde2fba2f4e20f2617cf7" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
+   '("6bf350570e023cd6e5b4337a6571c0325cec3f575963ac7de6832803df4d210a"
+     "937401a2e532f2c8c881b6b3f20d9d4b6b9405bccf72ea6289c9d3f4507eb1ab"
+     "a75aff58f0d5bbf230e5d1a02169ac2fbf45c930f816f3a21563304d5140d245"
+     "7b602fe4a324dc18877dde647eb6f2ff9352566ce16d0b888bfcb870d0abfd70"
+     "d41229b2ff1e9929d0ea3b4fde9ed4c1e0775993df9d998a3cdf37f2358d386b"
+     "712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db"
+     "fbf73690320aa26f8daffdd1210ef234ed1b0c59f3d001f342b9c0bbf49f531c"
+     "faf642d1511fb0cb9b8634b2070a097656bdb5d88522657370eeeb11baea4a1c"
+     "2e7dc2838b7941ab9cabaa3b6793286e5134f583c04bde2fba2f4e20f2617cf7"
+     "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26"
+     default))
  '(dtrt-indent-global-mode t)
  '(elfeed-feeds
    '("https://the-dam.org/rss.xml"
      ("http://planet.emacslife.com/atom.xml" emacs)
-     "https://lwn.net/headlines/rss" "https://subscribe.fivefilters.org/?url=http%3A%2F%2Fftr.fivefilters.net%2Fmakefulltextfeed.php%3Furl%3Dhttps%253A%252F%252Fhnrss.org%252Ffrontpage%26max%3D3%26links%3Dpreserve" "https://subscribe.fivefilters.org/?url=http%3A%2F%2Fftr.fivefilters.net%2Fmakefulltextfeed.php%3Furl%3Dhttps%253A%252F%252Fwww.nature.com%252Fnmat%252Fcurrent_issue%252Frss%252F%26max%3D3%26links%3Dpreserve" "https://subscribe.fivefilters.org/?url=http%3A%2F%2Fftr.fivefilters.net%2Fmakefulltextfeed.php%3Furl%3Dhttps%253A%252F%252Fwww.nature.com%252Fnphys%252Fcurrent_issue%252Frss%252F%26max%3D3%26links%3Dpreserve" "https://semianalysis.substack.com/feed" "https://slow-journalism.com/blog/feed" "http://ftr.fivefilters.net/makefulltextfeed.php?url=https%3A%2F%2Ffeeds.arstechnica.com%2Farstechnica%2Ffeatures&max=3"))
+     "https://lwn.net/headlines/rss"
+     "https://subscribe.fivefilters.org/?url=http%3A%2F%2Fftr.fivefilters.net%2Fmakefulltextfeed.php%3Furl%3Dhttps%253A%252F%252Fhnrss.org%252Ffrontpage%26max%3D3%26links%3Dpreserve"
+     "https://subscribe.fivefilters.org/?url=http%3A%2F%2Fftr.fivefilters.net%2Fmakefulltextfeed.php%3Furl%3Dhttps%253A%252F%252Fwww.nature.com%252Fnmat%252Fcurrent_issue%252Frss%252F%26max%3D3%26links%3Dpreserve"
+     "https://subscribe.fivefilters.org/?url=http%3A%2F%2Fftr.fivefilters.net%2Fmakefulltextfeed.php%3Furl%3Dhttps%253A%252F%252Fwww.nature.com%252Fnphys%252Fcurrent_issue%252Frss%252F%26max%3D3%26links%3Dpreserve"
+     "https://semianalysis.substack.com/feed"
+     "https://slow-journalism.com/blog/feed"
+     "http://ftr.fivefilters.net/makefulltextfeed.php?url=https%3A%2F%2Ffeeds.arstechnica.com%2Farstechnica%2Ffeatures&max=3"))
  '(format-all-debug nil)
  '(format-all-show-errors 'errors)
  '(frame-background-mode 'light)
@@ -194,50 +212,50 @@
  '(ignored-local-variable-values
    '((eval with-eval-after-load 'git-commit
            (add-to-list 'git-commit-trailers "Change-Id"))
-     (eval progn
-           (require 'lisp-mode)
-           (defun emacs27-lisp-fill-paragraph
-               (&optional justify)
+     (eval progn (require 'lisp-mode)
+           (defun emacs27-lisp-fill-paragraph (&optional justify)
              (interactive "P")
-             (or
-              (fill-comment-paragraph justify)
-              (let
-                  ((paragraph-start
-                    (concat paragraph-start "\\|\\s-*\\([(;\"]\\|\\s-:\\|`(\\|#'(\\)"))
-                   (paragraph-separate
-                    (concat paragraph-separate "\\|\\s-*\".*[,\\.]$"))
-                   (fill-column
-                    (if
-                        (and
-                         (integerp emacs-lisp-docstring-fill-column)
-                         (derived-mode-p 'emacs-lisp-mode))
-                        emacs-lisp-docstring-fill-column fill-column)))
-                (fill-paragraph justify))
-              t))
-           (setq-local fill-paragraph-function #'emacs27-lisp-fill-paragraph))
+             (or (fill-comment-paragraph justify)
+                 (let
+                     ((paragraph-start
+                       (concat paragraph-start
+                               "\\|\\s-*\\([(;\"]\\|\\s-:\\|`(\\|#'(\\)"))
+                      (paragraph-separate
+                       (concat paragraph-separate
+                               "\\|\\s-*\".*[,\\.]$"))
+                      (fill-column
+                       (if
+                           (and
+                            (integerp emacs-lisp-docstring-fill-column)
+                            (derived-mode-p 'emacs-lisp-mode))
+                           emacs-lisp-docstring-fill-column
+                         fill-column)))
+                   (fill-paragraph justify))
+                 t))
+           (setq-local fill-paragraph-function
+                       #'emacs27-lisp-fill-paragraph))
      (geiser-repl-per-project-p . t)
      (eval with-eval-after-load 'yasnippet
            (let
                ((guix-yasnippets
                  (expand-file-name "etc/snippets/yas"
-                                   (locate-dominating-file default-directory ".dir-locals.el"))))
-             (unless
-                 (member guix-yasnippets yas-snippet-dirs)
+                                   (locate-dominating-file
+                                    default-directory ".dir-locals.el"))))
+             (unless (member guix-yasnippets yas-snippet-dirs)
                (add-to-list 'yas-snippet-dirs guix-yasnippets)
                (yas-reload-all))))
      (eval with-eval-after-load 'tempel
-           (if
-               (stringp tempel-path)
-               (setq tempel-path
-                     (list tempel-path)))
+           (if (stringp tempel-path)
+               (setq tempel-path (list tempel-path)))
            (let
                ((guix-tempel-snippets
                  (concat
                   (expand-file-name "etc/snippets/tempel"
-                                    (locate-dominating-file default-directory ".dir-locals.el"))
+                                    (locate-dominating-file
+                                     default-directory
+                                     ".dir-locals.el"))
                   "/*.eld")))
-             (unless
-                 (member guix-tempel-snippets tempel-path)
+             (unless (member guix-tempel-snippets tempel-path)
                (add-to-list 'tempel-path guix-tempel-snippets))))
      (eval setq-local guix-directory
            (locate-dominating-file default-directory ".dir-locals.el"))
@@ -245,11 +263,10 @@
      (eval modify-syntax-entry 43 "'")
      (eval modify-syntax-entry 36 "'")
      (eval modify-syntax-entry 126 "'")
-     (geiser-guile-binary "guix" "repl")
-     (geiser-insert-actual-lambda)))
+     (geiser-guile-binary "guix" "repl") (geiser-insert-actual-lambda)))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(kiwix-default-browser-function 'eww-browse-url)
+ '(kiwix-default-browser-function 'eww-browse-url t)
  '(kiwix-server-type 'kiwix-serve-local)
  '(kiwix-zim-dir "~/.local/zim")
  '(large-file-warning-threshold 100000000)
@@ -264,13 +281,12 @@
  '(org-export-exclude-tags '("confidential"))
  '(org-export-select-tags '("public"))
  '(org-format-latex-options
-   '(:foreground default :background default :scale 0.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
-                 ("begin" "$1" "$" "$$" "\\(" "\\[")))
+   '(:foreground default :background default :scale 0.5 :html-foreground
+                 "Black" :html-background "Transparent" :html-scale
+                 1.0 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(org-id-link-to-org-use-id 'use-existing)
  '(org-latex-packages-alist
-   '(("" "braket" t nil)
-     ("" "esint" t nil)
-     ("" "units" t nil)
+   '(("" "braket" t nil) ("" "esint" t nil) ("" "units" t nil)
      ("" "unicode-math" t nil)))
  '(org-msg-convert-citation t)
  '(org-msg-greeting-fmt "Hello%s,")
@@ -285,8 +301,7 @@
  '(org-sticky-header-always-show-header t)
  '(org-sticky-header-full-path 'reversed)
  '(org-support-shift-select t)
- '(package-selected-packages
-   '(dired-launch lv concurrent org-mime back-button counsel-projectile counsel-tramp magit-popup eat flycheck-rust typescript-mode go-mode git-timemachine web-mode rainbow-delimiters geiser-guile flycheck-guile clojure-mode envrc shackle vertico counsel pkg-info rustic magit-svn magit-gerrit agda2-mode tramp find-file-in-project lsp-ui consult embark pg finalize org-roam eval-in-repl eval-in-repl-slime slime-company ts async ement crdt gptel paredit inheritenv buffer-env ob-async discover-my-major))
+ '(package-selected-packages nil)
  '(safe-local-variable-values
    '((eval with-eval-after-load 'git-commit
            (add-to-list 'git-commit-trailers "Change-Id"))))
@@ -294,7 +309,9 @@
  '(smtpmail-smtp-service 25 t)
  '(spacious-padding-subtle-mode-line t)
  '(spacious-padding-widths
-   '(:internal-border-width 0 :header-line-width 4 :mode-line-width 6 :tab-width 5 :right-divider-width 10 :scroll-bar-width 8 :fringe-width 12))
+   '(:internal-border-width 0 :header-line-width 4 :mode-line-width 6
+                            :tab-width 5 :right-divider-width 10
+                            :scroll-bar-width 8 :fringe-width 12))
  '(tab-line-close-tab-function 'kill-buffer)
  '(tool-bar-style 'image)
  '(vertico-preselect 'prompt)
@@ -305,7 +322,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 110 :width normal))))
- '(line-number ((t (:inherit default :background "#fdf6e3" :foreground "#c0c0c0"))))
  '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8))))
  '(tab-line ((t (:height 0.9 :foreground "black" :background "grey85" :inherit variable-pitch)))))
 
