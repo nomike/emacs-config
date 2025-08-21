@@ -28,3 +28,6 @@
 [submodule "ultra-scroll"]
 	path = ultra-scroll
 	url = https://github.com/jdtsmith/ultra-scroll.git
+[submodule "iscroll"]
+	path = iscroll
+	url = https://github.com/casouri/iscroll.git
