@@ -1,12 +1,29 @@
-;; -*- lexical-binding: t -*-
+;;; init.el --- Main Emacs Configuration File -*- lexical-binding: t -*-
+;;
+;; Author: nomike
+;; Description: Personal Emacs configuration with support for multiple languages,
+;;              LSP, org-mode, and various development tools
+;;
+;;; Commentary:
+;; This configuration sets up Emacs for software development with:
+;; - Language support (Rust, Python, C/C++, JavaScript, etc.)
+;; - LSP integration for code intelligence
+;; - Git integration via Magit
+;; - Custom UI tweaks (tab-line, treemacs, themes)
+;; - PDF viewing and note-taking capabilities
+;;
+;;; Code:
 
                                         ;(customize-set-variable 'lsp-treemacs-theme "Iconless")
 
+;; Load nerd-icons for file/folder icons in UI
 (require 'nerd-icons)
 
+;;; Tab Bar and Tab Line Configuration
+;;
 ;; TODO: Fixme
 ;; Commented out as this breaks magit and others
-;; Error message: *ERROR*: Symbol’s value as variable is void: tab-bar-history-mode
+;; Error message: *ERROR*: Symbol's value as variable is void: tab-bar-history-mode
 
 ;; ;; Disable tab-bar
 ;; (tab-bar-mode -1)
@@ -15,93 +32,103 @@
 ;; (makunbound 'tab-prefix-map)
 ;; (unload-feature 'tab-bar)
 
-;; configure tab-line (see https://amitp.blogspot.com/2020/06/emacs-prettier-tab-line.html)
+;; Configure tab-line for buffer tabs within a window
+;; (see https://amitp.blogspot.com/2020/06/emacs-prettier-tab-line.html)
 
-(set-face-attribute 'tab-line nil ;; background behind tabs
+;; Ensure tab-line is loaded before configuring faces
+(require 'tab-line)
+
+;; Customize tab-line appearance with custom colors and fonts
+(set-face-attribute 'tab-line nil ;; Background behind all tabs
                     :background "gray40"
                     :foreground "gray60" :distant-foreground "gray50"
                     :family "Fira Sans Condensed" :height 1.0 :box nil)
-(set-face-attribute 'tab-line-tab nil ;; active tab in another window                    :inherit 'tab-line
+(set-face-attribute 'tab-line-tab nil ;; Active tab in a non-selected window
+                    :inherit 'tab-line
                     :foreground "gray70" :background "gray90" :box nil)
-(set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
+(set-face-attribute 'tab-line-tab-current nil ;; Active tab in the currently selected window
                     :background "#b34cb3" :foreground "white" :box nil)
-(set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
+(set-face-attribute 'tab-line-tab-inactive nil ;; Inactive/background tabs
                     :background "gray80" :foreground "black" :box nil)
-(set-face-attribute 'tab-line-highlight nil ;; mouseover
+(set-face-attribute 'tab-line-highlight nil ;; Tab appearance on mouseover
                     :background "white" :foreground 'unspecified)
 
+;; Use powerline to create stylish wave-shaped tab separators
 (require 'powerline)
-(defvar my/tab-height 22)
-(defvar my/tab-left (powerline-wave-right 'tab-line nil my/tab-height))
-(defvar my/tab-right (powerline-wave-left nil 'tab-line my/tab-height))
+(defvar my/tab-height 22) ;; Height of the tab line in pixels
+(defvar my/tab-left (powerline-wave-right 'tab-line nil my/tab-height)) ;; Left wave separator
+(defvar my/tab-right (powerline-wave-left nil 'tab-line my/tab-height)) ;; Right wave separator
 
+;; Custom function to format tab names with powerline wave separators
 (defun my/tab-line-tab-name-buffer (buffer &optional _buffers)
+  "Format BUFFER name with powerline wave decorations."
   (powerline-render (list my/tab-left
                           (format " %s  " (buffer-name buffer))
                           my/tab-right)))
+
+;; Apply custom tab name formatting and hide the new/close buttons
 (setq tab-line-tab-name-function #'my/tab-line-tab-name-buffer)
-(setq tab-line-new-button-show nil)
-(setq tab-line-close-button-show nil)
-
-(set-face-attribute 'tab-line nil ;; background behind tabs
-                    :background "gray40"
-                    :foreground "gray60" :distant-foreground "gray50"
-                    :family "Fira Sans Condensed" :height 1.0 :box nil)
-(set-face-attribute 'tab-line-tab nil ;; active tab in another window
-                    :inherit 'tab-line
-                    :foreground "gray70" :background "gray90" :box nil)
-(set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
-                    :background "#b34cb3" :foreground "white" :box nil)
-(set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
-                    :background "gray80" :foreground "black" :box nil)
-(set-face-attribute 'tab-line-highlight nil ;; mouseover
-                    :background "white" :foreground 'unspecified)
-
-;; end configure tab-bar
-;; TODO: Replace end-mark with proper title for next sectionk
+(setq tab-line-new-button-show nil) ;; Don't show the "new tab" button
+(setq tab-line-close-button-show nil) ;; Don't show "close" buttons on tabs
 
 
+;;; Global Editor Settings
+
+;; Enable smooth pixel-level scrolling (Emacs 29+)
 (pixel-scroll-precision-mode 1)
-(global-auto-revert-mode 1) ; revert buffers when the underlying file has changed
+
+;; Automatically reload files when they change on disk
+(global-auto-revert-mode 1)
 
 ;;; disable byte compilation would be: (setq load-suffixes '(".el"))
 
+;; Configure backup file handling to avoid cluttering the file system
 (setq
- backup-by-copying t      ; don't clobber symlinks
+ backup-by-copying t      ; Don't clobber symlinks; copy files instead
  backup-directory-alist
- '(("." . "~/backup/"))    ; don't litter my fs tree
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2
- version-control t)       ; use versioned backups
+ '(("." . "~/backup/"))   ; Store all backup files in ~/backup/ directory
+ delete-old-versions t    ; Automatically delete old backup versions
+ kept-new-versions 6      ; Keep 6 newest versions
+ kept-old-versions 2      ; Keep 2 oldest versions
+ version-control t)       ; Use version numbers for backups
 
+;; Indentation Configuration
 ;; Don't use tabs to indent (by default).
 ;; Note: Major modes and minor modes are allowed to locally change the indent-tabs-mode variable, and a lot of them do.
                                         ;(setq-default indent-tabs-mode nil)
 
+;; Make TAB key attempt completion if indentation is correct
 (setq tab-always-indent 'complete)
                                         ; <https://github.com/thread314/intuitive-tab-line-mode>
                                         ;(global-tab-line-mode 1)
 
+;;; LSP and Treemacs Integration
+;; Load LSP integration with treemacs (file explorer)
 (require 'lsp-treemacs)
 
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-(add-hook 'rustic-mode-hook 'variable-pitch-mode)
+;;; Variable Pitch Font Mode Hooks
+;; Enable variable-pitch (proportional) fonts for better readability in certain modes
+(add-hook 'org-mode-hook 'variable-pitch-mode)       ;; Org documents look better with proportional fonts
+(add-hook 'rustic-mode-hook 'variable-pitch-mode)    ;; Rust code
                                         ;  (add-hook 'rust-ts-mode-hook 'variable-pitch-mode)
-(add-hook 'treemacs-mode-hook 'variable-pitch-mode)
-(add-hook 'nxml-mode-hook 'variable-pitch-mode)
-(add-hook 'emacs-lisp-mode-hook 'variable-pitch-mode)
-(add-hook 'js-mode-hook 'variable-pitch-mode)
-(add-hook 'css-mode-hook 'variable-pitch-mode)
-(add-hook 'html-mode-hook 'variable-pitch-mode)
-(add-hook 'mhtml-mode-hook 'variable-pitch-mode)
+(add-hook 'treemacs-mode-hook 'variable-pitch-mode)  ;; File explorer
+(add-hook 'nxml-mode-hook 'variable-pitch-mode)      ;; XML files
+(add-hook 'emacs-lisp-mode-hook 'variable-pitch-mode) ;; Emacs Lisp code
+(add-hook 'js-mode-hook 'variable-pitch-mode)        ;; JavaScript
+(add-hook 'css-mode-hook 'variable-pitch-mode)       ;; CSS stylesheets
+(add-hook 'html-mode-hook 'variable-pitch-mode)      ;; HTML files
+(add-hook 'mhtml-mode-hook 'variable-pitch-mode)     ;; Multi-mode HTML
                                         ; (add-hook 'python-mode-hook 'variable-pitch-mode)
                                         ;(dolist (mode '(scheme-mode-hook term-mode-hook))  ; org-mode-hook term-mode-hook eshell-mode-hook treemacs-mode-hook
                                         ;  (add-hook mode
                                         ;    (lambda ()
                                         ;      (display-line-numbers-mode 0))))
+
+;;; UI Tweaks
+;; Disable the graphical toolbar (use menu bar and key bindings instead)
 (tool-bar-mode -1)
 
+;; Enable prettify-symbols globally (e.g., display lambda as λ)
 (global-prettify-symbols-mode 1)
 
                                         ; (use-package pyvenv
@@ -109,37 +136,44 @@
                                         ;   :config
                                         ;   (pyvenv-mode nil))
 
-;;; CUA mode
+;;; CUA Mode Configuration
+;; CUA mode provides familiar C-x/C-c/C-v keybindings for cut/copy/paste
 
-(cua-mode t) ; don't forget wakib-keys
-(setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
-(transient-mark-mode 1) ;; No region when it is not highlighted
-(setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
-(define-key global-map (kbd "C-y") #'undo-redo)
+(cua-mode t) ; Enable CUA mode (don't forget wakib-keys compatibility)
+(setq cua-auto-tabify-rectangles nil) ;; Don't convert spaces to tabs after rectangle operations
+(transient-mark-mode 1) ;; Only show the region when it's actively highlighted
+(setq cua-keep-region-after-copy t) ;; Keep region active after copying (standard Windows behavior)
+(define-key global-map (kbd "C-y") #'undo-redo) ;; Bind C-y to redo
 
-;;; Virtual word wrapping
-
+;;; Virtual Word Wrapping
+;; Wrap lines at word boundaries instead of character boundaries
 (setq-default word-wrap t)
 
-;;; Packages
-
+;;; Package Management
+;; Initialize the package system for installing and managing extensions
 (require 'package)
 (package-initialize)
 
+;;; Language-Specific Package Configuration
+
+;; Rust language support
 (use-package rust-mode
   :custom
-  (rust-format-on-save t))
+  (rust-format-on-save t)) ;; Automatically format Rust code on save
 
+;; Projectile for project management (find files, grep, etc.)
 (use-package projectile
   :config
-  (projectile-mode +1))
+  (projectile-mode +1)) ;; Enable projectile globally
 
+;; Python virtual environment support
 (use-package pyvenv
   :ensure nil
   :config
-  (pyvenv-mode nil))
+  (pyvenv-mode nil)) ;; Disabled by default
 
-;;; Magit "git-commit-* unavailable"
+;;; Magit Configuration Notes
+;; "git-commit-* unavailable" workaround
 
 					;(require 'magit)
 					;(kill-buffer "*scratch*")
@@ -148,25 +182,33 @@
 					;(require 'magit-status)
 					; FIXME: (magit-status)
 
-;;; Git
+;;; Git Integration and Version Control
 
 					;(with-eval-after-load 'geiser-guile
 					;  (add-to-list 'geiser-guile-load-path "~/src/guix"))
 
-;; probably cargo-culted from somewhere
+;; Display glyphless characters (e.g., control characters) with special indicators
+;; (probably cargo-culted from somewhere)
 (update-glyphless-char-display 'glyphless-char-display-control '((format-control . empty-box) (no-font . empty-box)))
 
+;; Highlight glyphless characters with purple background for visibility
 ;; See https://emacs.stackexchange.com/questions/65108
 (set-face-background 'glyphless-char "purple")
 
+;; Load built-in version control support
 (require 'vc)
 
+;; Enable diff-hl mode to show git diff indicators in the fringe
 (global-diff-hl-mode 1)
+;; Integrate diff-hl with magit for automatic updates
 (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
                                         ; '(cua-mode t)
 
+;;; Custom Variables
+;; This section is automatically managed by Emacs' customize interface
+;; Manual edits should be done carefully to avoid breaking the structure
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -316,6 +358,8 @@
  '(tool-bar-style 'image)
  '(vertico-preselect 'prompt)
  '(xref-search-program 'ripgrep))
+;;; Custom Face Configuration
+;; Font and appearance settings managed by Emacs customize
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -325,24 +369,30 @@
  '(lsp-ui-sideline-global ((t (:family "Dijkstra Italic" :italic t :weight regular :height 0.8))))
  '(tab-line ((t (:height 0.9 :foreground "black" :background "grey85" :inherit variable-pitch)))))
 
+;;; Font and UI Adjustments
+;; Set default font size (height in 1/10pt, so 110 = 11pt)
 (set-face-attribute 'default nil :height 110)
+
+;; Adjust toolbar button spacing (horizontal . vertical)
 (setq tool-bar-button-margin (cons 7 1))
 
+;;; Treemacs Configuration
+;; Make single-click expand/collapse folders in treemacs
 (with-eval-after-load 'treemacs
   (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
 
 					;(treemacs-git-mode 'simple)
 
+;;; Tree-sitter Configuration
+;; Tree-sitter provides fast, incremental parsing for syntax highlighting and navigation
 ;; `M-x combobulate' (or `C-c o o') to start using Combobulate
 (use-package treesit
   :preface
-  ;; Optional, but recommended. Tree-sitter enabled major modes are
-  ;; distinct from their ordinary counterparts.
-  ;;
-  ;; You can remap major modes with `major-mode-remap-alist'. Note
-  ;; that this does *not* extend to hooks! Make sure you migrate them
-  ;; also
+  ;; Tree-sitter enabled major modes are distinct from their ordinary counterparts.
+  ;; You can remap major modes with `major-mode-remap-alist'.
+  ;; Note: This does *not* extend to hooks! Make sure you migrate them also.
 					; See also https://github.com/renzmann/treesit-auto/blob/main/treesit-auto.el
+  ;; Map traditional major modes to their tree-sitter equivalents
   (dolist (mapping '((sh-mode . bash-ts-mode)
                                         ;(csharp-mode . csharp-ts-mode) ; doesn't work
                      (c-mode . c-ts-mode)
@@ -363,7 +413,9 @@
     (add-to-list 'major-mode-remap-alist mapping))
 
   :config
+  ;; Add Guix profile path for tree-sitter grammars
   (setq treesit-extra-load-path (list "~/.guix-home/profile/lib/tree-sitter/"))
+  ;; Prompt before auto-installing missing grammars
   (setq treesit-auto-install 'prompt)
                                         ;					  (require 'tree-sitter-langs)
                                         ;					  (global-tree-sitter-mode)
@@ -467,71 +519,90 @@
 (setq left-fringe-width 160)
 (set-fringe-style (quote (20 . 12))) ; left right; 12 . 8
 
-					; part of emacs 29
+;;; Eglot Configuration
+;; Eglot is the built-in LSP client (part of Emacs 29+)
 (require 'eglot)
+;; Configure rust-analyzer for Rust files
 (add-to-list 'eglot-server-programs
              `(rust-mode "rust-analyzer"))
 
-					;;; rustic is based on rust-mode, extending it with other features such as integration with LSP and with flycheck.
+;;; Note: rustic-mode extends rust-mode with LSP and flycheck integration
+
+;;; File Type Associations
+;; Configure which major mode to use for different file extensions
 
                                         ;(use-package csharp-mode
                                         ;  :ensure t
                                         ;  :config
+;; C# files
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode))
 
+;; Web development file types
 (require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))      ;; PHP templates
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))  ;; PHP templates
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))    ;; ASP/JSP files
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))    ;; ASP.NET files
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))        ;; Ruby ERB templates
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))   ;; Mustache templates
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))     ;; Django templates
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))      ;; HTML files
                                         ;(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))  ; moved to custom.el
 
-(add-to-list 'auto-mode-alist '("\\.jl" . julia-snail-mode))
-(add-to-list 'auto-mode-alist '("\\.rs" . rustic-mode))
+;; Programming language file extensions
+(add-to-list 'auto-mode-alist '("\\.jl" . julia-snail-mode))    ;; Julia
+(add-to-list 'auto-mode-alist '("\\.rs" . rustic-mode))         ;; Rust
                                         ; automatic (add-to-list 'auto-mode-alist '("\\.R" . ess-mode))
-(add-to-list 'auto-mode-alist '("\\.cs" . csharp-mode))
-(add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.cs" . csharp-mode))         ;; C#
+(add-to-list 'auto-mode-alist '("\\.js" . js2-mode))            ;; JavaScript
                                         ;(add-to-list 'auto-mode-alist '("\\.ts" . typescript-mode)) ; or combobulate-typescript-mode
                                         ;(add-to-list 'auto-mode-alist '("\\.rs" . rust-ts-mode))
 
                                         ;(add-to-list 'frames-only-mode-kill-frame-when-buffer-killed-buffer-list '(regexp . "\\*.*\\.po\\*"))
                                         ;(add-to-list 'frames-only-mode-kill-frame-when-buffer-killed-buffer-list "*Scratch*")
 
-(add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
-(add-to-list 'auto-mode-alist '("\\.PDF\\'" . pdf-view-mode))
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-(add-to-list 'auto-mode-alist '("\\.c\\'" . c-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.ixx\\'" . c++-ts-mode))
+;; Document viewer modes
+(add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))   ;; PDF files
+(add-to-list 'auto-mode-alist '("\\.PDF\\'" . pdf-view-mode))   ;; PDF (uppercase)
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))       ;; EPUB e-books
+
+;; C/C++ with tree-sitter
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c-ts-mode))         ;; C files
+(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-ts-mode))     ;; C++ files
+(add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-ts-mode))      ;; C++ files
+(add-to-list 'auto-mode-alist '("\\.ixx\\'" . c++-ts-mode))     ;; C++ module interface files
 
                                         ; (require 'dap-python)
                                         ;(elpy-enable)
 
+;;; LSP Mode Configuration
+;; LSP (Language Server Protocol) provides code intelligence features like
+;; completion, go-to-definition, error checking, etc.
 (use-package lsp-mode
   :ensure nil
   :commands lsp
   :custom
-  ;; what to use when checking on-save. "check" is default, I prefer clippy
+  ;; Use clippy (Rust linter) instead of cargo check on save
   (lsp-rust-analyzer-cargo-watch-command "clippy")
+  ;; Show all available information in eldoc
   (lsp-eldoc-render-all t)
+  ;; Delay before updating LSP information (in seconds)
   (lsp-idle-delay 0.6)
-  ;; enable / disable the hints as you prefer:
+  ;; Enable inlay hints (type annotations, parameter names, etc.)
   (lsp-inlay-hint-enable t)
-  ;; These are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
+  ;; Rust-specific LSP settings
+  ;; See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/
   (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-chaining-hints t) ;; Show type hints for method chains
   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  (lsp-rust-analyzer-display-reborrow-hints nil)
-  (lsp-enable-suggest-server-download nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t) ;; Show closure return types
+  (lsp-rust-analyzer-display-parameter-hints nil) ;; Don't show parameter name hints
+  (lsp-rust-analyzer-display-reborrow-hints nil) ;; Don't show reborrow hints
+  (lsp-enable-suggest-server-download nil) ;; Don't suggest downloading servers
   :config
+  ;; Enable which-key integration to show available commands
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  ;; Enable LSP UI mode for additional visual features
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
                                         ; <https://github.com/emacs-lsp/lsp-mode/issues/2583>
@@ -539,37 +610,49 @@
                                         ;  :hook (python-mode . lsp-deferred)
                                         ;  :commands (lsp lsp-deferred))
 
+;;; LSP UI Configuration
+;; LSP-UI provides visual enhancements for lsp-mode
 (use-package lsp-ui
   :ensure nil
   :commands lsp-ui-mode
   :custom
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable t)
-  (lsp-ui-doc-show-with-mouse t))
+  (lsp-ui-peek-always-show t)         ;; Always show peek window
+  (lsp-ui-sideline-show-hover t)      ;; Show hover info in sideline
+  (lsp-ui-doc-enable t)               ;; Enable documentation popup
+  (lsp-ui-doc-show-with-mouse t))     ;; Show documentation on mouse hover
 
+;;; Company Mode (Completion)
+;; Company provides auto-completion popups
 (use-package company
   :ensure nil
   :custom
-  (company-idle-delay 0.5) ;; how long to wait until popup
-  ;; (company-begin-commands nil) ;; uncomment to disable popup
+  (company-idle-delay 0.5) ;; Delay before showing completion popup (seconds)
+  ;; (company-begin-commands nil) ;; Uncomment to disable automatic popup
   :config
   (progn
+    ;; Enable company-mode globally after Emacs initialization
     (add-hook 'after-init-hook 'global-company-mode))
   :bind
+  ;; Keybindings for navigating completion candidates
   (:map company-active-map
-	("C-n". company-select-next)
-	("C-p". company-select-previous)
-	("M-<". company-select-first)
-	("M->". company-select-last)))
+	("C-n". company-select-next)     ;; Next candidate
+	("C-p". company-select-previous) ;; Previous candidate
+	("M-<". company-select-first)    ;; First candidate
+	("M->". company-select-last)))   ;; Last candidate
 
+;;; YASnippet (Code Snippets)
+;; YASnippet provides template/snippet expansion
 (use-package yasnippet
   :ensure
   :config
-  (yas-reload-all)
+  (yas-reload-all) ;; Load all snippet definitions
+  ;; Enable yasnippet in programming modes
   (add-hook 'prog-mode-hook 'yas-minor-mode)
+  ;; Enable yasnippet in text editing modes
   (add-hook 'text-mode-hook 'yas-minor-mode))
 
+;;; Flycheck (Syntax Checking)
+;; Flycheck provides on-the-fly syntax checking
 (use-package flycheck :ensure)
 
                                         ;(use-package flycheck
@@ -585,20 +668,26 @@
                                         ;  :custom
                                         ;  (lsp-rust-analyzer-cargo-watch-command "clippy"))
 
+;;; DAP Mode (Debug Adapter Protocol)
+;; DAP provides debugging support for multiple languages
 (require 'lsp-mode)
 					;(with-eval-after-load 'lsp-rust
 					;    (require 'dap-cpptools))
                                         ; (require 'dap-java) ; Requires eclipse jdt server--see lsp-install-server
 
+;; Python debugging support
 (require 'dap-python)
-;; if you installed debugpy, you need to set this
+;; Configure debugpy as the Python debugger
 ;; https://github.com/emacs-lsp/dap-mode/issues/306
 (setq dap-python-debugger 'debugpy)
 
+;; DAP mode general configuration
 (with-eval-after-load 'dap-mode
-                                        ; general
+  ;; Show variable values on hover during debugging
   (dap-tooltip-mode 1)
+  ;; Enable Emacs tooltips
   (tooltip-mode 1)
+  ;; Show debugging controls UI
   (dap-ui-controls-mode 1)
 
   ;;    ;; Make sure that terminal programs open a term for I/O in an Emacs buffer
@@ -606,16 +695,24 @@
   ;;    (dap-auto-configure-mode +1)
   )
 
-					; Entry: M-x slime or M-x slime-connect
+;;; SLIME Configuration (Common Lisp)
+;; Entry points: M-x slime or M-x slime-connect
 (require 'slime)
+;; Enable SLIME extensions: fancy features, Quicklisp, and ASDF integration
 (slime-setup '(slime-fancy slime-quicklisp slime-asdf))
 
+;;; Performance Tuning
+;; Garbage collection threshold (100 MB)
 (setq gc-cons-threshold (* 100 1024 1024))
+;; High GC threshold for gcmh (garbage collector magic hack) - 1 GB
 (setq gcmh-high-cons-threshold (* 1024 1024 1024))
+;; Delay factor for GC during idle time
 (setq gcmh-idle-delay-factor 20)
+;; Defer font-lock (syntax highlighting) slightly for better performance
 (setq jit-lock-defer-time 0.05)
-;; for lsp-mode
+;; Increase data read from processes (important for LSP performance) - 1 MB
 (setq read-process-output-max (* 1024 1024))
+;; Enable native compilation for packages
 (setq package-native-compile t)
 
                                         ;(with-eval-after-load 'rustic
@@ -623,8 +720,10 @@
                                         ;  (setq lsp-rust-analyzer-macro-expansion-method 'lsp-rust-analyzer-macro-expansion-default)
                                         ;  )
 
+;;; Theme Configuration
 
 ;; (setq solarized-termcolors 256)
+;; Set terminal background mode to dark
 (set-terminal-parameter nil 'background-mode 'dark)
                                         ;(require 'solarized-theme)
                                         ; wrong solarized :P
@@ -633,17 +732,23 @@
                                         ;    "#b58900" "#cb4b16" "#dc322f" "#d33682" "#6c71c4" "#268bd2" "#2aa198" "#859900"))
 
                                         ;(load-theme 'solarized-solarized-light t)
+;; Load the Modus Vivendi Tinted dark theme
 (load-theme 'modus-vivendi-tinted)
 					;(enable-theme)
 
-					; To enable bidirectional synchronization of lsp workspace folders and treemacs projects.
-					; FIXME disappeared (lsp-treemacs-sync-mode 1)
+;;; Treemacs and LSP Integration
+;; To enable bidirectional synchronization of lsp workspace folders and treemacs projects.
+;; FIXME disappeared (lsp-treemacs-sync-mode 1)
 
 					;(require 'treemacs-magit)
+;; Only show the current project in treemacs
 (treemacs-display-current-project-exclusively)
 
-(setq treemacs-width 25) ; Adjust the width of the treemacs window as needed
+;; Set treemacs sidebar width to 25 characters
+(setq treemacs-width 25)
 
+;;; PDF Tools Configuration
+;; PDF-tools provides better PDF viewing than doc-view-mode
                                         ; bad
                                         ; (setq doc-view-resolution 300)
 (require 'pdf-tools)
@@ -651,21 +756,30 @@
                                         ;  :after pdf-tools
                                         ;  :config
                                         ;  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+
+;; Load bookmark and saveplace for PDF position tracking
 (require 'bookmark)
 (require 'saveplace-pdf-view)
+;; Remember cursor position in files (including PDFs)
 (save-place-mode 1)
 
-;; Die, Doc-View-mode! die!
+;; Replace doc-view-mode with pdf-view-mode
                                         ;(defalias 'doc-view-mode #'pdf-view-mode)
 
+;;; Org Mode Extensions
+;; org-mime allows composing emails in org-mode format
 (use-package org-mime
   :ensure t)
 
+;;; Completion UI Packages
+
+;; Vertico: Vertical completion UI
 (use-package vertico
   :ensure f
   :config
-  (vertico-mode))
+  (vertico-mode)) ;; Enable vertico completion interface
 
+;; Marginalia: Add annotations to completion candidates
 (use-package marginalia
   :ensure f
   :config
@@ -676,6 +790,8 @@
 					;  :config
 					;  (setq completion-styles 'orderless))
 
+;;; Version Control
+;; Magit: Git interface for Emacs
 (use-package magit
   :ensure f)
 
@@ -688,56 +804,74 @@
                                         ;  :init (doom-modeline-mode 1)
                                         ;  :custom ((doom-modeline-height 15)))
 
+;;; Which-Key: Display keybinding help
+;; Shows available keybindings in a popup
 (use-package which-key
   :ensure f
   :init (which-key-mode)
-  :diminish which-key-mode
+  :diminish which-key-mode ;; Don't show in mode line
   :config
-  (setq which-key-idle-delay 0.2))
+  (setq which-key-idle-delay 0.2)) ;; Show popup after 0.2 seconds
 
+;;; Visual Enhancements
+;; Rainbow-delimiters: Color-code nested parentheses
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;;; Code Formatting
+;; format-all provides automatic code formatting for multiple languages
 (require 'format-all)
 
                                         ; not sure what that is (add-hook 'prog-mode-hook #'format-all-ensure-formatter)
 
+;; Enable format-all for all programming modes
 (add-hook 'prog-mode-hook #'format-all-ensure-formatter)
 (add-hook 'prog-mode-hook #'format-all-mode)
 
                                         ;(add-hook 'rustic-mode-hook #'format-all-ensure-formatter)
                                         ;(add-hook 'rustic-mode-hook #'format-all-mode)
 
+;;; MMM Mode Configuration (Multiple Major Modes)
+;; MMM mode allows multiple major modes in a single buffer (e.g., HTML + JavaScript)
                                         ;(add-hook 'mmm-mode-hook
                                         ;          (lambda ()
                                         ;            (set-face-background 'mmm-default-submode-face "#fafafa")))
 
+;; Don't use a different background for submode regions
 (add-hook 'mmm-mode-hook
           (lambda ()
             (set-face-background 'mmm-default-submode-face nil)))
 
+;;; Popper - Popup Buffer Management
+;; Popper helps manage temporary/popup buffers (messages, help, compilation, etc.)
 (use-package popper
   :ensure t ; or :straight t
-  :bind (("C-`"   . popper-toggle)
-         ("M-`"   . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
+  :bind (("C-`"   . popper-toggle)       ;; Toggle popup buffer
+         ("M-`"   . popper-cycle)        ;; Cycle through popup buffers
+         ("C-M-`" . popper-toggle-type)) ;; Toggle buffer between popup and normal
   :init
+  ;; Define which buffers should be treated as popups
   (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          help-mode
-          compilation-mode))
-  (popper-mode +1)
-  (popper-echo-mode +1))
+        '("\\*Messages\\*"              ;; Emacs messages
+          "Output\\*$"                  ;; Shell output
+          "\\*Async Shell Command\\*"   ;; Async shell commands
+          help-mode                     ;; Help buffers
+          compilation-mode))            ;; Compilation output
+  (popper-mode +1)       ;; Enable popper globally
+  (popper-echo-mode +1)) ;; Show popup names in echo area
 
-;; pinentry
+;;; GPG/Encryption Configuration
+;; Use Emacs' internal pinentry for GPG password prompts
 (defvar epa-pinentry-mode)
 (setq epa-pinentry-mode 'loopback)
+
+;;; Eshell Configuration
+;; Eshell is Emacs' built-in shell
 
 (defun my/eshell-hook ()
   "Set up eshell hook for completions."
   (interactive)
+  ;; Use basic completion styles for eshell
   (setq-local completion-styles '(basic partial-completion))
                                         ;(setq-local corfu-auto t)
                                         ;?! (corfu-mode) or company
@@ -745,33 +879,37 @@
                                         ;            (list (cape-capf-super
                                         ;                   #'pcomplete-completions-at-point
                                         ;                   #'cape-history)))
+  ;; Bind M-r to search command history
   (define-key eshell-hist-mode-map (kbd "M-r") #'consult-history))
 
 (use-package eshell
   :config
                                         ;(setq eshell-scroll-to-bottom-on-input t)
   (setq-local tab-always-indent 'complete)
-  (setq eshell-history-size 100000)
-  (setq eshell-save-history-on-exit t) ;; Enable history saving on exit
-  (setq eshell-hist-ignoredups t) ;; Ignore duplicates
+  (setq eshell-history-size 100000)        ;; Large history size
+  (setq eshell-save-history-on-exit t)     ;; Save history on exit
+  (setq eshell-hist-ignoredups t)          ;; Don't save duplicate commands
   :hook
   (eshell-mode . my/eshell-hook))
 
-
+;; Add shell buffers to popper (popup management)
 ;; Match eshell, shell, term and/or vterm buffers
-;; Usually need both name and major mode
+;; Usually need both name and major mode for reliable matching
 (setq popper-reference-buffers
       (append popper-reference-buffers
-              '("^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
-                "^\\*shell.*\\*$"  shell-mode  ;shell as a popup
-                "^\\*term.*\\*$"   term-mode   ;term as a popup
-                "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
+              '("^\\*eshell.*\\*$" eshell-mode ;; eshell as a popup
+                "^\\*shell.*\\*$"  shell-mode  ;; shell as a popup
+                "^\\*term.*\\*$"   term-mode   ;; term as a popup
+                "^\\*vterm.*\\*$"  vterm-mode  ;; vterm as a popup
                 )))
 
+;;; LaTeX Configuration (AUCTeX)
+;; AUCTeX provides enhanced LaTeX editing support
 (load "auctex.el" nil t t)
                                         ;(load "preview-latex.el" nil t t)
 (require 'auctex)
 
+;;; Maxima Configuration (Computer Algebra System)
                                         ; (autoload 'maxima-mode "maxima" "Maxima mode" t)
                                         ; (autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
                                         ; (autoload 'maxima "maxima" "Maxima interaction" t)
@@ -779,35 +917,45 @@
                                         ; (setq imaxima-use-maxima-mode-flag t)
                                         ; (add-to-list 'auto-mode-alist '("\\.ma[cx]\\'" . maxima-mode))
 
-;; Avoid problems with our shell
+;;; TRAMP Configuration (Remote File Editing)
+;; Use /bin/sh for TRAMP to avoid shell compatibility issues
 (with-eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
 
+;;; LSP Booster Integration
+;; emacs-lsp-booster improves LSP performance by using bytecode instead of JSON
+;; See: https://github.com/blahgeek/emacs-lsp-booster
+
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
-  "Try to parse bytecode instead of json."
+  "Try to parse bytecode instead of JSON for better performance."
   (or
    (when (equal (following-char) ?#)
      (let ((bytecode (read (current-buffer))))
        (when (byte-code-function-p bytecode)
          (funcall bytecode))))
    (apply old-fn args)))
+
+;; Apply the bytecode parsing advice to json parsing functions
 (advice-add (if (progn (require 'json)
                        (fboundp 'json-parse-buffer))
                 'json-parse-buffer
               'json-read)
             :around
             #'lsp-booster--advice-json-parse)
+
 (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  "Prepend emacs-lsp-booster command to lsp CMD."
+  "Prepend emacs-lsp-booster command to LSP CMD if available."
   (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)                             ;; for check lsp-server-present?
-             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-             lsp-use-plists
-             (not (functionp 'json-rpc-connection))  ;; native json-rpc
-             (executable-find "emacs-lsp-booster"))
+    (if (and (not test?)                             ;; Not checking if server is present
+             (not (file-remote-p default-directory)) ;; Not editing remote files
+             lsp-use-plists                          ;; Using plist representation
+             (not (functionp 'json-rpc-connection))  ;; Using native json-rpc
+             (executable-find "emacs-lsp-booster"))  ;; Booster is installed
         (progn
           (message "Using emacs-lsp-booster for %s!" orig-result)
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
+
+;; Wrap LSP server commands with lsp-booster when available
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
                                         ;(use-package exec-path-from-shell
@@ -818,12 +966,16 @@
                                         ;  (when (memq window-system '(mac ns x))
                                         ;	(exec-path-from-shell-initialize)))
 
+;;; LaTeX/TeX Additional Settings
+;; Use digestif as the LSP server for LaTeX
 (setq lsp-tex-server 'digestif)
+;; Automatically insert matching braces for subscripts/superscripts
 (setq TeX-electric-sub-and-superscript t)
+;; Enable folding mode in TeX documents
 (setq TeX-fold-mode t)
                                         ;(add-hook LaTeX-mode-hook #'xenops-mode)
 
-
+;;; Indentation Settings (Optional/Commented)
 ;; This ensures that pressing Enter will insert a new line and indent it.
                                         ;(global-set-key (kbd "RET") #'newline-and-indent)
 
@@ -836,10 +988,16 @@
 ;; `indent-relative-first-indent-point'.
                                         ;(setq-default indent-line-ignored-functions '())
 
-                                        ;The outline-indent.el Emacs package provides a minor mode that enables code folding based on indentation levels for various
-                                        ;indentation-based text files, such as YAML, Python, and any other indented text files.
-
-;;In addition to code folding, outline-indent allows moving indented subtrees up and down, promoting and demoting sections to adjust indentation levels, customizing the ellipsis, and inserting a new line with the same indentation level as the current line, among other features.
+;;; Outline-Indent Package
+;; The outline-indent.el package provides a minor mode that enables code folding
+;; based on indentation levels for various indentation-based text files, such as
+;; YAML, Python, and any other indented text files.
+;;
+;; In addition to code folding, outline-indent allows:
+;; - Moving indented subtrees up and down
+;; - Promoting and demoting sections to adjust indentation levels
+;; - Customizing the ellipsis
+;; - Inserting a new line with the same indentation level
 (use-package outline-indent
   :ensure f
   :commands (outline-indent-minor-mode
@@ -849,17 +1007,20 @@
          (python-mode . outline-indent-minor-mode)
          (python-ts-mode . outline-indent-minor-mode))
   :custom
-  (outline-indent-ellipsis " ▼ "))
+  (outline-indent-ellipsis " ▼ ")) ;; Custom ellipsis for folded sections
 
-;; Python
+;; Enable outline-indent for Python files
 (add-hook 'python-mode-hook #'outline-indent-minor-mode)
 (add-hook 'python-ts-mode-hook #'outline-indent-minor-mode)
 
-;; YAML
+;; Enable outline-indent for YAML files
 (add-hook 'yaml-mode-hook #'outline-indent-minor-mode)
 (add-hook 'yaml-ts-mode-hook #'outline-indent-minor-mode)
 
-;; The dtrt-indent provides an Emacs minor mode that detects the original indentation offset used in source code files and automatically adjusts Emacs settings accordingly, making it easier to edit files created with different indentation styles.
+;;; Auto-Detect Indentation (dtrt-indent)
+;; The dtrt-indent package detects the original indentation offset used in source
+;; code files and automatically adjusts Emacs settings accordingly, making it easier
+;; to edit files created with different indentation styles.
                                         ;(use-package dtrt-indent
                                         ;  :ensure t
                                         ;  :commands (dtrt-indent-global-mode
@@ -871,11 +1032,16 @@
                                         ;  :config
                                         ;  (dtrt-indent-global-mode))
 
+;;; Media Player Integration
+;; MPV integration for video/audio playback from Emacs
 (require 'mpv)
-                                        ;(require 'howm) ; not right now
+                                        ;(require 'howm) ; Note-taking package - not enabled currently
 
+;;; Load Additional Configuration Files
+;; Load custom.el which contains customize-generated settings
 (load (locate-user-emacs-file "custom.el")
       :no-error-if-file-is-missing)
+;; Additional configuration files (currently disabled)
 ;; (load (locate-user-emacs-file "email.el")
 ;;       :no-error-if-file-is-missing)
                                         ;(load (locate-user-emacs-file "git-protected-branches.el")
@@ -893,24 +1059,56 @@
 ;; (load (locate-user-emacs-file "ada.el")
 ;;       :no-error-if-file-is-missing)
 
-;; Otherwise half the icons are from the wrong set.
+;;; Final Setup
+
+;; Refresh treemacs to ensure icons are displayed correctly
 (treemacs-refresh)
 
+;;; Python - Jedi Completion
+;; Jedi provides Python auto-completion and static analysis
 (add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)                 ; optional
+(setq jedi:complete-on-dot t) ;; Trigger completion when typing a dot
 
+;;; Environment Management
                                         ;(setq envrc-debug t)
-					; as late as possible:
+;; Load buffer-env as late as possible for proper environment detection
                                         ;(envrc-global-mode)
+;; Update buffer environment when local variables are loaded
 (add-hook 'hack-local-variables-hook #'buffer-env-update)
+;; Update environment in comint-based modes (shells, REPLs, etc.)
 (add-hook 'comint-mode-hook #'buffer-env-update)
 
+;;; Recent Files Tracking
+;; Keep track of recently opened files
 (recentf-mode 1)
-(setq recentf-max-menu-items 25)
+(setq recentf-max-menu-items 25) ;; Show up to 25 recent files in menu
 
+;;; Environment Variables from Shell
+;; Import shell environment variables into Emacs
 (require 'exec-path-from-shell)
+;; List of environment variables to import
 (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH" "GUIX_TEXMF" "GUIX_LOCPATH"))
   (add-to-list 'exec-path-from-shell-variables var))
 
+;; Initialize exec-path-from-shell on GUI Emacs
 (when (memq window-system '(mac ns x pgtk))
   (exec-path-from-shell-initialize))
+
+;;; Claudemacs Configuration
+;; Claudemacs provides integration with Claude AI
+(add-to-list 'load-path (expand-file-name "claudemacs" user-emacs-directory))
+(require 'claudemacs)
+
+;; Keybindings for claudemacs (as suggested in README)
+(global-set-key (kbd "C-d a") 'claudemacs-transient)   ;; Open claudemacs transient menu
+(global-set-key (kbd "C-d C-a") 'claudemacs-toggle)    ;; Toggle claudemacs
+
+;; Display buffer configuration for claudemacs
+;; Show claudemacs buffers in a side window at the bottom
+(add-to-list 'display-buffer-alist
+             '("\\*claudemacs.*\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . bottom)
+               (window-height . 0.4)))
+
+;;; End of init.el
