@@ -263,10 +263,10 @@ If MENUS is not provided, the function searches through all menus in the menu ba
        (when (and (commandp symbol)
                   (not (string-match-p "-" (symbol-name symbol))))
          (push (symbol-name symbol) commands))))
-    
+
     ;; Sort commands alphabetically
     (setq commands (sort commands 'string<))
-    
+
     ;; Display results in a buffer
     (with-current-buffer buffer
       (erase-buffer)
@@ -274,7 +274,7 @@ If MENUS is not provided, the function searches through all menus in the menu ba
       (dolist (cmd commands)
         (insert cmd "\n"))
       (goto-char (point-min)))
-    
+
     ;; Display the buffer
     (display-buffer buffer)
     (message "Found %d commands without hyphens" (length commands))))

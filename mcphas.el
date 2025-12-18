@@ -85,12 +85,12 @@
   (let* ((temperature (read-number "Enter temperature (T) in Kelvin: "))
          (field-strength (read-number "Enter absolute value of the external magnetic field (H) in Tesla: "))
          (polycrystal-flag (yes-or-no-p "Calculate polycrystal average? "))
-         
+
          (calc-plane (if polycrystal-flag ""
                         (read-string "plane in which anisotropy should be calculated (given as direction normal to plane xn yn zn), e.g., '0 0 1': ")))
          (nofsteps (if polycrystal-flag ""
                        (read-number "Enter number of steps to be calculated: ")))
-                      
+
          (nofthetasteps (if polycrystal-flag (read-number "Enter number of theta steps to be calculated: ") ""))
 
          (sipffilename (read-file-name "Enter filename of single ion parameter file (or press Enter to skip): " nil nil t))
@@ -104,7 +104,7 @@
                    (number-to-string field-strength) " "
                    calc-plane " "
                    (number-to-string nofsteps) " "
-                   
+
                    (if polycrystal-flag (concat "-p " (number-to-string nofthetasteps))
                       "")
                    " "
@@ -334,7 +334,7 @@
      ((string-match "\\`.*mcphas\\.ini\\|.*mcphas\\.j\\'" file-name)
       (tool-bar-local-item "mcphas-mcphas" 'run-mcphas 'run-mcphas tool-bar-map :label "|Run mcphas" :help "Run mcphas")
       (tool-bar-local-item nil 'singleion 'singleion tool-bar-map :label "|Run singeleion" :help "Run singleion")
-      (tool-bar-local-item nil 'setup-jqfit 'setup-jqfit tool-bar-map :label "|Setup jqfit" :help "Setup jqfit") ; mcphase.j sipf -> 
+      (tool-bar-local-item nil 'setup-jqfit 'setup-jqfit tool-bar-map :label "|Setup jqfit" :help "Setup jqfit") ; mcphase.j sipf ->
       (tool-bar-local-item nil 'setup-mcphasjforfit 'setup-mcphasjforfit tool-bar-map :label "|Setup mcphasjforfit" :help "Setup mcphasjforfit") ; mcphas.j -> mcphas.j.forfit
       (tool-bar-local-item nil 'mcphas2jvx 'mcphas2jvx tool-bar-map :label "|Run mcphas2jvx" :help "Run mcphas2jvx")
       (tool-bar-local-item nil 'makenn 'makenn tool-bar-map :label "|Run makenn" :help "Run makenn")       ; requires mcphas.j, edits mcphas.j
@@ -349,7 +349,7 @@
      ((string-match "\\`.*\\(cef\\|par\\)\\'" file-name)
       (tool-bar-local-item nil 'bfk 'bfk tool-bar-map :label "|Run bfk" :help "Run bfk")
      )
-     
+
      ((string-match "\\`.*mcdiff\\.in\\'" file-name)
       (tool-bar-local-item nil 'mcdiff 'mcdiff tool-bar-map :label "|Run mcdiff" :help "Run mcdiff")
      )
@@ -371,7 +371,7 @@
      ((string-match "\\`.*\\.qei\\'" file-name) ; results/*.qei
       (tool-bar-local-item nil 'powdermagnon-r 'powdermagnon-r tool-bar-map :label "|Run powdermagnon-r" :help "Run powdermagnon-r")
       )
-           
+
      ((string-match "\\`.*\\.jvx\\'" file-name)
       (tool-bar-local-item nil 'javaview 'javaview tool-bar-map :label "|Run javaview" :help "Run javaview"))
       )

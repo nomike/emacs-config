@@ -116,7 +116,7 @@
   :group 'convenience
   :version "24.2")
 
-
+
 ;;; keymaps
 
 (defvar python-django-mode-map
@@ -212,7 +212,7 @@
     map)
   "Keymap for `python-django-mode'.")
 
-
+
 ;;; Main vars
 
 (defvar python-django-project-root nil
@@ -237,7 +237,7 @@
   'python-django-project-name
   "24.2")
 
-
+
 ;;; Faces
 
 (defgroup python-django-faces nil
@@ -283,7 +283,7 @@ Many Django faces inherit from this one by default."
   "Face for project settings module."
   :group 'python-django-faces)
 
-
+
 ;;; Dev tools
 
 (font-lock-add-keywords
@@ -292,7 +292,7 @@ Many Django faces inherit from this one by default."
     (1 'font-lock-keyword-face)
     (2 'font-lock-function-name-face))))
 
-
+
 ;;; Error logging
 
 (defvar python-django-error-log-formatter
@@ -323,7 +323,7 @@ Many Django faces inherit from this one by default."
   "Log ERROR-STRING by calling `user-error'."
   (user-error "%s" (funcall python-django-error-log-formatter error-string)))
 
-
+
 ;;; Utility functions
 
 (defun python-django-util-clone-local-variables ()
@@ -441,7 +441,7 @@ Optional Argument SETTINGS defaults to the value of
          (+ beg (length (match-string-no-properties 0 settings))))
       settings)))
 
-
+
 ;;; Help
 
 (defun python-django--help-get (&optional command)
@@ -474,7 +474,7 @@ Optional argument SHOW-HELP when non-nil causes the help buffer to pop."
     (and win
          (delete-window win))))
 
-
+
 ;;; Project info
 
 (defun python-django-info-calculate-process-environment ()
@@ -729,7 +729,7 @@ non-nil the cached value is invalidated."
   "Get innermost directory name for given DIR."
   (car (last (split-string dir "/" t))))
 
-
+
 ;;; Hippie expand completion
 
 (defun python-django-minibuffer-try-complete-args (old)
@@ -797,7 +797,7 @@ string).  It returns t if a new completion is found, nil otherwise."
       (setq he-expand-list (cdr he-expand-list))
       t)))
 
-
+
 ;;; Minibuffer
 
 (defvar python-django-minibuffer-complete-command-map
@@ -950,7 +950,7 @@ default value."
         (setq minibuffer-completion-table lst))
     (read-from-minibuffer prompt default minibuffer-local-must-match-map)))
 
-
+
 ;;; Management commands
 
 (defvar python-django-mgmt--available-commands nil
@@ -1195,7 +1195,7 @@ When called with universal argument you can filter the COMMAND to kill."
           (and proc (set-process-query-on-exit-flag proc nil)))
         (kill-buffer buffer)))))
 
-
+
 ;;; Management shortcuts
 
 (eval-and-compile
@@ -1972,7 +1972,7 @@ details."
   (app (python-django-minibuffer-read-app
         "Auto schemamigration for App: ")))
 
-
+
 ;;; Fast commands
 
 (defcustom python-django-cmd-etags-command
@@ -2082,7 +2082,7 @@ default to a sane value."
   (python-django-ui-move-to-closest-icon))
 
 
-
+
 ;;; UI stuff
 
 (defvar python-django-ui-ignored-dirs
@@ -2379,7 +2379,7 @@ With optional ARG, move across that many fields."
   (widget-get
    (widget-get (tree-widget-node (widget-at (point))) :parent) :file))
 
-
+
 ;;;Main functions
 
 (defcustom python-django-known-projects nil
